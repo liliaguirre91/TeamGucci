@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "orders")
+@Table( name = "orders" )
 public class orders {
 
     @Id
@@ -27,8 +27,18 @@ public class orders {
     private boolean delivered;
     @Column( name = "camp" )
     private int camp;
-    @Column( name = "user_id" )
+    //@Column( name = "user_id" )
+    @ManyToOne( targetEntity = users.class )
+    @JoinColumn( name = "user_id", referencedColumnName="user_id",nullable=false,unique=true)
     private int user_id;
+    //default constructor
+    public orders() {
+        address = "idk";
+        product = "luminary";
+        payment_type = "PayPal";
+        delivered = true;
+        camp = 19;
+    }
     //Constuctor address payment
 	public orders(String a, String pa) {
         orders o = new orders( );
@@ -36,10 +46,7 @@ public class orders {
         o.setPayment( pa );
         ;
 	}
-	//default constructor
-    public orders() {
-        new orders( );
-    }
+	
     //setter for payment
     public void setPayment( String pa ) {
         payment_type = pa;
