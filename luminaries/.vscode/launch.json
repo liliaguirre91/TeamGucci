@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - LuminariesApplication",
+            "request": "launch",
+            "mainClass": "com.gucci.luminaries.LuminariesApplication",
+            "projectName": "lumiaries"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - LumiariesApplication",
+            "request": "launch",
+            "mainClass": "com.gucci.lumiaries.LumiariesApplication",
+            "projectName": "lumiaries"
+        }
+    ]
+}
