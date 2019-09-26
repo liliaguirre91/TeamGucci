@@ -1,46 +1,16 @@
 import React from 'react';
+import './App.css';
 import ReactDOM from 'react-dom';
+import NameForm from './component/NameForm';
 
-class NameForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: ''};
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-         First name: <br/>
-          <input type="text" value={this.state.value} onChange={this.handleChange} /> <br/>
-          
-         Last name: <br/>
-          <input type="text" value={this.state.value} onChange={this.handleChange} /> <br/><br/>
-          
-          
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    );
-  }
+class App extends React.Component {
+   render() {
+      return (
+         <div className="container">
+            <NameForm />
+         </div>
+      );
+   }
 }
 
-ReactDOM.render(
-  <NameForm />,
-  document.getElementById('root')
-);
-
-export default NameForm;
+export default App;
