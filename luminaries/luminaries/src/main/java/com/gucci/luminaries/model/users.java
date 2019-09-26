@@ -1,34 +1,33 @@
 package com.gucci.luminaries.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
-
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Data
-@NoArgsConstructor
-@RequiredArgsConstructor
 @Entity
-@Table(name = "users")
+@Table
 public class users {
 
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE )
     @Column( name = "user_id" )
-    private int user_id;
+    private Long user_id;
+    @NotNull
     @Column( name = "email" )
     private String email;
+    @NotNull
     @Column( name = "name" )
     private String name;
     @Column( name = "levels" )
     private int levels;
     @Column( name = "comments" )
     private String comments;
-    @Column( name = "campaigns" )
-    private int campaigns;
+    /*@Column( name = "campaigns" )
+    private Long campaigns;*/
     @OneToMany( mappedBy="user_id" )
     private Collection<orders> order;
 
@@ -43,10 +42,18 @@ public class users {
         name = "a";
         levels = 2;
         comments = "";
-        campaigns = 19;
+        //campaigns = (long) 19;
     }//end constructor
 
-    //Getter for email
+    //Constructor for name, email, and level
+    public users(@Valid String n, String e, int i) {
+        users u = new users( );
+        u.setName( n );
+        u.setEmail( e );
+        u.setLevels( i );
+	}
+
+	//Getter for email
     public String getEmail( ){
         return email;
     }//end getter
@@ -72,9 +79,9 @@ public class users {
     }//end getter
     
     //getter for campaigns
-	public int getCampaigns() {
+	/*public long getCampaigns() {
 		return campaigns;
-    }//emd getter
+    }//end getter*/
 
     //setter for comments
 	public void setComments( String c ) {
@@ -82,9 +89,9 @@ public class users {
     }//end setter
 
     //setter for campaigns
-	public void setCampaigns( int c) {
+	/*public void setCampaigns( long c) {
         campaigns = c;
-    }//end setter
+    }//end setter*/
 
     //setter for levels
     public void setLevels( int l ){
