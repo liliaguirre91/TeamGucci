@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,17 +56,17 @@ public class UserController {
     return list;
   }
  
+  //Works in PostMan send post code localhost:portnumber/api/users/create
+  //Select body change to raw and set type to json
+  //Enter user data inclosed in '{}' in format
+  //"fieldname":"data",
   @PostMapping( "/users/create" )
-  public users createUser( @Valid @RequestBody users user ) {
+  public users createUser(@RequestBody users user ) {
+    //Print to system out to log start of method
     System.out.println( "Create User: " + user.getName() + "..." );
  
+    //Save the new user
     return userRepository.save( user );
-  }
-  @PostMapping( "/users/createDefault" )
-  public users createDefault( @Valid @RequestBody String name ) {
-    System.out.println( "Create User: " + name + "..." );
-    users u = new users( name, "idk@idk.com", 0);
-    return u;
   }
  
   //getUser returns a users information based on their id
@@ -124,10 +123,17 @@ public class UserController {
     }
   }
  
+  //Works on PostMan send put code to localhost:portnumber/api/users/id
+  //choose body, chose raw and change type to json
+  //enter new data inclosed in '{}' in format
+  //"column name":"new data"
   @PutMapping( "/users/{id}" )
   public ResponseEntity<users> updateUser( @PathVariable( "id" ) Long id, @RequestBody users user ) {
+    //Print to system out to log the start of method
     System.out.println( "Update User with ID = " + id + "..." );
+    //Try to find the user
     Optional<users> userData = userRepository.findById( id );
+    //If the user exists change their informatin to the new information
     if ( userData.isPresent() ) {
       users u = userData.get();
       u.setEmail( user.getEmail() );
@@ -135,6 +141,7 @@ public class UserController {
       u.setComments( user.getComments() );
       //u.setCampaigns( user.getCampaigns() );
  
+      //save the new information
       users update = userRepository.save( u );
       return new ResponseEntity<>( update, HttpStatus.OK );
     } else {
@@ -142,9 +149,12 @@ public class UserController {
     }
   }
  
+  //Works using PostMan send delete code to localhost:portnumber/api/users/{id}
   @DeleteMapping( "/users/{id}" )
   public ResponseEntity<String> deleteUser( @PathVariable( "id" ) Long id ) {
+    //Prints to system out for log
     System.out.println( "Delete User with ID = " + id + "..." );
+    //Trys to delete entry
     try {
       userRepository.deleteById( id );
     } catch ( Exception e ) {

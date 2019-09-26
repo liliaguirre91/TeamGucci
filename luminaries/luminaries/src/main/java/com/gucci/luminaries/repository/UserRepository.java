@@ -1,6 +1,5 @@
 package com.gucci.luminaries.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.gucci.luminaries.model.*;

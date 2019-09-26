@@ -45,7 +45,7 @@ public class users {
         //campaigns = (long) 19;
     }//end constructor
 
-    //Constructor for nam, email, and level
+    //Constructor for name, email, and level
     public users(@Valid String n, String e, int i) {
         users u = new users( );
         u.setName( n );
