@@ -2,11 +2,11 @@ package com.gucci.luminaries;
 
 //import com.gucci.luminaries.repository.OrderRepository;
 import com.gucci.luminaries.repository.UserRepository;
-import com.gucci.luminaries.model.*;
+//import com.gucci.luminaries.model.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Stream;
+//import java.util.stream.Stream;
 
 @Component
 class Initializer implements CommandLineRunner {

@@ -17,28 +17,43 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
  
 import com.gucci.luminaries.model.*;
 import com.gucci.luminaries.repository.*;
  
+//Rest controller sets the controller up as
+//a rest controller with the restful api
 @RestController
+//Cross origin specifies where to look for the database
 @CrossOrigin( origins = "http://localhost:5432" )
+//Request mapping specifies the url where this contoller 
+//starts at
 @RequestMapping( "/api" )
 public class UserController {
  
   @Autowired
   UserRepository userRepository;
  
+  //Select all method 
+  //While running go to localhost:port_number/api/users
+  //This will return all users in the table
+  //Get mapping specifies the url for the request
+  //and sets it up as a get signal
   @GetMapping( "/users" )
   public List<users> getAllUsers() {
+    //System log to show startup
     System.out.println( "Get all Users..." );
  
     List<users> list = new ArrayList<>();
+    //Run select all method from user repository
+    //that queries the database and returns all entries
     Iterable<users> u = userRepository.selectAll();
  
+    //add each user to a list to return
     u.forEach( list::add );
+    //Return the list to the api to print 
+    //it to the screen
     return list;
   }
  
@@ -55,10 +70,15 @@ public class UserController {
     return u;
   }
  
+  //getUser returns a users information based on their id
+  //The url look like localhost:port_number/api/users/{the user id}
   @GetMapping( "/users/{id}" )
   public ResponseEntity<users> getUser( @PathVariable( "id" ) Long id ) {
+    //Print to system out to log the start of this method
     System.out.println( "Get User by id..." );
  
+    //Run findById method from user repository
+    //this method runs a query that searches the database for the given id
     Optional<users> userData = userRepository.findById( id );
     if ( userData.isPresent() ) {
       return new ResponseEntity<>( userData.get(), HttpStatus.OK );
@@ -67,10 +87,16 @@ public class UserController {
       return new ResponseEntity<>( HttpStatus.NOT_FOUND );
     }
   }
+
+  //getUser returns a users information based on their name
+  //The url look like localhost:port_number/api/users/search/{the user name}
   @GetMapping( "/users/search/{name}")
   public ResponseEntity<users> getOnName( @PathVariable String name ){
+    //Print to system out to log the start of this method
     System.out.println( "Get User by name..." );
     
+    //Run the selectName method from the user repository 
+    //This method querries the database for the given name 
     Optional<users> userData = userRepository.selectName( name );
     if ( userData.isPresent() ) {
       return new ResponseEntity<>( userData.get(), HttpStatus.OK );
@@ -79,10 +105,16 @@ public class UserController {
       return new ResponseEntity<>( HttpStatus.NOT_FOUND );
     }
   }
+
+  //getUser returns a users information based on their name and email
+  //The url look like localhost:port_number/api/users/search/{name}/{email}
   @GetMapping( "/users/search/{name}/{email}")
   public ResponseEntity<users> getOnName_Email( @PathVariable String name, @PathVariable String email ){
+    //Print to system out to log the start of the method
     System.out.println( "Get User by name..." );
     
+    //Run the selectUser method from the user repository 
+    //This method querries the database for the given name and email
     Optional<users> userData = userRepository.selectUser( name, email );
     if ( userData.isPresent() ) {
       return new ResponseEntity<>( userData.get(), HttpStatus.OK );

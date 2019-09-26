@@ -15,7 +15,7 @@ public class users {
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE )
     @Column( name = "user_id" )
-    private int user_id;
+    private Long user_id;
     @NotNull
     @Column( name = "email" )
     private String email;
