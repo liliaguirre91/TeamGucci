@@ -21,10 +21,10 @@ class Initializer implements CommandLineRunner {
 
     @Override
     public void run( String... strings ) {
-        Stream.of( "abc@dba.com", "cba@abc.com", "bac@cab.com",
+        /*Stream.of( "abc@dba.com", "cba@abc.com", "bac@cab.com",
                 "bca@acb.com" ).forEach( email ->
                 urepository.save( new users( email ) )
-        );
+        );*/
         /*Stream.of( "123 ikd lane", "234 idk lane", 
                 "345 idk lane" ).forEach( address ->
                 orepository.save( new orders( address ) ) );*/
