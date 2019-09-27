@@ -11,7 +11,6 @@ function App() {
                <h1 className="text-center" style={style}>Lightweight Prototype</h1>
                <Switch>
                   <Route path="/" exact component={NameForm}/>
-                  <Route path="/name/email"/>
                </Switch>
             </div>
          </Router>

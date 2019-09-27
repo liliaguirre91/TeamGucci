@@ -24,9 +24,13 @@ class NameForm extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
+    
     event.preventDefault();
-    this.props.history.push("name/email");
+    const { name } = this.state;
+    const { email } = this.state;
+    alert('A name was submitted: ' + name + email);
+    UserDataService.retrieveUserInfo(name, email);
+    //this.props.history.push("api/users/search/"+ name + '/' + email);
   }
 
   render() {
