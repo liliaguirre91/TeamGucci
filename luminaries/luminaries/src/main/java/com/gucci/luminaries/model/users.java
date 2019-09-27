@@ -28,8 +28,8 @@ public class users {
     private String comments;
     /*@Column( name = "campaigns" )
     private Long campaigns;*/
-    @OneToMany( mappedBy="user_id" )
-    private Collection<orders> order;
+    //@OneToMany( mappedBy="user_id" )
+    //private Collection<orders> order;
 
     //constructor email
     public users( String e ){

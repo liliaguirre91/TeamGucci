@@ -6,7 +6,8 @@ class NameForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {name: '',
-                  email: ''
+                  email: '',
+                  id:''
    };
 
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -28,9 +29,16 @@ class NameForm extends React.Component {
     event.preventDefault();
     const { name } = this.state;
     const { email } = this.state;
-    alert('A name was submitted: ' + name + email);
-    UserDataService.retrieveUserInfo(name, email);
-    //this.props.history.push("api/users/search/"+ name + '/' + email);
+    alert('A name and email were submitted: ' + name + ' ' + email);
+    /*UserDataService.retrieveUserInfo(name, email)
+      .then((res) => {
+         let user = res.data.result;
+         this.setState({
+            id: user.name
+         })
+      });
+    //const { id } = this.state;*/
+    this.props.history.push( "user/" + name + "/" + email);
   }
 
   render() {

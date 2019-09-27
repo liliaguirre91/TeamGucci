@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 
 @Data
-@NoArgsConstructor
-@RequiredArgsConstructor
+//@NoArgsConstructor
+//@RequiredArgsConstructor
 @Entity
 @Table( name = "orders" )
 public class orders {
