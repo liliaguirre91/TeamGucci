@@ -3,8 +3,8 @@ user_id SERIAL PRIMARY KEY,
 email varchar( 40 ) not null,
 name varchar( 40 ) not null,
 levels numeric( 1, 0 ) not null,
-comments varchar( 200 ),
-campaigns numeric( 2,0 ) );
+comments varchar( 200 )
+);
 
 create table orders(                                              
 order_number SERIAL PRIMARY KEY,
