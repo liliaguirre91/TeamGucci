@@ -2,7 +2,7 @@ package com.gucci.luminaries.model;
 
 import lombok.Data;
 
-import java.util.Collection;
+//import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -30,8 +30,8 @@ public class users {
     private String address;
     /*@Column( name = "campaigns" )
     private Long campaigns;*/
-    @OneToMany( mappedBy="user_id" )
-    private Collection<orders> order;
+    /*@OneToMany( mappedBy="user_id" )
+    private Collection<orders> order;*/
 
     //constructor email
     public users( String e ){
@@ -40,11 +40,11 @@ public class users {
 
     //default constructor
     public users( ){
-        email = "1";
+        /*email = "1";
         name = "a";
         levels = 2;
         comments = "";
-        //campaigns = (long) 19;
+        //campaigns = (long) 19;*/
     }//end constructor
 
     //Constructor for name, email, and level
@@ -53,7 +53,12 @@ public class users {
         u.setName( n );
         u.setEmail( e );
         u.setLevels( i );
-	}
+    }
+
+    //Getter for user id
+    public long getUserId( ){
+        return user_id;
+    }//end getter
 
 	//Getter for email
     public String getEmail( ){

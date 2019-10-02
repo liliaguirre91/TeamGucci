@@ -1,4 +1,4 @@
-package com.gucci.lumiaries;
+package com.gucci.luminaries;
 
 import com.gucci.luminaries.LuminariesApplication;
 
@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes={LuminariesApplication.class})
-public class LumiariesApplicationTests {
+public class LuminariesApplicationTests {
 
 	@Test
 	public void contextLoads() {

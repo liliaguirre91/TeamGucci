@@ -2,6 +2,8 @@ package com.gucci.luminaries.model;
 
 import lombok.Data;
 
+//import java.util.Collection;
+
 import javax.persistence.*;
 
 @Data
@@ -10,19 +12,29 @@ import javax.persistence.*;
 public class products {
 
     @Id
+    @GeneratedValue( strategy = GenerationType.TABLE )
+    @Column( name = "product_id" )
+    private Long product_id;
     @Column( name = "product" )
     private String product;
     @Column( name = "price" )
     private int price;
     @Column( name = "year_ran" )
     private int year_ran;
+    /*@OneToMany( mappedBy="product_id" )
+    private Collection<orders> order;*/
 
     //default constructor
     public products( ){
-        product = "Luminary";
+        /*product = "Luminary";
         price = 2;
-        year_ran = 19;
+        year_ran = 19;*/
     }//end constructor
+
+    //Getter for product id
+    public long getProductId( ){
+        return product_id;
+    }//end getter
 
     //Getter for product
     public String getProduct( ){

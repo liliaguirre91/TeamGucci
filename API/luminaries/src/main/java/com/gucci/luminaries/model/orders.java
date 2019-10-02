@@ -1,16 +1,13 @@
 package com.gucci.luminaries.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.springframework.lang.Nullable;
 
 @Data
-@NoArgsConstructor
-@RequiredArgsConstructor
 @Entity
 @Table( name = "orders" )
 public class orders {
@@ -21,38 +18,52 @@ public class orders {
     private Long order_id;
     @Column( name = "address" )
     private String address;
-    @Column( name = "product" )
-    private String product;
     @Column( name = "payment_type" )
     private String payment_type;
     @Column( name ="delivered" )
     private boolean delivered;
     @Column( name = "camp" )
     private int camp;
-    //@Column( name = "user_id" )
-    @ManyToOne( targetEntity = users.class )
-    @JoinColumn( name = "user_id", referencedColumnName="user_id",nullable=true,unique=true)
+    @Nullable
+    @Column( name = "user_id" )
+    //@ManyToOne( targetEntity = users.class )
+    //@PrimaryKeyJoinColumn( name = "user_id", referencedColumnName = "user_id" )
+    //@JoinColumn( name = "user_id", referencedColumnName="user_id", nullable=true )
     private Long user_id;
+    @Column( name = "product_id" )
+    //@ManyToOne( targetEntity = products.class, fetch = FetchType.LAZY )
+    //@PrimaryKeyJoinColumn( name = "product_id", referencedColumnName = "product_id" )
+    //@JoinColumn( name = "product_id", referencedColumnName="product_id",nullable=false)
+    private Long product_id;
+
     //default constructor
     public orders() {
-        address = "idk";
-        product = "luminary";
+        /*address = "idk";
+        product_id = (long) 1;
         payment_type = "PayPal";
         delivered = true;
-        camp = 19;
-    }
+        camp = 19;*/
+    }//end constructor
+
     //Constuctor address payment
 	public orders(String a, String pa) {
         orders o = new orders( );
         o.setAddress( a );
         o.setPayment( pa );
         ;
-	}
+    }//end constructor
+    
 	//Constructor for address
     public orders(String a) {
         orders o = new orders( );
         o.setAddress( a );
-	}
+    }//end constructor
+
+    //Getter for order id
+    public long getOrderId( ){
+        return order_id;
+    }//end getter
+
 	//setter for payment
     public void setPayment( String pa ) {
         payment_type = pa;
@@ -64,8 +75,8 @@ public class orders {
     }//end setter
     
     //setter for product
-    public void setProduct( String p ) {
-        product = p;
+    public void setProductId( long p ) {
+        product_id = p;
     }//end setter
     
     //setter for campaign
@@ -79,7 +90,7 @@ public class orders {
     }//end setter
     
     //setter for user
-    public void setUser( long u ){
+    public void setUserId( long u ){
         user_id = u;
     }//end setter
     
@@ -94,8 +105,8 @@ public class orders {
     }//end getter
 
     //getter for product
-    public String getProduct(  ) {
-        return product;
+    public long getProductId(  ) {
+        return product_id;
     }//end getter
 
     //getter for campaign
@@ -109,8 +120,9 @@ public class orders {
     }//end getter
 
     //getter for user
-    @JsonIgnore
-    public long getUser(  ){
+    public long getUserId(  ){
+        if( user_id == null )
+            return -1;
         return user_id;
     }//end getter
 

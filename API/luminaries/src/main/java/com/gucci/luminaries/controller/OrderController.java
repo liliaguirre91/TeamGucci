@@ -46,7 +46,6 @@ public class OrderController {
     //Run select all method from order repository
     //that queries the database and returns all entries
     Iterable<orders> o = orderRepository.selectAll();
- 
     //add each order to a list to return
     o.forEach( list::add );
     //Return the list to the api to print 
@@ -100,10 +99,10 @@ public class OrderController {
       orders o = orderData.get();
       o.setAddress( order.getAddress() );
       o.setPayment( order.getPayment() );
-      o.setProduct( order.getProduct() );
+      o.setProductId( order.getProductId() );
       o.setCamp( order.getCamp() );
       o.setDelivered( order.getDelivered() );
-      o.setUser( o.getUser() );
+      o.setUserId( o.getUserId() );
  
       orders update = orderRepository.save( o );
       return new ResponseEntity<>( update, HttpStatus.OK );
@@ -122,6 +121,6 @@ public class OrderController {
       return new ResponseEntity<>( "Fail to delete!", HttpStatus.EXPECTATION_FAILED );
     }
  
-    return new ResponseEntity<>( "Book has been deleted!", HttpStatus.OK );
+    return new ResponseEntity<>( "Order has been deleted!", HttpStatus.OK );
   }
 }

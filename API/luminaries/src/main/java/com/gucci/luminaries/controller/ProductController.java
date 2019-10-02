@@ -65,7 +65,7 @@ public class ProductController {
   //The url look like localhost:port_number/api/products/{the product id}
   //The products id is just its name
   @GetMapping( "/products/{id}" )
-  public ResponseEntity<products> getProduct( @PathVariable( "id" ) String id ) {
+  public ResponseEntity<products> getProduct( @PathVariable( "id" ) long id ) {
     //Print to system out to log the start of this method
     System.out.println( "Get Product by id..." );
  
@@ -80,7 +80,7 @@ public class ProductController {
   }
  
   @PutMapping( "/products/{id}" )
-  public ResponseEntity<products> updateProduct( @PathVariable( "id" ) String id, @RequestBody products product ) {
+  public ResponseEntity<products> updateProduct( @PathVariable( "id" ) long id, @RequestBody products product ) {
     System.out.println( "Update Product with ID = " + id + "..." );
  
     Optional<products> productData = productRepository.findById( id );
@@ -98,7 +98,7 @@ public class ProductController {
   }
  
   @DeleteMapping( "/products/{id}" )
-  public ResponseEntity<String> deleteProduct( @PathVariable( "id" ) String id ) {
+  public ResponseEntity<String> deleteProduct( @PathVariable( "id" ) long id ) {
     System.out.println( "Delete Product with ID = " + id + "..." );
  
     try {
@@ -107,6 +107,6 @@ public class ProductController {
       return new ResponseEntity<>( "Fail to delete!", HttpStatus.EXPECTATION_FAILED );
     }
  
-    return new ResponseEntity<>( "Book has been deleted!", HttpStatus.OK );
+    return new ResponseEntity<>( "Product has been deleted!", HttpStatus.OK );
   }
 }
