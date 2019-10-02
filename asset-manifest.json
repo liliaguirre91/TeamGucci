@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/TeamGucci/static/css/main.b70bdeb2.chunk.css",
-    "main.js": "/TeamGucci/static/js/main.ed0aa656.chunk.js",
-    "main.js.map": "/TeamGucci/static/js/main.ed0aa656.chunk.js.map",
-    "runtime-main.js": "/TeamGucci/static/js/runtime-main.d892efef.js",
-    "runtime-main.js.map": "/TeamGucci/static/js/runtime-main.d892efef.js.map",
-    "static/js/2.95033b10.chunk.js": "/TeamGucci/static/js/2.95033b10.chunk.js",
-    "static/js/2.95033b10.chunk.js.map": "/TeamGucci/static/js/2.95033b10.chunk.js.map",
+    "main.css": "/TeamGucci/static/css/main.b100e6da.chunk.css",
+    "main.js": "/TeamGucci/static/js/main.8c3222b4.chunk.js",
+    "main.js.map": "/TeamGucci/static/js/main.8c3222b4.chunk.js.map",
+    "runtime-main.js": "/TeamGucci/static/js/runtime-main.69c66e1a.js",
+    "runtime-main.js.map": "/TeamGucci/static/js/runtime-main.69c66e1a.js.map",
+    "static/js/2.7b936e85.chunk.js": "/TeamGucci/static/js/2.7b936e85.chunk.js",
+    "static/js/2.7b936e85.chunk.js.map": "/TeamGucci/static/js/2.7b936e85.chunk.js.map",
     "index.html": "/TeamGucci/index.html",
-    "precache-manifest.5b303744f43aa52e010fd2cd6750d924.js": "/TeamGucci/precache-manifest.5b303744f43aa52e010fd2cd6750d924.js",
+    "precache-manifest.2b7d43b9b5181ea72f3b9f79eae29fef.js": "/TeamGucci/precache-manifest.2b7d43b9b5181ea72f3b9f79eae29fef.js",
     "service-worker.js": "/TeamGucci/service-worker.js",
-    "static/css/main.b70bdeb2.chunk.css.map": "/TeamGucci/static/css/main.b70bdeb2.chunk.css.map"
+    "static/css/main.b100e6da.chunk.css.map": "/TeamGucci/static/css/main.b100e6da.chunk.css.map",
+    "static/media/logo.svg": "/TeamGucci/static/media/logo.25bf045c.svg"
   }
 }
