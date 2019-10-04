@@ -1,0 +1,62 @@
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+//import React from 'react';
+//import ReactDOM from 'react-dom';
+//import UserDataService from "../service/UserDataService.js";
+
+//import import styles from './button.css';
+//import Ripples from 'react-ripples'
+
+class NameForm  extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {name: '',
+                  email: '',
+                  id:''
+   };
+    
+    
+/*
+    handleSubmit(event) {
+    
+    event.preventDefault();
+    const { name } = this.state;
+    const { email } = this.state;
+    alert('A name and email were submitted: ' + name + ' ' + email);
+      
+      */
+
+    this.props.history.push( "user/" + name + "/" + email);
+  }
+ 
+
+  render() {
+    return (
+     // <form onSubmit={this.handleSubmit}> 
+         <h1> Welcome to the Las Cruces High School Band Luminary Fundraiser  </h1> 
+                
+        <img src="https://lh6.googleusercontent.com/e49HjLU0iKUgsluZ8zQDZSnsDGlfXM8VbWazuJc6ZRb5B-0F4u2TEDVDMoBKSUDJ8QJ-vbqkJw=w16383"
+        height={240}
+        width={240}/><br/>
+
+       <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+}
+
+var buttonStyle = {
+  margin: '10px 10px 10px 0'
+};
+
+ReactDOM.render(
+  <NameForm  />,
+  document.getElementById('root')
+);
+
+//export default NameForm ;
+
+export default App;
