@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2a929ce5a57c5a1f49053d551e1ec1c7",
+    "revision": "3761b1e2569a3a2b9c78d05ba1806f52",
     "url": "/TeamGucci/index.html"
   },
   {
-    "revision": "49b3661f2688855b8e8f",
+    "revision": "1d5490cdd8137ad62128",
     "url": "/TeamGucci/static/css/main.b100e6da.chunk.css"
   },
   {
-    "revision": "5b8bb18110a86045cedf",
-    "url": "/TeamGucci/static/js/2.cf63e026.chunk.js"
+    "revision": "fe965b02c7f9eb21d78e",
+    "url": "/TeamGucci/static/js/2.7b936e85.chunk.js"
   },
   {
-    "revision": "49b3661f2688855b8e8f",
-    "url": "/TeamGucci/static/js/main.32064967.chunk.js"
+    "revision": "1d5490cdd8137ad62128",
+    "url": "/TeamGucci/static/js/main.8c3222b4.chunk.js"
   },
   {
     "revision": "9a09507467856758a9f8",
