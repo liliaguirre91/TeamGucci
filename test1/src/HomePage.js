@@ -112,6 +112,8 @@ console.log("button was clicked");
 <button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Login </button> <br/>
 
 <button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Create an account </button> <br/>
+	
+<button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Order search </button> <br/>
 
 </div>
 
