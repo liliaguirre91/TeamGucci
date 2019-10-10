@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { withRouter } from 'react-router-dom';
 import logo from './LCHS_logo.png';
 import OrderLookup from './OrderLookup.js';
+import Login from './Login.js';
 import './HomePage.css';
 
 
@@ -30,12 +32,14 @@ class HomePage extends React.Component {
     super(props);
     this.state = {name: '',
                   email: '',
-                  id:''
+                  id:'',
+                  page: ''
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
     //this.loadUser = this.saveUser.bind(this);
   }
   
@@ -47,7 +51,7 @@ class HomePage extends React.Component {
     this.setState({email: event.target.value});
   }
 
-  handleSubmit(event) {
+ /* handleSubmit(event) {
 //    
 //    event.preventDefault();
 //    const { name } = this.state;
@@ -61,8 +65,13 @@ class HomePage extends React.Component {
 //            id: user.name
 //         })
 //      });
-//    //const { id } = this.state;*/
+//    //const { id } = this.state;
 //    this.props.history.push( "user/" + name + "/" + email);
+}*/
+
+handleClick = param => e => {
+   e.preventDefault();
+   this.props.history.push(param);
 }
 
    clicked(){
@@ -84,9 +93,9 @@ class HomePage extends React.Component {
             <div> 
                   {/* BUTTONS ON HOME PAGE*/}
                <Button class="center" position="absolute" content="View Products" onClick={(e) => { e.preventDefault(); this.clicked()}} /><br/>
-               <button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Login </button> <br/>
-               <button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Create an account </button> <br/>
-               <button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Order search </button> <br/>
+               <button class="center" onClick={ this.handleClick("/login") }> Login </button> <br/>
+               <button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Account </button> <br/>
+               <button class="center" onClick={ this.handleClick("/order-lookup") }> Order search </button> <br/>
             </div>
          </form>
       );

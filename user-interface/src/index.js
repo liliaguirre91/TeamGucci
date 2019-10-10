@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import HomePage from './HomePage';
 import OrderLookup from './OrderLookup';
+import Login from './Login.js';
+import DeliveryForm from './DeliveryForm.js';
 import './index.css';
 
 //import NameForm from './NameForm';
@@ -16,11 +18,13 @@ const routing = (
                <Link to="/">Home</Link>
             </li>
             <li>
-               <Link to="/order-lookup">Order Lookup</Link>
+               <Link to="/delivery-form">Delivery Information</Link>
             </li>
          </ul>
          <Route exact path="/" component={HomePage} />
          <Route path="/order-lookup" component={OrderLookup} />
+         <Route path="/login" component={Login} />
+         <Route path="/delivery-form" component={DeliveryForm} />
       </div>
    </Router>
 )
