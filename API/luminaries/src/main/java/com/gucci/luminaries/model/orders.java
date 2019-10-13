@@ -13,7 +13,7 @@ import org.springframework.lang.Nullable;
 public class orders {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.TABLE )
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
     @Column( name = "order_number" )
     private Long order_id;
     @Column( name = "address" )

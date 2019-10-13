@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 public interface ProductRepository extends CrudRepository<products, Long> {
     @Query( value = "select * from products p where p.product = :product", nativeQuery = true )
 	Optional<products> findProduct( @Param( "product" ) String product);
-	//Querying method called selectAll this method returns all entries in the orers table
+	//Querying method called selectAll this method returns all entries in the product table
 	@Query( value = "select * from products;", nativeQuery = true )
 	Iterable<products> selectAll( );
 }
