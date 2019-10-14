@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import logo from './LCHS_logo.png';
 import OrderLookup from './OrderLookup.js';
 import Login from './Login.js';
+import Products from './Products.js';
 import './HomePage.css';
 
 
@@ -68,11 +69,19 @@ class HomePage extends React.Component {
 //    //const { id } = this.state;
 //    this.props.history.push( "user/" + name + "/" + email);
 }*/
-
-handleClick = param => e => {
-   e.preventDefault();
-   this.props.history.push(param);
-}
+   
+   /*****************************************************************************************
+    * Handler: handleClick - This handler will route the application to other existing pages.
+    * This handler will be called on the button's click. 
+    * Parameters: This handler takes one parameter representing the URL extension where the
+    * page that will be accesses will be located.
+    * Preconditions: None
+    * Postconditions: The user will be rerouted to the correct page
+    **************************************************************************************/
+   handleClick = param => e => {
+      e.preventDefault();
+      this.props.history.push(param);
+   }
 
    clicked(){
       console.log("button was clicked");
@@ -92,7 +101,7 @@ handleClick = param => e => {
             </div>
             <div> 
                   {/* BUTTONS ON HOME PAGE*/}
-               <Button class="center" position="absolute" content="View Products" onClick={(e) => { e.preventDefault(); this.clicked()}} /><br/>
+               <button class="center" onClick={ this.handleClick("/products") }> View Products </button> <br/>
                <button class="center" onClick={ this.handleClick("/login") }> Login </button> <br/>
                <button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Account </button> <br/>
                <button class="center" onClick={ this.handleClick("/order-lookup") }> Order search </button> <br/>
