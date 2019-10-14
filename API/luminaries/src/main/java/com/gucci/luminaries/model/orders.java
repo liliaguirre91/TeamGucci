@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.lang.Nullable;
 
@@ -24,6 +25,9 @@ public class orders {
     private boolean delivered;
     @Column( name = "camp" )
     private int camp;
+    @Nullable
+    @Column( name = "phone_number" )
+    private Integer phone;
     @Nullable
     @Column( name = "user_id" )
     //@ManyToOne( targetEntity = users.class )
@@ -93,6 +97,11 @@ public class orders {
     public void setUserId( long u ){
         user_id = u;
     }//end setter
+
+    //setter for phone-number
+    public void setPhone( int p ){
+        phone = p;
+    }//end setter
     
     //getter for payment
     public String getPayment( ) {
@@ -124,6 +133,12 @@ public class orders {
         if( user_id == null )
             return -1;
         return user_id;
+    }//end getter
+
+    //getter for phone
+    @JsonIgnore
+    public int getPhone( ){
+        return phone;
     }//end getter
 
     //To String for Orders

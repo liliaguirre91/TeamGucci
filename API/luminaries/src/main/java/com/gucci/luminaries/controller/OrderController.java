@@ -66,7 +66,7 @@ public class OrderController {
         orderRepository.save( order );
         //return the generated order ID 
         return order.getOrderId();
-   }//end createOrders
+    }//end createOrders
 
     //orderQuerry is function for orderSearch Page
     //returns info about an order
@@ -117,13 +117,15 @@ public class OrderController {
  
         Optional<orders> orderData = orderRepository.findById( id );
         if ( orderData.isPresent() ) {
-            orders o = orderData.get();
+            orders o = new orders( );
             o.setAddress( order.getAddress() );
             o.setPayment( order.getPayment() );
             o.setProductId( order.getProductId() );
             o.setCamp( order.getCamp() );
             o.setDelivered( order.getDelivered() );
-            o.setUserId( o.getUserId() );
+            o.setUserId( order.getUserId() );
+            o.setPhone( order.getPhone() );
+
         
             orders update = orderRepository.save( o );
             return new ResponseEntity<>( update, HttpStatus.OK );
