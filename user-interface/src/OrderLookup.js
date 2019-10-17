@@ -22,14 +22,13 @@ class OrderLookup extends Component {
    handleSubmit(event) {
       event.preventDefault();
       const url = '/api/orders/search/'+ this.state.OrderID;
-      //const response = 
       fetch(url)
          .then(response => response.text())
-      //const body = response.json();
          .then(result => this.setState({ result }));
-      alert('Your product delivery status is :)'+ this.state.result);
-     // this.setState({ result : body, isLoading: false });
-      //componentDidMount();
+      setTimeout(function() {
+         alert('Your product delivery status is :)'+ this.state.result);
+      }.bind(this), 100)
+     
    }
 
   render() {
