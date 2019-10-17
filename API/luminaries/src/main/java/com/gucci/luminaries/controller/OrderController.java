@@ -29,98 +29,128 @@ import com.gucci.luminaries.repository.*;
 @RequestMapping( "/api" )
 public class OrderController {
  
-  @Autowired
-  OrderRepository orderRepository;
+    @Autowired
+    OrderRepository orderRepository;
  
-  //Select all method 
-  //While running go to localhost:port_number/api/orders
-  //This will return all orders in the table
-  //Get mapping specifies the url for the request
-  //and sets it up as a get signal
-  @GetMapping( "/orders" )
-  public List<orders> getAllOrders() {
-    //System log to show startup
-    System.out.println( "Get all Orders..." );
+    //Select all method 
+    //While running go to localhost:port_number/api/orders
+    //This will return all orders in the table
+    //Get mapping specifies the url for the request
+    //and sets it up as a get signal
+    @GetMapping( "/orders" )
+    public List<orders> getAllOrders() {
+        //System log to show startup
+        System.out.println( "Get all Orders..." );
  
-    List<orders> list = new ArrayList<>();
-    //Run select all method from order repository
-    //that queries the database and returns all entries
-    Iterable<orders> o = orderRepository.selectAll();
-    //add each order to a list to return
-    o.forEach( list::add );
-    //Return the list to the api to print 
-    //it to the screen
-    return list;
-  }
- 
-  @PostMapping( "/orders/create" )
-  public orders createOrder( @Valid @RequestBody orders order ) {
-    System.out.println( "Create Order: " + order.getAddress() + "..." );
- 
-    return orderRepository.save( order );
-  }
-
-  @GetMapping( "/orders/search/{id}" )
-  public String orderQuery( @PathVariable( "id" ) Long id ){
+        List<orders> list = new ArrayList<>();
+        //Run select all method from order repository
+        //that queries the database and returns all entries
+        Iterable<orders> o = orderRepository.selectAll();
+        //add each order to a list to return
+        o.forEach( list::add );
+        //Return the list to the api to print 
+        //it to the screen
+        return list;
+    }//end getAllOrders
     
-    Optional<orders> orderData = orderRepository.findById( id );
-    if ( orderData.isPresent() ) {
-      orders o = orderData.get();
-      String s = "" + o.getDelivered();
-      return s;
-    } else {
-      return "No order with that number";
-    }
-  }
+    //Create order function is used to create a new order
+    //Send a post request to /api/orders/create
+    //with a json body that has the entry information
+    //for all fields in the order table
+    @PostMapping( "/orders/create" )
+    public long createOrder( @Valid @RequestBody orders order ) {
+        //Print to the console for logging
+        System.out.println( "Create Order: " + order.getAddress() + "..." );
  
-  //getOrder returns a orders information based on their id
-  //The url look like localhost:port_number/api/orders/{the order id}
-  @GetMapping( "/orders/{id}" )
-  public ResponseEntity<orders> getOrder( @PathVariable( "id" ) Long id ) {
-    //Print to system out to log the start of this method
-    System.out.println( "Get Order by id..." );
+        //Add the order to the table
+        orderRepository.save( order );
+        //return the generated order ID 
+        return order.getOrderId();
+    }//end createOrders
+
+    //orderQuerry is function for orderSearch Page
+    //returns info about an order
+    @GetMapping( "/orders/search/{id}" )
+    public String orderQuery( @PathVariable( "id" ) Long id ){
+    
+        //get order information
+        Optional<orders> orderData = orderRepository.findById( id );
+        //If the order exists return its information
+        if ( orderData.isPresent() ) {
+            orders o = orderData.get();
+            String s = "" + o.getDelivered();
+            return s;
+        }//end if
+        //if its not there return an indication of this
+        else {
+            return "No order with that number";
+        }//end else
+    }//end orderQuerry
  
-    //Run findById method from order repository
-    //this method runs a query that searches the database for the given id
-    Optional<orders> orderData = orderRepository.findById( id );
-    if ( orderData.isPresent() ) {
-      return new ResponseEntity<>( orderData.get(), HttpStatus.OK );
-    } else {
-      return new ResponseEntity<>( HttpStatus.NOT_FOUND );
-    }
-  }
+    //getOrder returns a orders information based on their id
+    //The url look like localhost:port_number/api/orders/{the order id}
+    @GetMapping( "/orders/{id}" )
+    public ResponseEntity<orders> getOrder( @PathVariable( "id" ) Long id ) {
+        //Print to system out to log the start of this method
+        System.out.println( "Get Order by id..." );
  
-  @PutMapping( "/orders/{id}" )
-  public ResponseEntity<orders> updateOrder( @PathVariable( "id" ) Long id, @RequestBody orders order ) {
-    System.out.println( "Update Order with ID = " + id + "..." );
+        //Run findById method from order repository
+        //this method runs a query that searches the database for the given id
+        Optional<orders> orderData = orderRepository.findById( id );
+        if ( orderData.isPresent() ) {
+            return new ResponseEntity<>( orderData.get(), HttpStatus.OK );
+        }//end if
+        else {
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end else
+    }//end getOrders
  
-    Optional<orders> orderData = orderRepository.findById( id );
-    if ( orderData.isPresent() ) {
-      orders o = orderData.get();
-      o.setAddress( order.getAddress() );
-      o.setPayment( order.getPayment() );
-      o.setProductId( order.getProductId() );
-      o.setCamp( order.getCamp() );
-      o.setDelivered( order.getDelivered() );
-      o.setUserId( o.getUserId() );
+    //Put mapping updates an order entry in the orders table
+    //To create go to /api/orders/{order number}
+    //
+    // CURRENTLY TESTING AS OF YET DOESN'T WORK YET
+    //
+    //fill in the put request similar to the post request
+    @PutMapping( "/orders/{id}" )
+    public ResponseEntity<orders> updateOrder( @PathVariable( "id" ) Long id, @RequestBody orders order ) {
+        System.out.println( "Update Order with ID = " + id + "..." );
  
-      orders update = orderRepository.save( o );
-      return new ResponseEntity<>( update, HttpStatus.OK );
-    } else {
-      return new ResponseEntity<>( HttpStatus.NOT_FOUND );
-    }
-  }
+        Optional<orders> orderData = orderRepository.findById( id );
+        if ( orderData.isPresent() ) {
+            orders o = new orders( );
+            o.setAddress( order.getAddress() );
+            o.setPayment( order.getPayment() );
+            o.setProductId( order.getProductId() );
+            o.setCamp( order.getCamp() );
+            o.setDelivered( order.getDelivered() );
+            o.setUserId( order.getUserId() );
+            o.setPhone( order.getPhone() );
+
+        
+            orders update = orderRepository.save( o );
+            return new ResponseEntity<>( update, HttpStatus.OK );
+        }//end if
+        else {
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end else
+    }//end updateOrder
  
-  @DeleteMapping( "/orders/{id}" )
-  public ResponseEntity<String> deleteOrder( @PathVariable( "id" ) Long id ) {
-    System.out.println( "Delete Order with ID = " + id + "..." );
+    //Delete Order is used to delete an order from the table
+    //Send delete request to /api/orders/{the order number}
+    @DeleteMapping( "/orders/{id}" )
+    public ResponseEntity<String> deleteOrder( @PathVariable( "id" ) Long id ) {
+        //Print to console for logging purposes
+        System.out.println( "Delete Order with ID = " + id + "..." );
  
-    try {
-      orderRepository.deleteById( id );
-    } catch ( Exception e ) {
-      return new ResponseEntity<>( "Fail to delete!", HttpStatus.EXPECTATION_FAILED );
-    }
- 
-    return new ResponseEntity<>( "Order has been deleted!", HttpStatus.OK );
-  }
-}
+        //try to delete the order
+        try {
+            orderRepository.deleteById( id );
+        }//end try
+        //Catch a failure to delete and indict that it happened
+        catch ( Exception e ) {
+            return new ResponseEntity<>( "Fail to delete!", HttpStatus.EXPECTATION_FAILED );
+        }//end catch
+        //Print that the order was deleted
+        return new ResponseEntity<>( "Order has been deleted!", HttpStatus.OK );
+    }//end delete order
+}//end orderController

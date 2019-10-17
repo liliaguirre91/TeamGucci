@@ -7,13 +7,15 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @Entity
 @Table
 public class users {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.TABLE )
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
     @Column( name = "user_id" )
     private Long user_id;
     @NotNull
@@ -28,8 +30,8 @@ public class users {
     private String comments;
     @Column( name = "address" )
     private String address;
-    /*@Column( name = "campaigns" )
-    private Long campaigns;*/
+    @Column( name = "camp" )
+    private Long campaigns;
     /*@OneToMany( mappedBy="user_id" )
     private Collection<orders> order;*/
 
@@ -40,11 +42,6 @@ public class users {
 
     //default constructor
     public users( ){
-        /*email = "1";
-        name = "a";
-        levels = 2;
-        comments = "";
-        //campaigns = (long) 19;*/
     }//end constructor
 
     //Constructor for name, email, and level
@@ -96,9 +93,9 @@ public class users {
     }//end setter
     
     //getter for campaigns
-	/*public long getCampaigns() {
+	public long getCampaigns() {
 		return campaigns;
-    }//end getter*/
+    }//end getter
 
     //setter for comments
 	public void setComments( String c ) {
@@ -106,9 +103,10 @@ public class users {
     }//end setter
 
     //setter for campaigns
-	/*public void setCampaigns( long c) {
+    @JsonIgnore
+	public void setCampaigns( long c) {
         campaigns = c;
-    }//end setter*/
+    }//end setter
 
     //setter for levels
     public void setLevels( int l ){

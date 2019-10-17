@@ -7,7 +7,8 @@ class App extends Component {
     isLoading: true,
     users: []
   };
-
+   
+  //This will be used to populate the product table.
   async componentDidMount() {
     const response = await fetch('/api/users');
     const body = await response.json();
