@@ -75,7 +75,7 @@ class DeliveryInfo extends React.Component {
       const { state } = this.state;
       const { zipCode } = this.state;
       const { phone } = this.state;
-      alert('Your information was submitted ' + phone);
+      alert('Your information was submitted ');
    
       var addr_info = address.concat(' ', city, ' ', state, ' ', zipCode);
     
