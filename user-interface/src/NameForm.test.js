@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Login from './Login';
+import NameForm from './NameForm';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<Login />, div);
+  ReactDOM.render(<NameForm />, div);
 });

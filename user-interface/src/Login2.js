@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-function validate(name, email, address, city, state, zipCode) {
+/*function validate(name, email, address, city, state, zipCode) {
 
 	const errors = [];
 
@@ -28,23 +28,7 @@ function validate(name, email, address, city, state, zipCode) {
 	}
 
 	return errors;
-}
-
-function validateLogin(memberEmail, password) {
-	const loginErrors = [];
-
-	if(memberEmail.length < 5){
-		loginErrors.push("Please use a valid email");
-	}
-  	if(memberEmail.split("").filter(x => x === "@").length !== 1) {
-    	loginErrors.push("Email should contain a @");
-  	}
-	if(password.length < 6){
-		loginErrors.push("Password should be at least 6 characters long");
-	}
-
-	return loginErrors;
-}
+}*/
 
 class Login extends React.Component {
   constructor(props) {
@@ -56,10 +40,7 @@ class Login extends React.Component {
                   state: '',
                   zipCode: '',
                   id:'',
-                  memberEmail:'',
-                  password:'',
-                  errors: [],
-                  loginErrors: []
+                  errors: []
    };
 
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -68,12 +49,8 @@ class Login extends React.Component {
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleZipChange = this.handleZipChange.bind(this);
-
-    this.handleMemberEmailChange = this.handleMemberEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
     
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleLogin = this.handleSubmit.bind(this);
     //this.loadUser = this.saveUser.bind(this);
   }
   
@@ -101,28 +78,6 @@ class Login extends React.Component {
   	this.setState({zipCode: event.target.value});
   }
 
-  handleMemberEmailChange(event) {
-  	this.setState({memberEmail: event.target.value});
-  }
-
-  handlePasswordChange(event) {
-  	this.setState({password: event.target.value});
-  }
-
-  handleLogin(event) {
-      const { memberEmail } = this.state;
-      const { password } = this.state;
-      const loginErrors = validateLogin(memberEmail, password);
-      const url = '/api/users/search/'+ this.state.password + '/' + this.state.email;
-      
-      if(loginErrors.length > 0){
-         this.setState({ loginErrors });
-         return;
-      }
-      fetch(url)
-      alert('Congratulations' + this.state.name + ', you have logged in!');
-      this.props.history.push("/");
-  }
 
   handleSubmit(event) {
     
@@ -134,53 +89,32 @@ class Login extends React.Component {
     const { state } = this.state;
     const { zipCode } = this.state;
 
-    //const { memberEmail } = this.state;
-    //const { password } = this.state;
+   /* alert('A name and email were submitted: ' + name + ' ' + email);
+    UserDataService.retrieveUserInfo(name, email)
+      .then((res) => {
+         let user = res.data.result;
+         this.setState({
+            id: user.name
+         })
+      });
+    //const { id } = this.state;*/
+    //this.props.history.push( "user/" + name + "/" + email);
 
-   const errors = validate(name, email, address, city, state, zipCode);
-	//const loginErrors = validateLogin(memberEmail, password);
+	/*const errors = validate(name, email, address, city, state, zipCode);
 	if(errors.length > 0){
 		this.setState({ errors });
 		return;
-	}
-	
-   var addr_info = address.concat(' ', city, ' ', state, ' ', zipCode);
-	fetch('/api/users/create', {
-         method: 'POST',
-         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-         },
-         body: JSON.stringify({
-            email: email,
-            name: name,
-            address: addr_info,
-            levels: 2,
-            comments: "Hello"
-         })
-      })
-      .then(response => response.text())
-      .then(result => this.setState({ result }));
-      alert('Congratulations ' + name + ', you have created an Account!');
-      this.props.history.push("/");
+	}*/
+	    alert('Your information was submitted :)');
+
     
   }
 
   render() {
-     const { errors } = this.state;
-     const { loginErrors } = this.state;
-     return (
-
-
+    return (
 
 	<form align="center" onSubmit={this.handleSubmit}> 
-        {errors.map(error => (
-          <p key={error}>Error: {error}</p>
-        ))}
-        {loginErrors.map(error => (
-          <p key={error}> Login Error: {error}</p>
-        ))}
-        
+
          <h3> Fill in the blanks below <br/> to create a new account </h3>
          <label>
             Full name: <br/>

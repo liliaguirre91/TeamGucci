@@ -28,7 +28,6 @@ class OrderLookup extends Component {
       setTimeout(function() {
          alert('Your product delivery status is :)'+ this.state.result);
       }.bind(this), 100)
-     
    }
 
   render() {

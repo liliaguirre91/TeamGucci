@@ -74,7 +74,8 @@ class DeliveryInfo extends React.Component {
       const { city } = this.state;
       const { state } = this.state;
       const { zipCode } = this.state;
-      alert('Your information was submitted :)');
+      const { phone } = this.state;
+      alert('Your information was submitted ' + phone);
    
       var addr_info = address.concat(' ', city, ' ', state, ' ', zipCode);
     
@@ -91,6 +92,7 @@ class DeliveryInfo extends React.Component {
          body: JSON.stringify({
             address: addr_info,
             payment_type: 'cash',
+            phone: phone,
             delivered: false,
             camp: 19,
             user_id: 1,

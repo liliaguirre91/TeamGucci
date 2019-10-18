@@ -11,7 +11,7 @@ import './HomePage.css';
 //import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
 
 {/* Button class for all attributes of buttons*/}
-class Button extends React.Component{
+/*class Button extends React.Component{
 
    render(){
       const{
@@ -24,7 +24,7 @@ class Button extends React.Component{
       </button>
       )
    }
-}
+}*/
 
 
 
@@ -102,7 +102,7 @@ class HomePage extends React.Component {
             <div> 
                   {/* BUTTONS ON HOME PAGE*/}
                <button class="center" onClick={ this.handleClick("/products") }> View Products </button> <br/>
-               <button class="center" onClick={ this.handleClick("/login") }> Login </button> <br/>
+               <button class="center" onClick={ this.handleClick("/login") }> Login/ Create Account </button> <br/>
                <button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Account </button> <br/>
                <button class="center" onClick={ this.handleClick("/order-lookup") }> Order search </button> <br/>
             </div>
