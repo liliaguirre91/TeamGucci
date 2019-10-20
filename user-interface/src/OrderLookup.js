@@ -26,8 +26,13 @@ class OrderLookup extends Component {
          .then(response => response.text())
          .then(result => this.setState({ result }));
       setTimeout(function() {
-         alert('Your product delivery status is :)'+ this.state.result);
-      }.bind(this), 100)
+         if (this.state.result == 'false')
+            alert('Your product has not been delivered!!');
+         else if (this.state.result == 'true')
+             alert('Your product has been delivered!!');
+         else
+            alert(this.state.result);
+      }.bind(this), 200)
    }
 
   render() {
