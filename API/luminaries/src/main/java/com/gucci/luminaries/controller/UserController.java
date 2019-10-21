@@ -60,7 +60,9 @@ public class UserController {
 	@PostMapping( "/users/create" )
 	public String createUser(@RequestBody users user ) {
 		//Print to system out to log start of method
-		if( userRepository.checkEmail( user.getEmail() ) != null ){
+		System.out.println( user.getEmail() );
+		System.out.println( userRepository.checkEmail( user.getEmail( ) ) );
+		if( userRepository.checkEmail( user.getEmail() ).isPresent() ){
 			return "Email already exists";
 		}
 		System.out.println( "Create User: " + user.getName() + "..." );
