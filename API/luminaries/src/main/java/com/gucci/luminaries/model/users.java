@@ -37,8 +37,6 @@ public class users {
     //Added for authentication
     @Column( name = "username" )
     private String username;
-    @Column ( name = "password" )
-    private String password;
 
     //fetch roles from role table
     @ManyToMany(fetch = FetchType.LAZY)
@@ -117,7 +115,7 @@ public class users {
         return levels;
     }//end getter
 
-<<<<<<< Updated upstream
+
     //getter for password
     public String getPassword( ){
         return password;
@@ -127,7 +125,7 @@ public class users {
     public void setPassword( String p ){
         password = p;
     }
-=======
+
     //added for security by Lucas 
     //getter for username
     public String getUsername() {
@@ -137,16 +135,6 @@ public class users {
     //setter for username
     public void setUsername(String u) {
         username = u;
-    }
-
-    //getter for password
-    public String getPassword() {
-        return password;
-    }
-
-    //setter for password
-    public void setPassword(String p) {
-        password = p;
     }
     
     //getter for Role
@@ -158,7 +146,7 @@ public class users {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
->>>>>>> Stashed changes
+
 
     //To String for user
     public String toString( ){

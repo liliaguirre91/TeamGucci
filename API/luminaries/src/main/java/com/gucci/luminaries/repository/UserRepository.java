@@ -24,10 +24,10 @@ public interface UserRepository extends CrudRepository<users, Long> {
 	//in the users tablewith that component
 	@Query( value = "select * from users u where u.name = :name", nativeQuery = true )
 	Optional<users> selectName(String name);
-<<<<<<< Updated upstream
+
 	@Query( value = "select * from users u where u.email = :email", nativeQuery = true )
 	Optional<users> checkEmail( String email );
-=======
+
 
 	//made by Lucas for auth
 	//Some of these might be redundant
@@ -55,6 +55,6 @@ public interface UserRepository extends CrudRepository<users, Long> {
     static Boolean existsByEmail(String email) {
 		return null;
 	}
->>>>>>> Stashed changes
+
 	
 }
