@@ -1,66 +1,79 @@
 package com.gucci.luminaries.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-    
+
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
-    
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-    
+import org.springframework.web.multipart.MultipartFile;
+
 import com.gucci.luminaries.model.*;
 import com.gucci.luminaries.repository.*;
-    
+
 //Rest controller sets the controller up as
 //a rest controller with the restful api
 @RestController
-//Request mapping specifies the url where this contoller 
-//starts at
-@RequestMapping( "/api" )
+// Request mapping specifies the url where this contoller
+// starts at
+@RequestMapping("/api")
 public class ProductController {
-    
+
     @Autowired
     ProductRepository productRepository;
-    
-    //Select all method 
-    //While running go to localhost:port_number/api/products
-    //This will return all products in the table
-    //Get mapping specifies the url for the request
-    //and sets it up as a get signal
-    @GetMapping( "/products" )
+
+    // Select all method
+    // While running go to localhost:port_number/api/products
+    // This will return all products in the table
+    // Get mapping specifies the url for the request
+    // and sets it up as a get signal
+    @GetMapping("/products")
     public List<products> getAllProducts() {
-        //System log to show startup
-        System.out.println( "Get all Products..." );
-    
+        // System log to show startup
+        System.out.println("Get all Products...");
+
         List<products> list = new ArrayList<>();
-        //Run select all method from product repository
-        //that queries the database and returns all entries
+        // Run select all method from product repository
+        // that queries the database and returns all entries
         Iterable<products> o = productRepository.selectAll();
-    
-        //add each product to a list to return
-        o.forEach( list::add );
-        //Return the list to the api to print 
-        //it to the screen
+
+        // add each product to a list to return
+        o.forEach(list::add);
+        // Return the list to the api to print
+        // it to the screen
         return list;
-    }//end getAllProducts
-    
-    //Create product function is used to create a new product
-    //Send a post request to /api/products/create
-    //with a json body that has the entry information
-    //for all fields in the product table
-    @PostMapping( "/products/create" )
-    public long createProduct( @Valid @RequestBody products product ) {
-         //Print to the console for logging        
+    }// end getAllProducts
+
+    // Create product function is used to create a new product
+    // Send a post request to /api/products/create
+    // with a json body that has the entry information
+    // for all fields in the product table
+    @PostMapping("/products/create")
+    public long createProduct(@Valid @RequestParam(value = "product") String pname,
+            @Valid @RequestParam(value = "price") int price, @Valid @RequestParam(value = "year_ran") int year_ran,
+            @Valid @RequestParam(value = "image") MultipartFile image) throws IOException {
+        // Print to the console for logging
+        InputStream im = image.getInputStream();
+        BufferedImage i = ImageIO.read(im);
+        products product = new products( pname, price, year_ran, i );         
+        System.out.println( product.getYearRan() );
         System.out.println( "Create Product: " + product.getProduct() + "..." );
         //Add the product to the table and return the product id to show it worked
         productRepository.save( product );
