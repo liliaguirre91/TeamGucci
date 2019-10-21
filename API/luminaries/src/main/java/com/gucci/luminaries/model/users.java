@@ -29,15 +29,15 @@ public class users {
     private int levels;
     @Column( name = "comments" )
     private String comments;
-    @Column( name = "password" )
-    private String password;
+  
     /*@OneToMany( mappedBy="user_id" )
     private Collection<orders> order;*/
 
     //Added for authentication
     @Column( name = "username" )
     private String username;
-    
+    @Column ( name = "password" )
+    private String password;
 
     //fetch roles from role table
     @ManyToMany(fetch = FetchType.LAZY)
@@ -116,14 +116,35 @@ public class users {
         return levels;
     }//end getter
 
+    //added for security by Lucas 
+    //getter for username
+    public String getUsername() {
+        return username;
+    }
+
+    //setter for username
+    public void setUsername(String u) {
+        username = u;
+    }
+
     //getter for password
-    public String getPassword( ){
+    public String getPassword() {
         return password;
-    }//end getter
+    }
 
     //setter for password
-    public void setPassword( String p ){
+    public void setPassword(String p) {
         password = p;
+    }
+    
+    //getter for Role
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    //setter for Role
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     //To String for user
