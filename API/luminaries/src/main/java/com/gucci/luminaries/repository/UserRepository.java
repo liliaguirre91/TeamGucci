@@ -23,5 +23,7 @@ public interface UserRepository extends CrudRepository<users, Long> {
 	//in the users tablewith that component
 	@Query( value = "select * from users u where u.name = :name", nativeQuery = true )
 	Optional<users> selectName(String name);
+	@Query( value = "select * from users u where u.email = :email", nativeQuery = true )
+	Optional<users> checkEmail( String email );
 	
 }

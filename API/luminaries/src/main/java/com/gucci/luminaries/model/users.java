@@ -7,8 +7,6 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Data
 @Entity
 @Table
@@ -28,10 +26,8 @@ public class users {
     private int levels;
     @Column( name = "comments" )
     private String comments;
-    @Column( name = "address" )
-    private String address;
-    @Column( name = "camp" )
-    private Long campaigns;
+    @Column( name = "password" )
+    private String password;
     /*@OneToMany( mappedBy="user_id" )
     private Collection<orders> order;*/
 
@@ -82,30 +78,9 @@ public class users {
 		return comments;
     }//end getter
 
-    //Getter for Address
-    public String getAddress( ){
-        return address;
-    }//end getter
-
-    //Setter for Address
-    public void setAddress( String a ){
-        address = a;
-    }//end setter
-    
-    //getter for campaigns
-	public long getCampaigns() {
-		return campaigns;
-    }//end getter
-
     //setter for comments
 	public void setComments( String c ) {
         comments = c;
-    }//end setter
-
-    //setter for campaigns
-    @JsonIgnore
-	public void setCampaigns( long c) {
-        campaigns = c;
     }//end setter
 
     //setter for levels
@@ -117,6 +92,16 @@ public class users {
     public int getLevels( ) {
         return levels;
     }//end getter
+
+    //getter for password
+    public String getPassword( ){
+        return password;
+    }//end getter
+
+    //setter for password
+    public void setPassword( String p ){
+        password = p;
+    }
 
     //To String for user
     public String toString( ){

@@ -60,6 +60,9 @@ public class UserController {
 	@PostMapping( "/users/create" )
 	public String createUser(@RequestBody users user ) {
 		//Print to system out to log start of method
+		if( userRepository.checkEmail( user.getEmail() ) != null ){
+			return "Email already exists";
+		}
 		System.out.println( "Create User: " + user.getName() + "..." );
 	
         //Save the new user
@@ -137,8 +140,8 @@ public class UserController {
             u.setEmail( user.getEmail() );
             u.setName( user.getName() );
             u.setComments( user.getComments() );
-            u.setLevels( user.getLevels( ) );
-            u.setAddress( user.getAddress( ) );
+			u.setLevels( user.getLevels( ) );
+			u.setPassword( user.getPassword( ) );
             //u.setCampaigns( user.getCampaigns() );
         
 		    //save the new information
