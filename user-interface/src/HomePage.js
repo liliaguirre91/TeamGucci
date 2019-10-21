@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
 import logo from './LCHS_logo.png';
 import OrderLookup from './OrderLookup.js';
-import Login from './Login.js';
+import Login from './user/login/Login.js';
+import CreateAccount from './user/signup/CreateAccount.js';
 import Products from './Products.js';
 import './HomePage.css';
 
@@ -102,7 +103,8 @@ class HomePage extends React.Component {
             <div> 
                   {/* BUTTONS ON HOME PAGE*/}
                <button class="center" onClick={ this.handleClick("/products") }> View Products </button> <br/>
-               <button class="center" onClick={ this.handleClick("/login") }> Login/ Create Account </button> <br/>
+               <button class="center" onClick={ this.handleClick("/login") }> Login </button> <br/>
+               <button class="center" onClick={ this.handleClick("/signup") }> Create Account </button> <br/>
                <button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Account </button> <br/>
                <button class="center" onClick={ this.handleClick("/order-lookup") }> Order search </button> <br/>
             </div>

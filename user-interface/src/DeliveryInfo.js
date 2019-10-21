@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createOrder } from './util/APIFunctions';
+import { notification } from 'antd'
 
 class DeliveryInfo extends React.Component {
   constructor(props) {
@@ -75,15 +77,13 @@ class DeliveryInfo extends React.Component {
       const { state } = this.state;
       const { zipCode } = this.state;
       const { phone } = this.state;
-      alert('Your information was submitted ');
-   
       var addr_info = address.concat(' ', city, ' ', state, ' ', zipCode);
     
       //If the admin is logged in the payment type will always be cash. If a regular customer
       //is logged in the payment type will always be paypal. This will determine what page
       //we will go to. In future we need to store these values so we can use them once order is
       //placed in the payment page or the confirm your order page. Add a check to make sure all fields are submitted. 
-      fetch('/api/orders/create', {
+      /*fetch('/api/orders/create', {
          method: 'POST',
          headers: {
             'Accept': 'application/json',
@@ -98,8 +98,33 @@ class DeliveryInfo extends React.Component {
             user_id: 1,
             product_id: 1
          })
-      })
+      })*/
+      //. This will ultimately go on the payment page, once the customer has paid for the products. Payment type will depend on user type, campaign will depend on the product or the current campaign? Before placing the order make sure payment went through correctly. So check response from paypal.
+      const orderInfo = {
+         address: addr_info,
+         payment_type: 'cash',
+         phone: phone,
+         delivered: false,
+         camp: 19,
+         user_id: 1,
+         product_id: 1
+      };
+      
+      createOrder(orderInfo)
+      .then(response => {
+         notification.success({
+            message: 'LCHS Band Fundraising',
+            description: "Your order has been placed!"
+         });
+         this.props.history.push("/"); //for now will redirect to home, later to confirmation
+      }).catch(error => {
+         notification.error({
+            message: 'LCHS Band Fundraising',
+            description: error.message || 'Sorry! Something went wrong!'
+         });
+      });
    }
+   
 
   render() {
     return (
