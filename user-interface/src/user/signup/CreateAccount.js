@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { createAccount } from '../../util/APIFunctions';
 import './CreateAccount.css';
+import { 
+    NAME_MIN_LENGTH,
+    NAME_MAX_LENGTH, 
+    EMAIL_MAX_LENGTH,
+    PASSWORD_MIN_LENGTH,
+    PASSWORD_MAX_LENGTH
+} from '../../constants';
+
 import {Form, Input, Button, notification } from 'antd';
 const FormItem= Form.Item;
 
@@ -16,6 +24,9 @@ class CreateAccount extends React.Component {
                   email: {
                      value: ''
                   },
+                  password: {
+                  	 value: ''
+                  },
                   id: {
                      value: ''
                   },
@@ -26,6 +37,7 @@ class CreateAccount extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.isFormInvalid = this.isFormInvalid.bind(this);
   }
   
   /***********************************************************************************
@@ -36,14 +48,15 @@ class CreateAccount extends React.Component {
   /*This basically does all handlers at once. Also it validates each input as it's entered.
    * This means that each state needs its own validation function. 
    */
-   handleInputChange(event) {
+   handleInputChange(event, validationFun) {
       const target = event.target;
       const inputName = target.name;
       const inputValue = target.value;
       
       this.setState ({
          [inputName] : {
-            value: inputValue
+            value: inputValue,
+            ...validationFun(inputValue)
          }
       });
    }
@@ -62,12 +75,14 @@ class CreateAccount extends React.Component {
       event.preventDefault();
       const name  = this.state.name.value;
       const email = this.state.email.value;
+      const password = this.state.password.value;
 
       
       //Create a constant containing all the information necessary to create a user account in database
       const signupRequest = {
          name: name,
          email: email,
+         password: password,
          levels: 2,
          comments: "Comments"
       };
@@ -88,21 +103,33 @@ class CreateAccount extends React.Component {
       });
    }
 
+   isFormInvalid() {
+   		return !(this.state.name.validateStatus === 'success' &&
+   				 this.state.email.validateStatus === 'success' &&
+   				 this.state.password.validateStatus === 'success'
+   		);
+   }
+
   render() {
     return (
        <Form align="center" onSubmit={this.handleSubmit} className="signup-form">
          <FormItem
-            label="Full Name">
+            label="Full Name"
+            validateStatus={this.state.name.validateStatus}
+            help={this.state.name.errorMsg}>
             <Input
                size="large"
                name="name"
                autoComplete="off"
                placeholder="Your full name"
                value={this.state.name.value}
-               onChange={(event) => this.handleInputChange(event)}/>
+               onChange={(event) => this.handleInputChange(event, this.validateName)}/>
          </FormItem>
          <FormItem
-            label="Email">
+            label="Email"
+            hasFeedback
+            validateStatus={this.state.email.validateStatus}
+            help={this.state.email.errorMsg}>
             <Input
                size="large"
                name="email"
@@ -110,16 +137,99 @@ class CreateAccount extends React.Component {
                autoComplete="off"
                placeholder="Your email"
                value={this.state.email.value}
-               onChange={(event) => this.handleInputChange(event)}/>
+               onChange={(event) => this.handleInputChange(event, this.validateEmail)}/>
          </FormItem>
+		 <FormItem
+		 	 label="Password"
+		 	 validateStatus={this.state.password.validateStatus}
+		 	 help={this.state.password.errorMsg}>
+			 <Input
+			 	size="large"
+			 	name="password"
+			 	type="password"
+			 	autoComplete="off"
+			 	placeholder="8-15 characters"
+			 	value={this.state.password.value}
+			 	onChange={(event) => this.handleInputChange(event, this.validatePassword)}/>
+		 </FormItem>	 
          <FormItem>
             <Button type="primary"
                htmlType="submit"
+               size="large"
                className="signup-form-button">Sign Up</Button>
          </FormItem>
       </Form>
     );
   }
+
+//VALIDATION FUCNTIONS
+
+ validateName = (name) => {
+ 	if(name.length < NAME_MIN_LENGTH){
+ 		return{
+ 			validateStatus: 'error',
+ 			errorMsg: 'Name is too short (Minimum 4 characters needed.)'
+ 			}
+ 	} else if(name.length > NAME_MAX_LENGTH){
+ 		return{
+ 			validationStatus: 'error',
+ 			errorMsg: 'Name is too long (Maximum 40 characters allowed.)'
+ 		}
+ 	} else {
+ 		return{
+ 			validateStatus: 'success',
+ 			errorMsg: null,
+ 		};
+ 	}
+ }
+
+ validateEmail = (email) => {
+ 	if(!email) {
+ 		return	{
+ 			validateStatus: 'error',
+ 			errorMsg: 'Email may not be empty'
+ 		}
+ 	}
+ 	        const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
+        if(!EMAIL_REGEX.test(email)) {
+            return {
+                validateStatus: 'error',
+                errorMsg: 'Email not valid'
+            }
+        }
+
+        if(email.length > EMAIL_MAX_LENGTH) {
+            return {
+                validateStatus: 'error',
+                errorMsg: 'Email is too long (Maximum 40 characters allowed)'
+            }
+        }
+
+        return {
+            validateStatus: null,
+            errorMsg: null
+        }
+    }
+ 	
+ 	 validatePassword = (password) => {
+        if(password.length < PASSWORD_MIN_LENGTH) {
+            return {
+                validateStatus: 'error',
+                errorMsg: 'Password is too short (Minimum 8 characters needed.)'
+            }
+        } else if (password.length > PASSWORD_MAX_LENGTH) {
+            return {
+                validationStatus: 'error',
+                errorMsg: 'Password is too long (Maximum 15 characters allowed.)'
+            }
+        } else {
+            return {
+                validateStatus: 'success',
+                errorMsg: null,
+            };            
+        }
+    }	
+  
 }
 
 ReactDOM.render(
