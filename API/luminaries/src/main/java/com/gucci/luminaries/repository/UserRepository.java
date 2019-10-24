@@ -1,5 +1,6 @@
 package com.gucci.luminaries.repository;
 
+//import java.util.List;
 import java.util.Optional;
 
 import com.gucci.luminaries.model.*;
@@ -25,5 +26,32 @@ public interface UserRepository extends CrudRepository<users, Long> {
 	Optional<users> selectName(String name);
 	@Query( value = "select * from users u where u.email = :email", nativeQuery = true )
 	Optional<users> checkEmail( String email );
+
+	//made by Lucas for auth
+	//Some of these might be redundant
+
+	//finds the user by username or email to allow users to enter either to log in
+	@Query( value = "select * from users u where u.username = :username or u.email = :email", nativeQuery = true)
+	Optional<users> findByUsernameOrEmail(String username, String email);
+
+	//finds the user by their email
+	@Query( value = "select * from users u where u.email = :email", nativeQuery = true)
+	Optional<users> findByEmail(String email);
+
+	//finds the user by their user_id
+	@Query( value = "select * from users u where u.user_id = :user_id", nativeQuery = true)
+	Optional<users> findById(Long user_id);
+	
+	//finds the user by the username
+	@Query( value = "select * from users u where u.username = :username", nativeQuery = true)
+	Optional<users> findByUsername(String username);
+	
+	//Methods used to check if username or email already exists during auth. Might not need
+    static Boolean existsByUsername(String username) {
+		return null;
+	}
+    static Boolean existsByEmail(String email) {
+		return null;
+	}
 	
 }
