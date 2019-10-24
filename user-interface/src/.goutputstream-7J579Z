@@ -71,8 +71,7 @@ class DeliveryInfo extends React.Component {
 	  const zipCode = this.state.zipCode.value;
       
       var addr_info = address.concat(' ', city, ' ', st, ' ', zipCode);
-
-    alert(addr_info);
+    
       //If the admin is logged in the payment type will always be cash. If a regular customer
       //is logged in the payment type will always be paypal. This will determine what page
       //we will go to. In future we need to store these values so we can use them once order is
@@ -122,10 +121,10 @@ class DeliveryInfo extends React.Component {
 
    isFormInvalid() {
    	return !(this.state.name.validateStatus === 'success' &&
-  			 //this.state.phone.validateStatus === 'success' //&&
+   			 this.state.phone.validateStatus === 'success' &&
    			 this.state.address.validateStatus === 'success' &&
    			 this.state.city.validateStatus === 'success' &&
-  			 this.state.st.validateStatus === 'success' &&
+   			 this.state.st.validateStatus === 'success' &&
    			 this.state.zipCode.validateStatus === 'success'
    		);
    }
@@ -154,7 +153,6 @@ class DeliveryInfo extends React.Component {
 			<PhoneInput
 				name="phone"
   				placeholder="(###)###-####"
-  				maxLength="14"
   				country="US"
   				value={ this.state.phone.value }
       			onChange={value => this.setState({ value }) }/>
@@ -168,7 +166,6 @@ class DeliveryInfo extends React.Component {
       			name="address"
       			autoComplete="off"
       			placeholder="1234 Street Name"
-      			maxLength="20"
       			value={this.state.address.value}
       			onChange={(event) => this.handleInputChange(event, this.validateAddress)}/>
       	</FormItem>
@@ -181,25 +178,21 @@ class DeliveryInfo extends React.Component {
       			name="city"
       			autoComplete="off"
       			placeholder="Your city"
-      			maxLength="20"
       			value={this.state.city.value}
       			onChange={(event) => this.handleInputChange(event, this.validateCity)}/>
       	</FormItem>
-      	
       	<FormItem
       		label="State"
       		validateStatus={this.state.st.validateStatus}
       		help={this.state.st.errorMsg}>
       		<Input
       			size="large"
-      			name="st"
+      			name="state"
       			autoComplete="off"
       			placeholder="Your state"
-      			maxLength="15"
       			value={this.state.st.value}
-      			onChange={(event) => this.handleInputChange(event, this.validateSt)}/>
+      			onChange={(event) => this.handleInputChange(event, this.validateState)}/>
       	</FormItem>
-      	
       	<FormItem
       		label="Zip Code"
       		validateStatus={this.state.zipCode.validateStatus}
@@ -209,7 +202,6 @@ class DeliveryInfo extends React.Component {
       			name="zipCode"
       			autoComplete="off"
       			placeholder="Zip code"
-      			maxLength="5"
       			value={this.state.zipCode.value}
       			onChange={(event) => this.handleInputChange(event, this.validateZipcode)}/>
       	</FormItem>
@@ -218,8 +210,7 @@ class DeliveryInfo extends React.Component {
             <Button type="primary"
                htmlType="submit"
                size="large"
-               className="delivery-form-button"
-               disabled={this.isFormInvalid()}>Continue</Button>
+               className="delivery-form-button">Continue</Button>
         </FormItem>
       </Form>
     );
@@ -247,14 +238,14 @@ class DeliveryInfo extends React.Component {
  }
 
  validatePhone = (phone) => {
- 	if(phone.length !== 10){
+ 	if(phone.length != 10){
  		return{
  			validateStatus: 'error',
  			errorMsg: 'Invalid phone number.'
  		}
  	} else {
  		return{
- 			validateStatus: 'success',
+ 			validationStatus: 'success',
  			errorMsg: null,
  			};
  		}
@@ -268,7 +259,7 @@ class DeliveryInfo extends React.Component {
  		}
  	} else {
  		return{
- 			validateStatus: 'success',
+ 			validationStatus: 'success',
  			errorMsg: null,
  			};
  		}
@@ -282,21 +273,21 @@ class DeliveryInfo extends React.Component {
  		}
  	} else {
  		return{
- 			validateStatus: 'success',
+ 			validationStatus: 'success',
  			errorMsg: null,
  			};
  		}
  }
 
-  validateSt = ( st ) => {
- 	if( st.length < 2){
+  validateState = ( st ) => {
+ 	if( st.length < 3){
  		return{
  		validateStatus: 'error',
  		errorMsg: 'Not a valid state'
  		}
  	} else {
  		return{
- 			validateStatus: 'success',
+ 			validationStatus: 'success',
  			errorMsg: null,
  			};
  		}
@@ -310,7 +301,7 @@ class DeliveryInfo extends React.Component {
  		}
  	} else {
  		return{
- 			validateStatus: 'success',
+ 			validationStatus: 'success',
  			errorMsg: null,
  			};
  		}
