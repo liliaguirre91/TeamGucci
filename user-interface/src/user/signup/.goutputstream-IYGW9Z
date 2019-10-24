@@ -126,10 +126,7 @@ class CreateAccount extends React.Component {
                onChange={(event) => this.handleInputChange(event, this.validateName)}/>
          </FormItem>
          <FormItem
-            label="Email"
-            hasFeedback
-            validateStatus={this.state.email.validateStatus}
-            help={this.state.email.errorMsg}>
+            label="Email">
             <Input
                size="large"
                name="email"
@@ -140,9 +137,7 @@ class CreateAccount extends React.Component {
                onChange={(event) => this.handleInputChange(event, this.validateEmail)}/>
          </FormItem>
 		 <FormItem
-		 	 label="Password"
-		 	 validateStatus={this.state.password.validateStatus}
-		 	 help={this.state.password.errorMsg}>
+		 	 label="Password">
 			 <Input
 			 	size="large"
 			 	name="password"
@@ -168,12 +163,12 @@ class CreateAccount extends React.Component {
  	if(name.length < NAME_MIN_LENGTH){
  		return{
  			validateStatus: 'error',
- 			errorMsg: 'Name is too short (Minimum 4 characters needed.)'
+ 			errorMsg: 'Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)'
  			}
  	} else if(name.length > NAME_MAX_LENGTH){
  		return{
  			validationStatus: 'error',
- 			errorMsg: 'Name is too long (Maximum 40 characters allowed.)'
+ 			errorMsg: 'Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)'
  		}
  	} else {
  		return{
@@ -201,7 +196,7 @@ class CreateAccount extends React.Component {
         if(email.length > EMAIL_MAX_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: 'Email is too long (Maximum 40 characters allowed)'
+                errorMsg: 'Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)'
             }
         }
 
@@ -215,12 +210,12 @@ class CreateAccount extends React.Component {
         if(password.length < PASSWORD_MIN_LENGTH) {
             return {
                 validateStatus: 'error',
-                errorMsg: 'Password is too short (Minimum 8 characters needed.)'
+                errorMsg: 'Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)'
             }
         } else if (password.length > PASSWORD_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
-                errorMsg: 'Password is too long (Maximum 15 characters allowed.)'
+                errorMsg: 'Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)'
             }
         } else {
             return {

@@ -73,7 +73,7 @@ public class UserController {
 	}//end create user
 	
 
-	@GetMapping( "/users/{email}" )
+	@GetMapping( "/users/check/{email}" )
 	public boolean checkEmail( @PathVariable( "email" ) String email ){
 		return userRepository.checkEmail( email ).isPresent();
 	}
