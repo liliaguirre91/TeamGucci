@@ -72,6 +72,11 @@ public class UserController {
 		return user.getName();
 	}//end create user
 	
+
+	@GetMapping( "/users/check/{email}" )
+	public boolean checkEmail( @PathVariable( "email" ) String email ){
+		return userRepository.checkEmail( email ).isPresent();
+	}
 	//getUser returns a users information based on their id
 	//The url look like localhost:port_number/api/users/{the user id}
 	@GetMapping( "/users/{id}" )

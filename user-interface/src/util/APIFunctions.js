@@ -61,5 +61,27 @@ export function lookupOrder(orderNumber) {
          return name;
       })
     );
-   
 }
+
+export function getProducts() {
+    return APIRequest({
+        url:'api/products',
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(data => {
+         if(!response.ok) {
+            return Promise.reject(data);
+         }
+         return data;
+      })
+    );
+}
+        
+        
+        
+        
+        
+        
+        
+        

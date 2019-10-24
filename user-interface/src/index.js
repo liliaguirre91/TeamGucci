@@ -5,9 +5,11 @@ import HomePage from './HomePage';
 import OrderLookup from './OrderLookup';
 import Login from './user/login/Login.js';
 import CreateAccount from './user/signup/CreateAccount.js';
-import Products from './Products.js';
+import Products from './products/Products.js';
 import DeliveryInfo from './DeliveryInfo.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+
 
 //import NameForm from './NameForm';
 //import * as serviceWorker from './serviceWorker';

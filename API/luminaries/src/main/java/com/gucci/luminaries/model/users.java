@@ -2,6 +2,9 @@ package com.gucci.luminaries.model;
 
 import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 //import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -26,10 +29,22 @@ public class users {
     private int levels;
     @Column( name = "comments" )
     private String comments;
-    @Column( name = "password" )
-    private String password;
+  
     /*@OneToMany( mappedBy="user_id" )
     private Collection<orders> order;*/
+
+    //Added for authentication
+    @Column( name = "username" )
+    private String username;
+    @Column ( name = "password" )
+    private String password;
+
+    //fetch roles from role table
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
+    private Set<Role> roles = new HashSet<>();
 
     //constructor email
     public users( String e ){
@@ -46,6 +61,14 @@ public class users {
         u.setName( n );
         u.setEmail( e );
         u.setLevels( i );
+    }
+    //Constructor using name, username, email, and password
+    //Used during authentication when a new user signs up
+    public users(String name, String username, String email, String password) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     //Getter for user id
@@ -93,14 +116,35 @@ public class users {
         return levels;
     }//end getter
 
+    //added for security by Lucas 
+    //getter for username
+    public String getUsername() {
+        return username;
+    }
+
+    //setter for username
+    public void setUsername(String u) {
+        username = u;
+    }
+
     //getter for password
-    public String getPassword( ){
+    public String getPassword() {
         return password;
-    }//end getter
+    }
 
     //setter for password
-    public void setPassword( String p ){
+    public void setPassword(String p) {
         password = p;
+    }
+    
+    //getter for Role
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    //setter for Role
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     //To String for user

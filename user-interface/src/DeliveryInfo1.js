@@ -94,6 +94,10 @@ class DeliveryInfo extends React.Component {
          })
       })*/
       //. This will ultimately go on the payment page, once the customer has paid for the products. Payment type will depend on user type, campaign will depend on the product or the current campaign? Before placing the order make sure payment went through correctly. So check response from paypal.
+      
+      let cart = JSON.parse(localStorage.getItem('cart'));
+      let productID = Object.keys(cart)[1];
+      //alert(productID);
       const orderInfo = {
          address: addr_info,
          payment_type: 'cash',
@@ -101,7 +105,7 @@ class DeliveryInfo extends React.Component {
          delivered: false,
          camp: 19,
          user_id: 1,
-         product_id: 1
+         product_id: productID
       };
 
 //call the createOrder function to create order in database   
