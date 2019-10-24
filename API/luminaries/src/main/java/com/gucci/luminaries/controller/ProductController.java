@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -68,11 +67,18 @@ public class ProductController {
     @PostMapping("/products/create")
     public long createProduct(@Valid @RequestParam(value = "product") String pname,
             @Valid @RequestParam(value = "price") int price, @Valid @RequestParam(value = "year_ran") int year_ran,
-            @Valid @RequestParam(value = "image") MultipartFile image) throws IOException {
+            @Valid @RequestParam(value = "image") MultipartFile image) {
         // Print to the console for logging
-        InputStream im = image.getInputStream();
-        BufferedImage i = ImageIO.read(im);
-        products product = new products( pname, price, year_ran, i );         
+        products product;
+        try{
+            InputStream im = image.getInputStream();
+            BufferedImage i = ImageIO.read(im);
+            product = new products( pname, price, year_ran, i );
+        }
+        catch( IOException e ){
+            System.out.println( "Error reading image" );
+            return -1;
+        }        
         System.out.println( product.getYearRan() );
         System.out.println( "Create Product: " + product.getProduct() + "..." );
         //Add the product to the table and return the product id to show it worked
