@@ -88,7 +88,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
                         .permitAll()
                     .anyRequest()
-                        .authenticated();
+                        //.authenticated();
+                        .permitAll();
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

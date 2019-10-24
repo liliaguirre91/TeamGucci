@@ -33,6 +33,8 @@ public class products {
     private int year_ran;
     @Column( name = "image")
     private byte[] image;
+    @Column( name = "description")
+    private String description;
     /*@OneToMany( mappedBy="product_id" )
     private Collection<orders> order;*/
 
@@ -85,6 +87,11 @@ public class products {
         return image;
     }//end getter
 
+    //Getter for description
+    public String getDescription( ){
+        return description;
+    }//end getter
+
     //Setter for product
     public void setProduct( String p ){
         product = p;
@@ -102,6 +109,11 @@ public class products {
     //Setter for Image
     public void setImage( byte[] i ){
         image = i;
+    }//end setter
+
+    //Setter for description
+    public void setDescription( String d ){
+        description = d;
     }//end setter
 
     public String toString( ){
