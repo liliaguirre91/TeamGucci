@@ -5,7 +5,7 @@ import logo from './LCHS_logo.png';
 import OrderLookup from './OrderLookup.js';
 import Login from './user/login/Login.js';
 import CreateAccount from './user/signup/CreateAccount.js';
-import Products from './Products.js';
+import Products from './products/Products.js';
 import './HomePage.css';
 
 
