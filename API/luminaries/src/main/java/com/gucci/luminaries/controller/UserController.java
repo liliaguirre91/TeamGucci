@@ -113,6 +113,17 @@ public class UserController {
 		}//end else
 	}//end get on Name
 
+	@GetMapping( "/users/{email}" )
+	public users getUserOnEmail( @PathVariable String email ){
+		Optional<users> userData = userRepository.findByEmail( email );
+		if( userData.isPresent() ){
+			return userData.get( );
+		}//end if
+		else{
+			return null;
+		}//end else
+	}//end getUserOnEmail
+
 	//getUser returns a users information based on their name and email
 	//The url look like localhost:port_number/api/users/search/{name}/{email}
 	@GetMapping( "/users/search/{name}/{email}")
