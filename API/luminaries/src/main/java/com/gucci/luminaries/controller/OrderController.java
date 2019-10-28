@@ -120,7 +120,6 @@ public class OrderController {
             orders o = new orders( );
             o.setAddress( order.getAddress() );
             o.setPayment( order.getPayment() );
-            o.setProductId( order.getProductId() );
             o.setCamp( order.getCamp() );
             o.setDelivered( order.getDelivered() );
             o.setUserId( order.getUserId() );
