@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createOrder } from './util/APIFunctions';
+import axios from 'axios';
+import PhoneInput from 'react-phone-number-input/input';
+import {Form, Input, Button, notification } from 'antd';
 import {
     NAME_MIN_LENGTH,
     NAME_MAX_LENGTH, 
@@ -9,10 +12,7 @@ import {
     PASSWORD_MAX_LENGTH
 } from './constants';
 
-import axios from 'axios';
 
-import PhoneInput from 'react-phone-number-input/input';
-import {Form, Input, Button, notification } from 'antd';
 const FormItem = Form.Item;
 
 class DeliveryInfo extends React.Component {
@@ -72,7 +72,6 @@ class DeliveryInfo extends React.Component {
       
       var addr_info = address.concat(' ', city, ' ', st, ' ', zipCode);
 
-    alert(addr_info);
       //If the admin is logged in the payment type will always be cash. If a regular customer
       //is logged in the payment type will always be paypal. This will determine what page
       //we will go to. In future we need to store these values so we can use them once order is
@@ -138,6 +137,8 @@ class DeliveryInfo extends React.Component {
   render() {
     return (
       <Form align="center" onSubmit={this.handleSubmit} className="delivery-form"> 
+        <h1> Delivery Information Form </h1>
+        <h2> In order to get your items to you, we require some information </h2>
       	<FormItem
       		label="Full Name"
       		validateStatus={this.state.name.validateStatus}
@@ -318,14 +319,9 @@ class DeliveryInfo extends React.Component {
  			errorMsg: null,
  			};
  		}
- }
+    }
  		
-
- 
- 		
-
-  
-}
+}//end of class
 
 ReactDOM.render(
   <DeliveryInfo />,
