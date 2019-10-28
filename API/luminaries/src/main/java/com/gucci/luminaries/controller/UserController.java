@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
- 
+
 import com.gucci.luminaries.model.*;
 import com.gucci.luminaries.repository.*;
+import com.gucci.luminaries.security.CurrentUser;
+import com.gucci.luminaries.security.UserPrincipal;
  
 //Rest controller sets the controller up as
 //a rest controller with the restful api
@@ -77,6 +79,13 @@ public class UserController {
 	public boolean checkEmail( @PathVariable( "email" ) String email ){
 		return userRepository.checkEmail( email ).isPresent();
 	}
+
+	@GetMapping("/user/me")
+    @PreAuthorize("hasRole('USER')")
+    public users getCurrentUser( @CurrentUser UserPrincipal currentUser ) {
+        users u = new users(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
+        return u;
+    }
 	//getUser returns a users information based on their id
 	//The url look like localhost:port_number/api/users/{the user id}
 	@GetMapping( "/users/{id}" )
@@ -112,6 +121,20 @@ public class UserController {
 		    return new ResponseEntity<>( HttpStatus.NOT_FOUND );
 		}//end else
 	}//end get on Name
+
+	//getUserOnEmail is used to find a user based on what email is provided
+	//This function is given an email and returns either the user with that email
+	//or null if no user has that email
+	@GetMapping( "/users/{email}" )
+	public users getUserOnEmail( @PathVariable String email ){
+		Optional<users> userData = userRepository.findByEmail( email );
+		if( userData.isPresent() ){
+			return userData.get( );
+		}//end if
+		else{
+			return null;
+		}//end else
+	}//end getUserOnEmail
 
 	//getUser returns a users information based on their name and email
 	//The url look like localhost:port_number/api/users/search/{name}/{email}

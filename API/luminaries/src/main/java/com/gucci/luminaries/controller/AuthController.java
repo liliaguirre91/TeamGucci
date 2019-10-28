@@ -59,7 +59,7 @@ public class AuthController {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsernameOrEmail(),
+                        loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
         );
@@ -73,7 +73,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
             
-        System.out.println("Username is " + signUpRequest.getUsername());
+        //System.out.println("Username is " + signUpRequest.getUsername());
         System.out.println("Name is " + signUpRequest.getName());
         System.out.println("email is " + signUpRequest.getEmail());
         System.out.println("password is " + signUpRequest.getPassword());
@@ -92,23 +92,23 @@ public class AuthController {
         }*/
 
         // Creating user's account
-        users user = new users(signUpRequest.getName(), signUpRequest.getUsername(),
+        users user = new users(signUpRequest.getName(),
                 signUpRequest.getEmail(), signUpRequest.getPassword());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         //TODO: Fix role setting. Doesn't work right now
          
-        /*Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new AppException("User Role not set."));
 
-        user.setRoles(Collections.singleton(userRole)); */
+        user.setRoles(Collections.singleton(userRole)); 
 
         users result = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/api/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
+                .fromCurrentContextPath().path("/api/users/{email}")
+                .buildAndExpand(result.getEmail()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }

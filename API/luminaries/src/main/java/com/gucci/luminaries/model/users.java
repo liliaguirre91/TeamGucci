@@ -34,8 +34,6 @@ public class users {
     private Collection<orders> order;*/
 
     //Added for authentication
-    @Column( name = "username" )
-    private String username;
     @Column ( name = "password" )
     private String password;
 
@@ -64,14 +62,19 @@ public class users {
     }
     //Constructor using name, username, email, and password
     //Used during authentication when a new user signs up
-    public users(String name, String username, String email, String password) {
+    public users(String name, String email, String password) {
         this.name = name;
-        this.username = username;
         this.email = email;
         this.password = password;
     }
 
-    //Getter for user id
+    public users(Long i, String username, String n) {
+        user_id = i;
+        email = username;
+        name = n;
+	}
+
+	//Getter for user id
     public long getUserId( ){
         return user_id;
     }//end getter
@@ -117,15 +120,6 @@ public class users {
     }//end getter
 
     //added for security by Lucas 
-    //getter for username
-    public String getUsername() {
-        return username;
-    }
-
-    //setter for username
-    public void setUsername(String u) {
-        username = u;
-    }
 
     //getter for password
     public String getPassword() {

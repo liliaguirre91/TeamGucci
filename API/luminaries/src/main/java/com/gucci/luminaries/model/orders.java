@@ -34,11 +34,6 @@ public class orders {
     //@PrimaryKeyJoinColumn( name = "user_id", referencedColumnName = "user_id" )
     //@JoinColumn( name = "user_id", referencedColumnName="user_id", nullable=true )
     private Long user_id;
-    @Column( name = "product_id" )
-    //@ManyToOne( targetEntity = products.class, fetch = FetchType.LAZY )
-    //@PrimaryKeyJoinColumn( name = "product_id", referencedColumnName = "product_id" )
-    //@JoinColumn( name = "product_id", referencedColumnName="product_id",nullable=false)
-    private Long product_id;
 
     //default constructor
     public orders() {
@@ -78,11 +73,6 @@ public class orders {
         address = a;
     }//end setter
     
-    //setter for product
-    public void setProductId( long p ) {
-        product_id = p;
-    }//end setter
-    
     //setter for campaign
     public void setCamp( int c ){
         camp = c;
@@ -111,11 +101,6 @@ public class orders {
     //getter for address
     public String getAddress( ) {
         return address;
-    }//end getter
-
-    //getter for product
-    public long getProductId(  ) {
-        return product_id;
     }//end getter
 
     //getter for campaign
