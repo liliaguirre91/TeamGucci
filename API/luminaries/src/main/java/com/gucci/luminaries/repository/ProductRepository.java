@@ -12,4 +12,7 @@ public interface ProductRepository extends CrudRepository<products, Long> {
 	//Querying method called selectAll this method returns all entries in the products table
 	@Query( value = "select * from products;", nativeQuery = true )
 	Iterable<products> selectAll( );
+	//Query for Products page to only show products in current campaign
+	@Query( value = "select * from products p where p.year_ran = :year_ran", nativeQuery = true )
+	Iterable<products> selectProductFor( @Param( "year_ran" ) int year_ran );
 }

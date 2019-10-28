@@ -51,14 +51,25 @@ public class ProductController {
         List<products> list = new ArrayList<>();
         // Run select all method from product repository
         // that queries the database and returns all entries
-        Iterable<products> o = productRepository.selectAll();
+        Iterable<products> p = productRepository.selectAll();
 
         // add each product to a list to return
-        o.forEach(list::add);
+        p.forEach(list::add);
         // Return the list to the api to print
         // it to the screen
         return list;
     }// end getAllProducts
+
+    @GetMapping( "/products/camp/{year_ran}" )
+    public List<products> getCurrentProducts( @PathVariable int year_ran ) {
+        List<products> list = new ArrayList<>();
+
+        Iterable<products> p = productRepository.selectProductFor(year_ran);
+
+        p.forEach( list::add );
+
+        return list;
+    }//end getCurrentProducts
 
     // Create product function is used to create a new product
     // Send a post request to /api/products/create

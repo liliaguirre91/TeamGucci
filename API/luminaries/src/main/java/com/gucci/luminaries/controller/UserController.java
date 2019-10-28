@@ -113,6 +113,9 @@ public class UserController {
 		}//end else
 	}//end get on Name
 
+	//getUserOnEmail is used to find a user based on what email is provided
+	//This function is given an email and returns either the user with that email
+	//or null if no user has that email
 	@GetMapping( "/users/{email}" )
 	public users getUserOnEmail( @PathVariable String email ){
 		Optional<users> userData = userRepository.findByEmail( email );
