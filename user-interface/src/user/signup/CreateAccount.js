@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
-import { createAccount } from '../../util/APIFunctions';
+import { createAccount , checkEmail } from '../../util/APIFunctions';
 import './CreateAccount.css';
 import { 
     NAME_MIN_LENGTH,
@@ -38,6 +38,7 @@ class CreateAccount extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
+    this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
   }
   
   /***********************************************************************************
@@ -83,8 +84,9 @@ class CreateAccount extends React.Component {
          name: name,
          email: email,
          password: password,
-         levels: 2,
-         comments: "Comments"
+         username: "username"
+         //levels: 2,
+         //comments: "Comments"
       };
       
       //Call the createAccount function to insert user into database
@@ -110,57 +112,59 @@ class CreateAccount extends React.Component {
    		);
    }
 
-  render() {
-    return (
-       <Form align="center" onSubmit={this.handleSubmit} className="signup-form">
-         <FormItem
-            label="Full Name"
-            validateStatus={this.state.name.validateStatus}
-            help={this.state.name.errorMsg}>
-            <Input
-               size="large"
-               name="name"
-               autoComplete="off"
-               placeholder="Your full name"
-               value={this.state.name.value}
-               onChange={(event) => this.handleInputChange(event, this.validateName)}/>
-         </FormItem>
-         <FormItem
-            label="Email"
-            hasFeedback
-            validateStatus={this.state.email.validateStatus}
-            help={this.state.email.errorMsg}>
-            <Input
-               size="large"
-               name="email"
-               type="email"
-               autoComplete="off"
-               placeholder="Your email"
-               value={this.state.email.value}
-               onChange={(event) => this.handleInputChange(event, this.validateEmail)}/>
-         </FormItem>
-		 <FormItem
-		 	 label="Password"
-		 	 validateStatus={this.state.password.validateStatus}
-		 	 help={this.state.password.errorMsg}>
-			 <Input
-			 	size="large"
-			 	name="password"
-			 	type="password"
-			 	autoComplete="off"
-			 	placeholder="8-15 characters"
-			 	value={this.state.password.value}
-			 	onChange={(event) => this.handleInputChange(event, this.validatePassword)}/>
-		 </FormItem>	 
-         <FormItem>
-            <Button type="primary"
-               htmlType="submit"
-               size="large"
-               className="signup-form-button">Sign Up</Button>
-         </FormItem>
-      </Form>
-    );
-  }
+    render() {
+        return (
+            <Form align="center" onSubmit={this.handleSubmit} className="signup-form">
+                <h1> Create Account </h1>
+                <FormItem
+                    label="Full Name"
+                    validateStatus={this.state.name.validateStatus}
+                    help={this.state.name.errorMsg}>
+                    <Input
+                        size="large"
+                        name="name"
+                        autoComplete="off"
+                        placeholder="Your full name"
+                        value={this.state.name.value}
+                        onChange={(event) => this.handleInputChange(event, this.validateName)}/>
+                </FormItem>
+                <FormItem
+                    label="Email"
+                    hasFeedback
+                    validateStatus={this.state.email.validateStatus}
+                    help={this.state.email.errorMsg}>
+                    <Input
+                        size="large"
+                        name="email"
+                        type="email"
+                        autoComplete="off"
+                        placeholder="Your email"
+                        value={this.state.email.value}
+                        onBlur={this.validateEmailAvailability}
+                        onChange={(event) => this.handleInputChange(event, this.validateEmail)}/>
+                </FormItem>
+                <FormItem
+                    label="Password"
+                    validateStatus={this.state.password.validateStatus}
+                    help={this.state.password.errorMsg}>
+                    <Input
+                        size="large"
+                        name="password"
+                        type="password"
+                        autoComplete="off"
+                        placeholder="8-15 characters"
+                        value={this.state.password.value}
+                        onChange={(event) => this.handleInputChange(event, this.validatePassword)}/>
+                </FormItem>	 
+                <FormItem>
+                    <Button type="primary"
+                        htmlType="submit"
+                        size="large"
+                        className="signup-form-button">Sign Up</Button>
+                </FormItem>
+            </Form>
+        );
+    }
 
 //VALIDATION FUCNTIONS
 
@@ -184,7 +188,7 @@ class CreateAccount extends React.Component {
  }
 
  validateEmail = (email) => {
- 	if(!email) {
+    if(!email) {
  		return	{
  			validateStatus: 'error',
  			errorMsg: 'Email may not be empty'
@@ -228,9 +232,63 @@ class CreateAccount extends React.Component {
                 errorMsg: null,
             };            
         }
-    }	
+    }
+    
+    validateEmailAvailability() {
+        const emailValue = this.state.email.value;
+        const emailValidation = this.validateEmail(emailValue);
+        
+        if(emailValidation.validateStatus === 'error') {
+            this.setState({
+                email: {
+                    value: emailValue,
+                    ...emailValidation
+                }
+            });
+            return;
+        }
+        
+        this.setState({
+            email: {
+                value: emailValue,
+                validateStatus: 'validating',
+                errorMsg: null
+            }
+        });
+        
+        checkEmail(emailValue)
+        .then(response => {
+            if (response === 'false') {
+                this.setState ({
+                    email: {
+                        value: emailValue,
+                        validateStatus: 'success',
+                        errorMsg: null
+                    }
+                });
+            }
+            else {
+                this.setState({
+                    email: {
+                        value: emailValue,
+                        validateStatus: 'error',
+                        errorMsg: 'This Email is already registered'
+                    }
+                });
+            }
+        }).catch(error => {
+            // Marking validateStatus as success, Form will be recchecked at server
+            this.setState({
+                email: {
+                    value: emailValue,
+                    validateStatus: 'success',
+                    errorMsg: null
+                }
+            });
+        });
+    }//end validateEmailAvailability
   
-}
+}//end class
 
 ReactDOM.render(
   <CreateAccount />,

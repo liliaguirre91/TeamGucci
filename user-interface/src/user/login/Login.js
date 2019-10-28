@@ -1,10 +1,102 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Form, Input, Button, notification } from 'antd';
+import {Form, Input, Button, Icon, notification } from 'antd';
+import { ACCESS_TOKEN } from '../../constants';
+import { login } from '../../util/APIFunctions';
 const FormItem= Form.Item;
 
 class Login extends React.Component {
+    render() {
+        const AntWrappedLoginForm = Form.create()(LoginForm)
+        return (
+            <div className="login-container">
+                <h1 className="page-title">Login</h1>
+                <div className="login-content">
+                    <AntWrappedLoginForm onLogin={this.props.onLogin} />
+                </div>
+            </div>
+        );
+    }
+}
+
+class LoginForm extends React.Component {
     constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    handleSubmit(event) {
+    
+        event.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                const loginRequest = Object.assign( {}, values );
+                login(loginRequest)
+                .then(response => {
+                    localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+                    notification.success({
+                        message: 'LCHS Band Fundraising',
+                        description: "Congratulations you've been logged in!"
+                    });
+                    //this.props.onLogin();
+                }).catch(error => {
+                    if (error.status === 401) {
+                        notification.error({
+                            message: 'LCHS Band Fundraising',
+                            description: 'Your Username or Password is incorrect. Please try again!'
+                        });
+                    } else {
+                        notification.error({
+                            message: 'LCHS Band Fundraising',
+                            description: error.message || 'Sorry! Something went wrong. Please try again!'
+                        });
+                    }
+                });
+            }
+        });
+        
+        //alert("Your have been logged in! You will be redirected to the Home page");
+        //this.props.history.push( "/");
+    }
+    
+    render() {
+        const { getFieldDecorator } = this.props.form;
+        return (
+            <Form onSubmit={this.handleSubmit} className="login-form">
+                <FormItem>
+                    {getFieldDecorator('usernameOrEmail', {
+                        rules: [{ required: true, message: 'Please input your email!' }],
+                    })(
+                    <Input
+                        prefix={<Icon type="user" />}
+                        size="large"
+                        name="usernameOrEmail" 
+                        placeholder="Username or Email" />    
+                    )}
+                    </FormItem>
+                    <FormItem>
+                    {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Please input your Password!' }],
+                    })(
+                    <Input
+                        prefix={<Icon type="lock" />}
+                        size="large"
+                        name="password" 
+                        type="password" 
+                        placeholder="Password"  />                        
+                    )}
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
+                    </FormItem>
+                </Form>
+        );
+    }
+}
+
+
+    
+    /*constructor(props) {
         super(props);
         this.state = {
                     name:     { value : '' },
@@ -90,12 +182,11 @@ class Login extends React.Component {
          </FormItem>
       </Form>
     );
-  }
-}
+  }*/
 
-ReactDOM.render(
+/*ReactDOM.render(
   <Login />,
   document.getElementById('root')
-);
+);*/
 
 export default Login;

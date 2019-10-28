@@ -26,18 +26,34 @@ const APIRequest = (options) => {
 
 export function createAccount(signupRequest) {
    return APIRequest({
-      url: '/api/users/create',
+      url: '/api/auth/signup',
       method: 'POST',
       body: JSON.stringify(signupRequest)
    })
    .then(response =>
-      response.text().then(name => {
-         if(!response.ok) {
-            return Promise.reject(name);
-         }
-         return name;
-      })
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
     );
+}
+
+export function login(loginRequest) {
+    return APIRequest({
+        url: 'api/auth/signin',
+        method: 'POST',
+        body: JSON.stringify(loginRequest)
+    })
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+     );
 }
 
 export function createOrder(orderInfo) {
@@ -77,6 +93,22 @@ export function getProducts() {
       })
     );
 }
+
+export function checkEmail(email) {
+    return APIRequest({
+        url:'api/users/check/' + email ,
+        method: 'GET'
+    })
+    .then(response =>
+      response.text().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+     );
+}
+
         
         
         
