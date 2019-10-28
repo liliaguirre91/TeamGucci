@@ -99,10 +99,10 @@ public class AuthController {
 
         //TODO: Fix role setting. Doesn't work right now
          
-        /*Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new AppException("User Role not set."));
 
-        user.setRoles(Collections.singleton(userRole)); */
+        user.setRoles(Collections.singleton(userRole)); 
 
         users result = userRepository.save(user);
 

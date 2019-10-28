@@ -68,7 +68,13 @@ public class users {
         this.password = password;
     }
 
-    //Getter for user id
+    public users(Long i, String username, String n) {
+        user_id = i;
+        email = username;
+        name = n;
+	}
+
+	//Getter for user id
     public long getUserId( ){
         return user_id;
     }//end getter
