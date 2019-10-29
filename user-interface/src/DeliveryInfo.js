@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './DeliveryInfo.css';
 import { createOrder } from './util/APIFunctions';
 import axios from 'axios';
 import PhoneInput from 'react-phone-number-input/input';
@@ -136,99 +137,103 @@ class DeliveryInfo extends React.Component {
 
   render() {
     return (
-      <Form align="center" onSubmit={this.handleSubmit} className="delivery-form"> 
-        <h1> Delivery Information Form </h1>
-        <h2> In order to get your items to you, we require some information </h2>
-      	<FormItem
-      		label="Full Name"
-      		validateStatus={this.state.name.validateStatus}
-      		help={this.state.name.errorMsg}>
-      		<Input
-      			size="large"
-      			name="name"
-      			autoComplete="off"
-      			placeholder="Your full name"
-      			value={this.state.name.value}
-      			onChange={(event) => this.handleInputChange(event, this.validateName)}/>
-      	</FormItem>
+        <div className="delivery-info-container">
+            <h2 className="page-title"> Delivery Information Form </h2>
+            <h5 align="center"> In order to get your items to you, we require some information </h5>
+                <div className="delivery-form-content">
+                    <Form align="center" onSubmit={this.handleSubmit} className="delivery-form"> 
+                        <FormItem
+                            label="Full Name"
+                            validateStatus={this.state.name.validateStatus}
+                            help={this.state.name.errorMsg}>
+                            <Input
+                                size="large"
+                                name="name"
+                                autoComplete="off"
+                                placeholder="Your full name"
+                                value={this.state.name.value}
+                                onChange={(event) => this.handleInputChange(event, this.validateName)}/>
+                        </FormItem>
 
-      	<FormItem
-      		label="Phone"
-      		validateStatus={this.state.phone.validateStatus}
-      		help={this.state.phone.errorMsg}>      	
-			<PhoneInput
-				name="phone"
-  				placeholder="(###)###-####"
-  				maxLength="14"
-  				country="US"
-  				value={ this.state.phone.value }
-      			onChange={value => this.setState({ value }) }/>
-       </FormItem>
-       <FormItem
-      		label="Address"
-      		validateStatus={this.state.address.validateStatus}
-      		help={this.state.address.errorMsg}>
-      		<Input
-      			size="large"
-      			name="address"
-      			autoComplete="off"
-      			placeholder="1234 Street Name"
-      			maxLength="20"
-      			value={this.state.address.value}
-      			onChange={(event) => this.handleInputChange(event, this.validateAddress)}/>
-      	</FormItem>
-      	<FormItem
-      		label="City"
-      		validateStatus={this.state.city.validateStatus}
-      		help={this.state.city.errorMsg}>
-      		<Input
-      			size="large"
-      			name="city"
-      			autoComplete="off"
-      			placeholder="Your city"
-      			maxLength="20"
-      			value={this.state.city.value}
-      			onChange={(event) => this.handleInputChange(event, this.validateCity)}/>
-      	</FormItem>
-      	
-      	<FormItem
-      		label="State"
-      		validateStatus={this.state.st.validateStatus}
-      		help={this.state.st.errorMsg}>
-      		<Input
-      			size="large"
-      			name="st"
-      			autoComplete="off"
-      			placeholder="Your state"
-      			maxLength="15"
-      			value={this.state.st.value}
-      			onChange={(event) => this.handleInputChange(event, this.validateSt)}/>
-      	</FormItem>
-      	
-      	<FormItem
-      		label="Zip Code"
-      		validateStatus={this.state.zipCode.validateStatus}
-      		help={this.state.zipCode.errorMsg}>
-      		<Input
-      			size="large"
-      			name="zipCode"
-      			autoComplete="off"
-      			placeholder="Zip code"
-      			maxLength="5"
-      			value={this.state.zipCode.value}
-      			onChange={(event) => this.handleInputChange(event, this.validateZipcode)}/>
-      	</FormItem>
+                        <FormItem
+                            label="Phone"
+                            validateStatus={this.state.phone.validateStatus}
+                            help={this.state.phone.errorMsg}>      	
+                            <PhoneInput
+                                name="phone"
+                                placeholder="(###)###-####"
+                                maxLength="14"
+                                country="US"
+                                value={ this.state.phone.value }
+                                onChange={value => this.setState({ value }) }/>
+                    </FormItem>
+                    <FormItem
+                            label="Address"
+                            validateStatus={this.state.address.validateStatus}
+                            help={this.state.address.errorMsg}>
+                            <Input
+                                size="large"
+                                name="address"
+                                autoComplete="off"
+                                placeholder="1234 Street Name"
+                                maxLength="20"
+                                value={this.state.address.value}
+                                onChange={(event) => this.handleInputChange(event, this.validateAddress)}/>
+                        </FormItem>
+                        <FormItem
+                            label="City"
+                            validateStatus={this.state.city.validateStatus}
+                            help={this.state.city.errorMsg}>
+                            <Input
+                                size="large"
+                                name="city"
+                                autoComplete="off"
+                                placeholder="Your city"
+                                maxLength="20"
+                                value={this.state.city.value}
+                                onChange={(event) => this.handleInputChange(event, this.validateCity)}/>
+                        </FormItem>
+                        
+                        <FormItem
+                            label="State"
+                            validateStatus={this.state.st.validateStatus}
+                            help={this.state.st.errorMsg}>
+                            <Input
+                                size="large"
+                                name="st"
+                                autoComplete="off"
+                                placeholder="Your state"
+                                maxLength="15"
+                                value={this.state.st.value}
+                                onChange={(event) => this.handleInputChange(event, this.validateSt)}/>
+                        </FormItem>
+                        
+                        <FormItem
+                            label="Zip Code"
+                            validateStatus={this.state.zipCode.validateStatus}
+                            help={this.state.zipCode.errorMsg}>
+                            <Input
+                                size="large"
+                                name="zipCode"
+                                autoComplete="off"
+                                placeholder="Zip code"
+                                maxLength="5"
+                                value={this.state.zipCode.value}
+                                onChange={(event) => this.handleInputChange(event, this.validateZipcode)}/>
+                        </FormItem>
 
-        <FormItem>
-            <Button type="primary"
-               htmlType="submit"
-               size="large"
-               className="delivery-form-button"
-               disabled={this.isFormInvalid()}>Continue</Button>
-        </FormItem>
-      </Form>
-    );
-  }
+                        <FormItem>
+                            <Button type="primary"
+                            htmlType="submit"
+                            size="large"
+                            className="delivery-form-button"
+                            disabled={this.isFormInvalid()}>Continue</Button>
+                        </FormItem>
+                    </Form>
+                </div>
+            </div>
+        );
+    }
 
 //VALIDATION FUCNTIONS
 

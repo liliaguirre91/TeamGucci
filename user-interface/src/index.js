@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import App from './App.js';
 import HomePage from './HomePage';
 import OrderLookup from './OrderLookup';
 import Login from './user/login/Login.js';
@@ -14,7 +15,7 @@ import './index.css';
 //import NameForm from './NameForm';
 //import * as serviceWorker from './serviceWorker';
 
-const routing = (
+/*const routing = (
    <Router>
       <div>
          <ul>
@@ -36,8 +37,14 @@ const routing = (
 ReactDOM.render(
   routing,
   document.getElementById('root')
-);
+);*/
 
+ReactDOM.render(
+    <Router>
+        <App />
+    </Router>, 
+    document.getElementById('root')
+);
 
 
 // If you want your app to work offline and load faster, you can change

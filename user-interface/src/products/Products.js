@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactTable from 'react-table';
-import 'react-table/react-table.css';
 //import logo from './luminary.jpg';
 import ProductItem from './ProductItem.js';
 import DeliveryInfo from '../DeliveryInfo.js';
 import { getProducts } from '../util/APIFunctions';
+import './Products.css';
 
 
 
@@ -36,7 +35,7 @@ class Products extends React.Component {
         const{ products } = this.state;
         return (
             <div className="product-container">
-                <h3 className="card-title"> List of Products </h3><hr/>
+                <h3 className="page-title"> List of Products </h3><hr/>
                 { products.map((product, index) => <ProductItem product={product} key={index}/>)}
                 <hr/>
                  <button className="btn btn-primary float-right"

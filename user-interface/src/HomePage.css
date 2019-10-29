@@ -1,6 +1,4 @@
-.App {
-  text-align: center;
-}
+
 
 /*MAKES IMAGE SPIN
 .App-logo {
@@ -9,15 +7,8 @@
 }
 */
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: blue;
-}
-
-.App-intro {
-  font-size: large;
+.title {
+    margin-top: 80px;
 }
 
 /* CENTERS AN IMAGE WHEN "center" IS CALLED */
@@ -33,7 +24,8 @@ img {
 }
 
 
-@keyframes App-logo-spin {
+/*@keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+*/

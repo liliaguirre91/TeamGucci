@@ -2,7 +2,9 @@
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import { lookupOrder } from './util/APIFunctions';
-import { notification } from 'antd'
+import './OrderLookup.css';
+import { Form, Input, Button, notification } from 'antd'
+const FormItem= Form.Item;
 
 class OrderLookup extends Component {
    constructor(props) {
@@ -67,14 +69,29 @@ class OrderLookup extends Component {
    
    render() {
       return (
-         <div>
-         <form align="center" onSubmit={this.handleSubmit}> 
-            <h1> Enter your order ID number: </h1>
-            <h3> (It is the 5-digit number from your confirmation page) </h3>
-            <input type="text" OrderID={this.state.OrderID} onChange={this.handleIDChange} maxLength="5"/>
-            <input type="submit" value="Submit" />
-         </form>
-         {this.state.submitted && this.renderDeliveryInfo()}
+         <div className="order-search-container">
+            <h1 className="page-title">Order Lookup</h1>
+            <h2 align="center"> Enter your order ID number: </h2>
+            <h3 align="center"> (It is the number from your confirmation page) </h3>
+                <Form className="search-form" align="center" onSubmit={this.handleSubmit}> 
+                    <FormItem
+                        label="Order Number">
+                        <Input 
+                            size="large"
+                            type="text" 
+                            autocomplete="off"
+                            placeholder="year-number"
+                            OrderID={this.state.OrderID} 
+                            onChange={this.handleIDChange} maxLength="9"/>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                                className="search-form-button">Search</Button>
+                    </FormItem>
+                </Form>
+                {this.state.submitted && this.renderDeliveryInfo()}
          </div>
       );
    }

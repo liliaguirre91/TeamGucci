@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Form, Input, Button, Icon, notification } from 'antd';
 import { ACCESS_TOKEN } from '../../constants';
 import { login } from '../../util/APIFunctions';
+import './Login.css';
 const FormItem= Form.Item;
 
 class Login extends React.Component {
@@ -10,7 +11,7 @@ class Login extends React.Component {
         const AntWrappedLoginForm = Form.create()(LoginForm)
         return (
             <div className="login-container">
-                <h1 className="page-title">Login</h1>
+                <h1 className="page-title" align="center">Login</h1>
                 <div className="login-content">
                     <AntWrappedLoginForm onLogin={this.props.onLogin} />
                 </div>
@@ -38,7 +39,7 @@ class LoginForm extends React.Component {
                         message: 'LCHS Band Fundraising',
                         description: "Congratulations you've been logged in!"
                     });
-                    //this.props.onLogin();
+                    this.props.onLogin();
                 }).catch(error => {
                     if (error.status === 401) {
                         notification.error({
@@ -62,8 +63,8 @@ class LoginForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <Form onSubmit={this.handleSubmit} className="login-form">
-                <FormItem>
+            <Form onSubmit={this.handleSubmit} align="center" className="login-form">
+                <FormItem class="whitespace">
                     {getFieldDecorator('email', {
                         rules: [{ required: true, message: 'Please input your email!' }],
                     })(

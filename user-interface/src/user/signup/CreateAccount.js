@@ -94,7 +94,7 @@ class CreateAccount extends React.Component {
       .then(response => {
          notification.success({
             message: 'LCHS Band Fundraising',
-            description: "Congratulations! You have succefully created an account. Please Login to continue!",
+            description: "Congratulations! You have succesfully created an account. Please Login to continue!",
          });
          this.props.history.push("/login");
       }).catch(error => {
@@ -114,55 +114,59 @@ class CreateAccount extends React.Component {
 
     render() {
         return (
-            <Form align="center" onSubmit={this.handleSubmit} className="signup-form">
-                <h1> Create Account </h1>
-                <FormItem
-                    label="Full Name"
-                    validateStatus={this.state.name.validateStatus}
-                    help={this.state.name.errorMsg}>
-                    <Input
-                        size="large"
-                        name="name"
-                        autoComplete="off"
-                        placeholder="Your full name"
-                        value={this.state.name.value}
-                        onChange={(event) => this.handleInputChange(event, this.validateName)}/>
-                </FormItem>
-                <FormItem
-                    label="Email"
-                    hasFeedback
-                    validateStatus={this.state.email.validateStatus}
-                    help={this.state.email.errorMsg}>
-                    <Input
-                        size="large"
-                        name="email"
-                        type="email"
-                        autoComplete="off"
-                        placeholder="Your email"
-                        value={this.state.email.value}
-                        onBlur={this.validateEmailAvailability}
-                        onChange={(event) => this.handleInputChange(event, this.validateEmail)}/>
-                </FormItem>
-                <FormItem
-                    label="Password"
-                    validateStatus={this.state.password.validateStatus}
-                    help={this.state.password.errorMsg}>
-                    <Input
-                        size="large"
-                        name="password"
-                        type="password"
-                        autoComplete="off"
-                        placeholder="8-15 characters"
-                        value={this.state.password.value}
-                        onChange={(event) => this.handleInputChange(event, this.validatePassword)}/>
-                </FormItem>	 
-                <FormItem>
-                    <Button type="primary"
-                        htmlType="submit"
-                        size="large"
-                        className="signup-form-button">Sign Up</Button>
-                </FormItem>
-            </Form>
+            <div className="signup-container">
+                <h1 className="page-title">Create Account</h1>
+                 <div className="signup-content">
+                    <Form align="center" onSubmit={this.handleSubmit} className="signup-form">
+                        <FormItem
+                            label="Full Name"
+                            validateStatus={this.state.name.validateStatus}
+                            help={this.state.name.errorMsg}>
+                            <Input
+                                size="large"
+                                name="name"
+                                autoComplete="off"
+                                placeholder="Your full name"
+                                value={this.state.name.value}
+                                onChange={(event) => this.handleInputChange(event, this.validateName)}/>
+                        </FormItem>
+                        <FormItem
+                            label="Email"
+                            hasFeedback
+                            validateStatus={this.state.email.validateStatus}
+                            help={this.state.email.errorMsg}>
+                            <Input
+                                size="large"
+                                name="email"
+                                type="email"
+                                autoComplete="off"
+                                placeholder="Your email"
+                                value={this.state.email.value}
+                                onBlur={this.validateEmailAvailability}
+                                onChange={(event) => this.handleInputChange(event, this.validateEmail)}/>
+                        </FormItem>
+                        <FormItem
+                            label="Password"
+                            validateStatus={this.state.password.validateStatus}
+                            help={this.state.password.errorMsg}>
+                            <Input
+                                size="large"
+                                name="password"
+                                type="password"
+                                autoComplete="off"
+                                placeholder="8-15 characters"
+                                value={this.state.password.value}
+                                onChange={(event) => this.handleInputChange(event, this.validatePassword)}/>
+                        </FormItem>	 
+                        <FormItem>
+                            <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                                className="signup-form-button">Sign Up</Button>
+                        </FormItem>
+                    </Form>
+                </div>
+            </div>
         );
     }
 
@@ -277,7 +281,7 @@ class CreateAccount extends React.Component {
                 });
             }
         }).catch(error => {
-            // Marking validateStatus as success, Form will be recchecked at server
+            // Marking validateStatus as success, Form will be rechecked at server
             this.setState({
                 email: {
                     value: emailValue,

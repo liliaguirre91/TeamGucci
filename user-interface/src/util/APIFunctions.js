@@ -5,9 +5,9 @@ const APIRequest = (options) => {
    })
    
    //Not sure what this does, but has something to do with authentication:
-   /*if(localStorage.getItem(ACCESS_TOKEN)) {
+   if(localStorage.getItem(ACCESS_TOKEN)) {
       headers.append('Authorization', 'Bearer' + localStorage.getItem(ACCESS_TOKEN))
-   }*/
+   }
    
    const defaults = { headers: headers };
    options = Object.assign({}, defaults, options);
@@ -107,6 +107,25 @@ export function checkEmail(email) {
           return result;
       })
      );
+}
+
+export function getCurrentUser() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return APIRequest({
+        url: '/user/me',
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(json => {
+         if(!response.ok) {
+            return Promise.reject(json);
+         }
+         return json;
+      })
+    );
 }
 
         

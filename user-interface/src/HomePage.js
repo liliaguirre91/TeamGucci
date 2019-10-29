@@ -1,13 +1,28 @@
 import React from 'react';
+import './HomePage.css';
 import ReactDOM from 'react-dom';
-import { withRouter } from 'react-router-dom';
+import { 
+    Route, 
+    Link, 
+    withRouter, 
+    Switch 
+} from 'react-router-dom'
+
 import logo from './LCHS_logo.png';
-import OrderLookup from './OrderLookup.js';
+import { ACCESS_TOKEN } from './constants';
+import { getCurrentUser } from './util/APIFunctions';
+
+import OrderLookup from './OrderLookup';
 import Login from './user/login/Login.js';
 import CreateAccount from './user/signup/CreateAccount.js';
 import Products from './products/Products.js';
-import './HomePage.css';
+import DeliveryInfo from './DeliveryInfo.js';
+import AppHeader from './common/AppHeader';
+import LoadingIndicator from './common/LoadingIndicator';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { Layout, notification } from 'antd';
+const { Content } = Layout;
 
 //import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
 
@@ -30,29 +45,26 @@ import './HomePage.css';
 
 
 class HomePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {name: '',
-                  email: '',
-                  id:'',
-                  page: ''
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+                    currentUser: null,
+                    isAuthenticated: false,
+                    isLoading: false,
+        }
 
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    //this.handleSubmit = this.handleSubmit.bind(this);
-    //this.loadUser = this.saveUser.bind(this);
-  }
-  
-  handleNameChange(event) {
-    this.setState({name: event.target.value});
-  }
-  
-  handleEmailChange(event) {
-    this.setState({email: event.target.value});
+        
+        this.handleClick = this.handleClick.bind(this);
+        //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+    
+
+                            
+                            
+                            
+                            
+                            
  /* handleSubmit(event) {
 //    
 //    event.preventDefault();
@@ -91,17 +103,14 @@ class HomePage extends React.Component {
    render() {
       return (
          <form onSubmit={this.handleSubmit}> 
-         {/* WELCOME TITLE */}
-            <h1 align="center"> Welcome to the Las Cruces High School Band Luminary Fundraiser  </h1> 
+            <h1 class="title" align="center"> Welcome to the Las Cruces High School Band Luminary Fundraiser  </h1> 
             <div>
-                  {/* LOGO */}
                   <img src={logo} class="center" alt="logo" 
                   height={150}
                   width={150}/><br/>
                   <br/><br/>
             </div>
             <div> 
-                  {/* BUTTONS ON HOME PAGE*/}
                <button class="center" onClick={ this.handleClick("/products") }> View Products </button> <br/>
                <button class="center" onClick={ this.handleClick("/login") }> Login </button> <br/>
                <button class="center" onClick={ this.handleClick("/signup") }> Create Account </button> <br/>
@@ -114,34 +123,12 @@ class HomePage extends React.Component {
 }
 
 
-ReactDOM.render(
+/*ReactDOM.render(
   <HomePage/>,
   document.getElementById('root')
-);
+);*/
 
 
 
-export default HomePage; //I COMMENTED THESE OUT TO MAKE IT RUN IN THE WEB BROWSER
+export default withRouter(HomePage); //I COMMENTED THESE OUT TO MAKE IT RUN IN THE WEB BROWSER
 
-               
-         { /* <h3 align="center"> What would you like to do? </h3>*/}
-         {/*<button class="center"  onClick={(e) => { e.preventDefault(); this.clicked()} }> Products </button> <br/>*/}
-
-{/*
-<Button content="Sample Button" variant="green" />
-<button type="button" class="btn btn-primary" > DID IT WORK </button>
-*/}
-{/*
-
-         <label>
-            Full name: <br/>
-            <input type="text" value={this.state.value}  onChange={this.handleNameChange} /> <br/>
-         </label>
-         <label>
-            Email: <br/>
-            <input type="text" value={this.state.value} onChange={this.handleEmailChange} /> <br/><br/>
-         </label>
-         
-         <input type="submit" value="Submit" />
-
-*/}
