@@ -4,8 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.springframework.lang.Nullable;
 
 @Data
@@ -27,7 +25,7 @@ public class orders {
     private int camp;
     @Nullable
     @Column( name = "phone_number" )
-    private Integer phone;
+    private Long phone;
     @Nullable
     @Column( name = "user_id" )
     //@ManyToOne( targetEntity = users.class )
@@ -89,7 +87,7 @@ public class orders {
     }//end setter
 
     //setter for phone-number
-    public void setPhone( int p ){
+    public void setPhone( long p ){
         phone = p;
     }//end setter
     
@@ -121,8 +119,7 @@ public class orders {
     }//end getter
 
     //getter for phone
-    @JsonIgnore
-    public int getPhone( ){
+    public long getPhone( ){
         return phone;
     }//end getter
 
