@@ -1,19 +1,14 @@
 package com.gucci.luminaries.controller;
 
 import java.net.URI;
-import java.util.Collections;
 
 import javax.validation.Valid;
 
-import com.gucci.luminaries.exception.AppException;
-import com.gucci.luminaries.model.Role;
-import com.gucci.luminaries.model.RoleName;
 import com.gucci.luminaries.model.users;
 import com.gucci.luminaries.payload.ApiResponse;
 import com.gucci.luminaries.payload.JwtAuthenticationResponse;
 import com.gucci.luminaries.payload.LoginRequest;
 import com.gucci.luminaries.payload.SignUpRequest;
-import com.gucci.luminaries.repository.RoleRepository;
 import com.gucci.luminaries.repository.UserRepository;
 import com.gucci.luminaries.security.JwtTokenProvider;
 
@@ -44,9 +39,6 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -97,12 +89,7 @@ public class AuthController {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        //TODO: Fix role setting. Doesn't work right now
-         
-        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new AppException("User Role not set."));
-
-        user.setRoles(Collections.singleton(userRole)); 
+        user.setRole("Role_USER"); 
 
         users result = userRepository.save(user);
 

@@ -1,7 +1,5 @@
 package com.gucci.luminaries.repository;
 
-import java.util.List;
-
 import com.gucci.luminaries.model.productOrdered;
 
 import org.springframework.data.jpa.repository.Query;
