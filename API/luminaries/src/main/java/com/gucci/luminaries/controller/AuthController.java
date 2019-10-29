@@ -1,11 +1,9 @@
 package com.gucci.luminaries.controller;
 
 import java.net.URI;
-import java.util.Collections;
 
 import javax.validation.Valid;
 
-import com.gucci.luminaries.exception.AppException;
 import com.gucci.luminaries.model.users;
 import com.gucci.luminaries.payload.ApiResponse;
 import com.gucci.luminaries.payload.JwtAuthenticationResponse;

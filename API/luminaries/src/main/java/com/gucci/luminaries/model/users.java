@@ -2,12 +2,8 @@ package com.gucci.luminaries.model;
 
 import lombok.Data;
 
-import java.util.HashSet;
-import java.util.Set;
-
 //import java.util.Collection;
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -45,7 +41,7 @@ public class users {
     //default constructor
     public users( ){
     }//end constructor 
-    
+
     //Constructor using name, username, email, and password
     //Used during authentication when a new user signs up
     public users(String name, String email, String password) {
