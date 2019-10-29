@@ -25,8 +25,8 @@ public class users {
     @NotNull
     @Column( name = "name" )
     private String name;
-    @Column( name = "levels" )
-    private int levels;
+    @Column( name = "role" )
+    private String Role;
     @Column( name = "comments" )
     private String comments;
   
@@ -37,13 +37,6 @@ public class users {
     @Column ( name = "password" )
     private String password;
 
-    //fetch roles from role table
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "id"))
-    private Set<Role> roles = new HashSet<>();
-
     //constructor email
     public users( String e ){
         email = e;
@@ -51,15 +44,8 @@ public class users {
 
     //default constructor
     public users( ){
-    }//end constructor
-
-    //Constructor for name, email, and level
-    public users(@Valid String n, String e, int i) {
-        users u = new users( );
-        u.setName( n );
-        u.setEmail( e );
-        u.setLevels( i );
-    }
+    }//end constructor 
+    
     //Constructor using name, username, email, and password
     //Used during authentication when a new user signs up
     public users(String name, String email, String password) {
@@ -109,14 +95,14 @@ public class users {
         comments = c;
     }//end setter
 
-    //setter for levels
-    public void setLevels( int l ){
-        levels = l;
+    //setter for Role
+    public void setRole( String r ){
+        Role = r;
     }//end setter
 
-    //getter for levels
-    public int getLevels( ) {
-        return levels;
+    //getter for Role
+    public String getRole( ) {
+        return Role;
     }//end getter
 
     //added for security by Lucas 
@@ -129,16 +115,6 @@ public class users {
     //setter for password
     public void setPassword(String p) {
         password = p;
-    }
-    
-    //getter for Role
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    //setter for Role
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     //To String for user

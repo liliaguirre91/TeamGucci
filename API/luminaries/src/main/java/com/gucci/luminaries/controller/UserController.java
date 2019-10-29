@@ -170,7 +170,7 @@ public class UserController {
             u.setEmail( user.getEmail() );
             u.setName( user.getName() );
             u.setComments( user.getComments() );
-			u.setLevels( user.getLevels( ) );
+			u.setRole( user.getRole( ) );
 			u.setPassword( user.getPassword( ) );
             //u.setCampaigns( user.getCampaigns() );
         
