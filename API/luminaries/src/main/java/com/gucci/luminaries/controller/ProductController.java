@@ -61,14 +61,15 @@ public class ProductController {
     }// end getAllProducts
 
     @GetMapping( "/products/camp/{year_ran}" )
-    public List<products> getCurrentProducts( @PathVariable int year_ran ) {
+    public ResponseEntity<List<products>> getCurrentProducts( @PathVariable int year_ran ) {
         List<products> list = new ArrayList<>();
-
         Iterable<products> p = productRepository.selectProductFor(year_ran);
 
         p.forEach( list::add );
-
-        return list;
+        if( list.isEmpty() ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end if
+        return new ResponseEntity<>( list, HttpStatus.OK );
     }//end getCurrentProducts
 
     // Create product function is used to create a new product

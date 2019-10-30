@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.gucci.luminaries.model.*;
 import com.gucci.luminaries.repository.*;
@@ -32,6 +33,9 @@ public class UserController {
  
 	@Autowired
 	UserRepository userRepository;
+	
+    @Autowired
+    PasswordEncoder passwordEncoder;
 	
 	//Select all method 
 	//While running go to localhost:port_number/api/users
@@ -60,18 +64,17 @@ public class UserController {
 	//Enter user data inclosed in '{}' in format
 	//"fieldname":"data",
 	@PostMapping( "/users/create" )
-	public String createUser(@RequestBody users user ) {
+	public ResponseEntity<String> createUser(@RequestBody users user ) {
 		//Print to system out to log start of method
-		System.out.println( user.getEmail() );
-		System.out.println( userRepository.checkEmail( user.getEmail( ) ) );
-		if( userRepository.checkEmail( user.getEmail() ).isPresent() ){
-			return "Email already exists";
-		}
 		System.out.println( "Create User: " + user.getName() + "..." );
-	
         //Save the new user
-        userRepository.save( user );
-		return user.getName();
+        try{
+			userRepository.save( user );
+			return new ResponseEntity<>( user.getName(), HttpStatus.OK );
+		}//end try
+		catch( Exception e ){
+			return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+		}//end catch
 	}//end create user
 	
 
@@ -81,10 +84,15 @@ public class UserController {
 	}
 
 	@GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER')")
-    public users getCurrentUser( @CurrentUser UserPrincipal currentUser ) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<users> getCurrentUser( @CurrentUser UserPrincipal currentUser ) {
+		try{
         users u = new users(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
-        return u;
+		return new ResponseEntity<>( u, HttpStatus.OK );
+		}//end try
+		catch( Exception e ){
+		    return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+		}//end else
     }
 	//getUser returns a users information based on their id
 	//The url look like localhost:port_number/api/users/{the user id}
@@ -171,8 +179,8 @@ public class UserController {
             u.setName( user.getName() );
             u.setComments( user.getComments() );
 			u.setRole( user.getRole( ) );
-			u.setPassword( user.getPassword( ) );
-            //u.setCampaigns( user.getCampaigns() );
+			u.setPassword( passwordEncoder.encode( user.getPassword() ) );
+            u.setRole( user.getRole() );
         
 		    //save the new information
 		    users update = userRepository.save( u );
