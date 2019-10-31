@@ -35,10 +35,6 @@ class LoginForm extends React.Component {
                 login(loginRequest)
                 .then(response => {
                     localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-                    notification.success({
-                        message: 'LCHS Band Fundraising',
-                        description: "Congratulations you've been logged in!"
-                    });
                     this.props.onLogin();
                 }).catch(error => {
                     if (error.status === 401) {
@@ -64,7 +60,7 @@ class LoginForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit} align="center" className="login-form">
-                <FormItem class="whitespace">
+                <FormItem>
                     {getFieldDecorator('email', {
                         rules: [{ required: true, message: 'Please input your email!' }],
                     })(

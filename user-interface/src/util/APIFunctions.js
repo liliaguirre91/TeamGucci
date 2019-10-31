@@ -61,7 +61,31 @@ export function createOrder(orderInfo) {
       url:'/api/orders/create',
       method: 'POST',
       body: JSON.stringify(orderInfo)
-   });
+   })
+   .then(response =>
+      response.json().then(json => {
+         if(!response.ok) {
+            return Promise.reject(json);
+         }
+         return json;
+      })
+    );
+}
+
+export function createProductsOrdered(productsOrdered) {
+   return APIRequest({
+      url:'http://localhost:5555/api/productOrdered/create',
+      method: 'POST',
+      body: JSON.stringify(productsOrdered)
+   })
+   .then(response =>
+      response.text().then(json => {
+         if(!response.ok) {
+            return Promise.reject(json);
+         }
+         return json;
+      })
+    );
 }
 
 export function lookupOrder(orderNumber) {
@@ -113,9 +137,8 @@ export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
-
     return APIRequest({
-        url: '/user/me',
+        url: 'api/user/me',
         method: 'GET'
     })
     .then(response =>

@@ -129,12 +129,18 @@ class App extends React.Component {
                 <Content className="app-content">
                     <div className="container">
                         <Switch>      
-                            <Route exact path="/" component={ HomePage }></Route>
+                            <Route exact path="/"
+                                render={(props) => <HomePage isAuthenticated={this.state.isAuthenticated} 
+                                    currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/login" 
                                 render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
                             <Route path="/signup" component={ CreateAccount }></Route>
-                            <Route path="/products" component={ Products }></Route>
-                            <Route path="/delivery-form" component={ DeliveryInfo }></Route>
+                            <Route path="/products"
+                                 render={(props) => <Products isAuthenticated={this.state.isAuthenticated} 
+                                    currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/delivery-form"
+                                 render={(props) => <DeliveryInfo isAuthenticated={this.state.isAuthenticated} 
+                                    currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/order-lookup" component={ OrderLookup }></Route>
                         </Switch>
                     </div>

@@ -25,7 +25,7 @@ public class orders {
     private int camp;
     @Nullable
     @Column( name = "phone_number" )
-    private Long phone;
+    private String phone;
     @Nullable
     @Column( name = "user_id" )
     //@ManyToOne( targetEntity = users.class )
@@ -87,7 +87,7 @@ public class orders {
     }//end setter
 
     //setter for phone-number
-    public void setPhone( long p ){
+    public void setPhone( String p ){
         phone = p;
     }//end setter
     
@@ -119,7 +119,7 @@ public class orders {
     }//end getter
 
     //getter for phone
-    public long getPhone( ){
+    public String getPhone( ){
         return phone;
     }//end getter
 

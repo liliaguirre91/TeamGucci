@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './DeliveryInfo.css';
-import { createOrder } from './util/APIFunctions';
+import { createOrder, createProductsOrdered } from './util/APIFunctions';
 import axios from 'axios';
 import PhoneInput from 'react-phone-number-input/input';
 import {Form, Input, Button, notification } from 'antd';
@@ -26,12 +26,13 @@ class DeliveryInfo extends React.Component {
                    city: 	{ value: '' },
                    st:	 	{ value: '' },
                    zipCode: { value: '' },
-                   id:		{ value: '' }
+                   order_id: 0
    };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
+    //this.handlePhoneChange = this.handlePhoneChange.bind(this);
     //this.loadUser = this.saveUser.bind(this);
   }
   
@@ -51,6 +52,9 @@ class DeliveryInfo extends React.Component {
          }
       });
    }
+   
+   //handlePhoneChange(event) {
+       
 
   /*******************************************************************************************
    * Handler: handleSubmit() - This handler takes care of posting the order delivery
@@ -62,55 +66,99 @@ class DeliveryInfo extends React.Component {
    * into the database.
    ********************************************************************************************/
    handleSubmit(event) {
-      event.preventDefault();
-      
-      const name  = this.state.name.value;
-      const phone = this.state.phone.value;
-      const address = this.state.address.value;
-      const city = this.state.city.value;
-	  const st = this.state.st.value;
-	  const zipCode = this.state.zipCode.value;
-      
-      var addr_info = address.concat(' ', city, ' ', st, ' ', zipCode);
+        event.preventDefault();
+        let user_id = -1;
+        const name  = this.state.name.value;
+        const phone = this.state.phone.value;
+        const address = this.state.address.value;
+        const city = this.state.city.value;
+        const st = this.state.st.value;
+        const zipCode = this.state.zipCode.value;
+        
+        var addr_info = address.concat(' ', city, ' ', st, ' ', zipCode);
 
-      //If the admin is logged in the payment type will always be cash. If a regular customer
-      //is logged in the payment type will always be paypal. This will determine what page
-      //we will go to. In future we need to store these values so we can use them once order is
-      //placed in the payment page or the confirm your order page. Add a check to make sure all fields are submitted. 
-      /*fetch('/api/orders/create', {
-         method: 'POST',
-         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-         },
-         body: JSON.stringify({
+        //If the admin is logged in the payment type will always be cash. If a regular customer
+        //is logged in the payment type will always be paypal. This will determine what page
+        //we will go to. In future we need to store these values so we can use them once order is
+        //placed in the payment page or the confirm your order page. Add a check to make sure all fields are submitted. 
+        //. This will ultimately go on the payment page, once the customer has paid for the products. Payment type will depend on user type, campaign will depend on the product or the current campaign? Before placing the order make sure payment went through correctly. So check response from paypal.
+        
+        if(this.props.currentUser) {
+            let currentUser = this.props.currentUser;
+            user_id = currentUser.userId;
+            //console.log(user_id);
+        }
+            
+      
+        const orderInfo = {
             address: addr_info,
             payment_type: 'cash',
             phone: phone,
             delivered: false,
             camp: 19,
-            user_id: 1,
-            product_id: 1
-         })
-      })*/
-      //. This will ultimately go on the payment page, once the customer has paid for the products. Payment type will depend on user type, campaign will depend on the product or the current campaign? Before placing the order make sure payment went through correctly. So check response from paypal.
-      
-      let cart = JSON.parse(localStorage.getItem('cart'));
-      let productID = Object.keys(cart)[1];
-      //alert(productID);
-      const orderInfo = {
-         address: addr_info,
-         payment_type: 'cash',
-         phone: phone,
-         delivered: false,
-         camp: 19,
-         user_id: 1,
-         product_id: productID
-      };
+            user_id: user_id
+        };
 
-//call the createOrder function to create order in database   
-      createOrder(orderInfo)
-      .then(response => {
+        /* Call the createOrder function to create order in database */
+        createOrder(orderInfo)
+            .then((order_id) => {
+                this.setState({ order_id }); 
+                alert("I'm inside" + this.state.order_id)})
+            .catch(error => {
+                notification.error({
+                    message: 'LCHS Band Fundraising',
+                    description: error.message || 'Sorry! Something went wrong!'
+                });
+            });
+        
+            
+        /*Implementing insertion of multiple products tied to one order number*/
+        setTimeout(function() {
+            const orderID = this.state.order_id;
+            alert("I'm outside" + orderID);
+        
+            let cart = JSON.parse(localStorage.getItem('cart'));
+            let productID = Object.keys(cart)[1];
+            let cartSize = Object.keys(cart).length;
+            let keys = Object.keys(cart); 
+            
+            for (var i = 0; i < cartSize; i++) {
+                //console.log(keys[i] + ":" + cart[keys[i]]);
+                let productID = keys[i];
+                let quantity = cart[keys[i]];
+                const productsOrdered = {
+                    orderId: parseInt(orderID, 10),
+                    productId: productID,
+                    quantity: quantity
+                };
+                    
+                createProductsOrdered(productsOrdered)
+                    .then (response => {
+                        notification.success({
+                            message: 'LCHS Band Fundraising',
+                            description: "Your order has been placed!"
+                        });
+                        this.props.history.push("/"); //for now will redirect to home, later to confirmation
+                    })
+                    .catch(error => {
+                        notification.error({
+                            message: 'LCHS Band Fundraising',
+                            description:error.message || 'Sorry! Something went wrong!'
+                        });
+                    });
+            }
+            
+            localStorage.removeItem('cart')
+        }.bind(this), 500)
+        
+        
+      /*setTimeout(function() {
+        alert(JSON.parse(this.state.order_id));
+      }.bind(this), 500)*/
+      
+      
+          
+          /*response => {
          notification.success({
             message: 'LCHS Band Fundraising',
             description: "Your order has been placed!"
@@ -121,7 +169,7 @@ class DeliveryInfo extends React.Component {
             message: 'LCHS Band Fundraising',
             description: error.message || 'Sorry! Something went wrong!'
          });
-      });
+      });*/
    }
 
    isFormInvalid() {
@@ -158,14 +206,13 @@ class DeliveryInfo extends React.Component {
                         <FormItem
                             label="Phone"
                             validateStatus={this.state.phone.validateStatus}
-                            help={this.state.phone.errorMsg}>      	
-                            <PhoneInput
+                            help={this.state.phone.errorMsg}>
+                            <Input
                                 name="phone"
-                                placeholder="(###)###-####"
-                                maxLength="14"
-                                country="US"
+                                placeholder="##########"
+                                maxLength="10"
                                 value={ this.state.phone.value }
-                                onChange={value => this.setState({ value }) }/>
+                                onChange={(event) => this.handleInputChange(event, this.validatePhone) }/>
                     </FormItem>
                     <FormItem
                             label="Address"
@@ -257,10 +304,10 @@ class DeliveryInfo extends React.Component {
  }
 
  validatePhone = (phone) => {
- 	if(phone.length !== 10){
+ 	if(phone.length > 10) {
  		return{
  			validateStatus: 'error',
- 			errorMsg: 'Invalid phone number.'
+ 			errorMsg: 'Invalid phone number. Please enter the phone number in the shown format.'
  		}
  	} else {
  		return{

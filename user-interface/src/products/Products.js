@@ -19,6 +19,9 @@ class Products extends React.Component {
 
     
     componentDidMount() {
+        /* This removes the cart every time the user accesses the products page to prevent corrupted cart.
+         * Will be removed if persisten cart is implemented*/
+        localStorage.removeItem('cart');
         getProducts().then((products) =>this.setState({ products }));
     }
 
@@ -26,8 +29,6 @@ class Products extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         //let cart = localStorage.getItem('cart');
-
-        
         this.props.history.push("/delivery-form");
     }
 
