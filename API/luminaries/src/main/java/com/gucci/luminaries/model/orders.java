@@ -23,7 +23,6 @@ public class orders {
     private boolean delivered;
     @Column( name = "camp" )
     private int camp;
-    @Nullable
     @Column( name = "phone_number" )
     private String phone;
     @Nullable

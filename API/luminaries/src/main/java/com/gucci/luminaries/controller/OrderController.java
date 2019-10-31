@@ -58,20 +58,24 @@ public class OrderController {
     //with a json body that has the entry information
     //for all fields in the order table
     @PostMapping( "/orders/create" )
-    public long createOrder( @Valid @RequestBody orders order ) {
+    public ResponseEntity<Long> createOrder( @Valid @RequestBody orders order ) {
         //Print to the console for logging
         System.out.println( "Create Order: " + order.getAddress() + "..." );
- 
-        //Add the order to the table
-        orderRepository.save( order );
-        //return the generated order ID 
-        return order.getOrderId();
+        try{ 
+            //Add the order to the table
+            orderRepository.save( order );
+            //return the generated order ID 
+            return new ResponseEntity<>( order.getOrderId(), HttpStatus.OK ); 
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }
     }//end createOrders
 
     //orderQuerry is function for orderSearch Page
     //returns info about an order
     @GetMapping( "/orders/search/{id}" )
-    public String orderQuery( @PathVariable( "id" ) Long id ){
+    public ResponseEntity<String> orderQuery( @PathVariable( "id" ) Long id ){
     
         //get order information
         Optional<orders> orderData = orderRepository.findById( id );
@@ -79,11 +83,11 @@ public class OrderController {
         if ( orderData.isPresent() ) {
             orders o = orderData.get();
             String s = "" + o.getDelivered();
-            return s;
+            return new ResponseEntity<>( s, HttpStatus.OK );
         }//end if
         //if its not there return an indication of this
         else {
-            return "No order with that number";
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end else
     }//end orderQuerry
  
