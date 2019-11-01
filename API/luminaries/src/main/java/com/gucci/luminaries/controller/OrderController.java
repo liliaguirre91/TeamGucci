@@ -1,8 +1,10 @@
 package com.gucci.luminaries.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.text.SimpleDateFormat;
  
 import javax.validation.Valid;
  
@@ -31,6 +33,8 @@ public class OrderController {
  
     @Autowired
     OrderRepository orderRepository;
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
  
     //Select all method 
     //While running go to localhost:port_number/api/orders
@@ -61,6 +65,9 @@ public class OrderController {
     public ResponseEntity<Long> createOrder( @Valid @RequestBody orders order ) {
         //Print to the console for logging
         System.out.println( "Create Order: " + order.getAddress() + "..." );
+        Timestamp d = new Timestamp(System.currentTimeMillis());
+        sdf.format( d );
+        order.setCreatedAt( d );
         try{ 
             //Add the order to the table
             orderRepository.save( order );

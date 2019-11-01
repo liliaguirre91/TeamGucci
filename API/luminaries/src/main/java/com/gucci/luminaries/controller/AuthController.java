@@ -1,6 +1,8 @@
 package com.gucci.luminaries.controller;
 
 import java.net.URI;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import javax.validation.Valid;
 
@@ -46,6 +48,8 @@ public class AuthController {
     @Autowired
     JwtTokenProvider tokenProvider;
 
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -86,6 +90,9 @@ public class AuthController {
         // Creating user's account
         users user = new users(signUpRequest.getName(),
                 signUpRequest.getEmail(), signUpRequest.getPassword());
+        Timestamp d = new Timestamp(System.currentTimeMillis());
+        sdf.format( d );
+        user.setCreatedAt( d );
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 

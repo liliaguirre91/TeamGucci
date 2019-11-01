@@ -2,9 +2,9 @@ package com.gucci.luminaries.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import java.sql.Timestamp;
 
-import org.springframework.lang.Nullable;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -25,7 +25,8 @@ public class orders {
     private int camp;
     @Column( name = "phone_number" )
     private String phone;
-    @Nullable
+    @Column( name = "createdAt" )
+    private Timestamp createdAt;
     @Column( name = "user_id" )
     //@ManyToOne( targetEntity = users.class )
     //@PrimaryKeyJoinColumn( name = "user_id", referencedColumnName = "user_id" )
@@ -89,6 +90,11 @@ public class orders {
     public void setPhone( String p ){
         phone = p;
     }//end setter
+
+    //setter for createdAt
+    public void setCreatedAt( Timestamp c ){
+        createdAt = c;
+    }//end setter
     
     //getter for payment
     public String getPayment( ) {
@@ -120,6 +126,11 @@ public class orders {
     //getter for phone
     public String getPhone( ){
         return phone;
+    }//end getter
+
+    //getter for CreatedAt
+    public Timestamp getCreatedAt( ){
+        return createdAt;
     }//end getter
 
     //To String for Orders
