@@ -91,6 +91,39 @@ public class OrderController {
         }//end else
     }//end orderQuerry
  
+    @GetMapping( "/orders/count/{camp}" )
+    public int orderCount( @PathVariable( "camp" ) Long camp ){
+    
+        //get order information
+        int c = orderRepository.countOrders( camp );
+        //If the order exists return its information
+        return c;
+    }//end orderCount
+
+    @GetMapping( "/orders/find/{address}/{camp}" )
+    public ResponseEntity<orders> orderFind( @PathVariable( "address" ) String address, @PathVariable( "camp" ) int camp ){
+    
+        Optional<orders> orderData = orderRepository.findByAddress( address, camp );
+        if ( orderData.isPresent() ) {
+            return new ResponseEntity<>( orderData.get(), HttpStatus.OK );
+        }//end if
+        else {
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end else
+    }//end orderCount
+
+    @PutMapping( "/orders/delivered/{id}" )
+    public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id ){
+        Optional<orders> orderData = orderRepository.findById( id );
+        if( orderData.isPresent() ){
+            orders o = orderData.get();
+            o.setDelivered( true );
+            return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
+        }
+        else{
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }
+    }
     //getOrder returns a orders information based on their id
     //The url look like localhost:port_number/api/orders/{the order id}
     @GetMapping( "/orders/{id}" )
