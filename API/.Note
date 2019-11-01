@@ -1,6 +1,0 @@
-Add security to current request mappings
-Clean up dead code
-Redo comments
-
-    Current new code
-Added functions for Counting orders, finding orderd based on address, and changing delivery status

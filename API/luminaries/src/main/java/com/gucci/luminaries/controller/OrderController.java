@@ -101,11 +101,11 @@ public class OrderController {
     }//end orderCount
 
     @GetMapping( "/orders/find/{address}/{camp}" )
-    public ResponseEntity<orders> orderFind( @PathVariable( "address" ) String address, @PathVariable( "camp" ) int camp ){
+    public ResponseEntity<?> orderFind( @PathVariable( "address" ) String address, @PathVariable( "camp" ) int camp ){
     
-        Optional<orders> orderData = orderRepository.findByAddress( address, camp );
-        if ( orderData.isPresent() ) {
-            return new ResponseEntity<>( orderData.get(), HttpStatus.OK );
+        Iterable<orders> orderData = orderRepository.findByAddress( address, camp );
+        if ( orderData != null ) {
+            return new ResponseEntity<>( orderData, HttpStatus.OK );
         }//end if
         else {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
