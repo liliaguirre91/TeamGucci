@@ -25,26 +25,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Layout, notification } from 'antd';
 const { Content } = Layout;
 
-//import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
-
-{/* Button class for all attributes of buttons*/}
-/*class Button extends React.Component{
-
-   render(){
-      const{
-      color, variant, content, ...others
-      } = this.props;
-
-      return(
-      <button className={color}{...others}>
-      {content}
-      </button>
-      )
-   }
-}*/
-
-
-
 class App extends React.Component {
     constructor(props) {
         super(props);

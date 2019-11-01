@@ -4,7 +4,6 @@ const APIRequest = (options) => {
       'Content-Type': 'application/json',
    })
    
-   //Not sure what this does, but has something to do with authentication:
    if(localStorage.getItem(ACCESS_TOKEN)) {
       headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
    }

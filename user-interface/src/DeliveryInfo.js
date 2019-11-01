@@ -32,8 +32,7 @@ class DeliveryInfo extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
-    //this.handlePhoneChange = this.handlePhoneChange.bind(this);
-    //this.loadUser = this.saveUser.bind(this);
+  
   }
   
   /***********************************************************************************
@@ -77,11 +76,15 @@ class DeliveryInfo extends React.Component {
         
         var addr_info = address.concat(' ', city, ' ', st, ' ', zipCode);
 
-        //If the admin is logged in the payment type will always be cash. If a regular customer
-        //is logged in the payment type will always be paypal. This will determine what page
-        //we will go to. In future we need to store these values so we can use them once order is
-        //placed in the payment page or the confirm your order page. Add a check to make sure all fields are submitted. 
-        //. This will ultimately go on the payment page, once the customer has paid for the products. Payment type will depend on user type, campaign will depend on the product or the current campaign? Before placing the order make sure payment went through correctly. So check response from paypal.
+        /********************************************************************************************
+        If the admin is logged in the payment type will always be cash. If a regular customer
+        is logged in the payment type will always be paypal. This will determine what page
+        we will go to. In future we need to store these values so we can use them once order is
+        placed in the payment page or the confirm your order page. Add a check to make sure all fields are submitted. 
+        This will ultimately go on the payment page, once the customer has paid for the products. Payment type 
+        will depend on user type, campaign will depend on the product or the current campaign? Before placing 
+        the order make sure payment went through correctly. So check response from paypal.
+        ********************************************************************************************/
         
         if(this.props.currentUser) {
             let currentUser = this.props.currentUser;
@@ -101,9 +104,7 @@ class DeliveryInfo extends React.Component {
 
         /* Call the createOrder function to create order in database */
         createOrder(orderInfo)
-            .then((order_id) => {
-                this.setState({ order_id }); 
-                alert("I'm inside" + this.state.order_id)})
+            .then((order_id) => this.setState({ order_id }))
             .catch(error => {
                 notification.error({
                     message: 'LCHS Band Fundraising',
@@ -115,10 +116,9 @@ class DeliveryInfo extends React.Component {
         /*Implementing insertion of multiple products tied to one order number*/
         setTimeout(function() {
             const orderID = this.state.order_id;
-            alert("I'm outside" + orderID);
         
             let cart = JSON.parse(localStorage.getItem('cart'));
-            let productID = Object.keys(cart)[1];
+            //let productID = Object.keys(cart)[1];
             let cartSize = Object.keys(cart).length;
             let keys = Object.keys(cart); 
             
@@ -151,13 +151,9 @@ class DeliveryInfo extends React.Component {
             localStorage.removeItem('cart')
         }.bind(this), 500)
         
-        
       /*setTimeout(function() {
         alert(JSON.parse(this.state.order_id));
       }.bind(this), 500)*/
-      
-      
-          
           /*response => {
          notification.success({
             message: 'LCHS Band Fundraising',
@@ -174,7 +170,6 @@ class DeliveryInfo extends React.Component {
 
    isFormInvalid() {
    	return !(this.state.name.validateStatus === 'success' &&
-  			 //this.state.phone.validateStatus === 'success' //&&
    			 this.state.address.validateStatus === 'success' &&
    			 this.state.city.validateStatus === 'success' &&
   			 this.state.st.validateStatus === 'success' &&

@@ -26,7 +26,11 @@ class ProductItem extends React.Component {
         cart[id] = qty
         localStorage.setItem('cart', JSON.stringify(cart));
     }
-    //Fix checkbox so on deselect it removes item from cart
+    
+    removeFromCart = (product) => {
+        
+    }
+    
     render() {
         const { product } = this.props;
         return (
@@ -36,8 +40,8 @@ class ProductItem extends React.Component {
                     <img src={`data:image/jpg;base64, ${product.image}`}/>
                     <h5 className="card-text"><small>price: </small>${product.price}</h5>
                     <div>
-                        <input type="checkbox" onChange={this.addToCart} name="product"     
-                            className="float-right"/> 
+                        <button className="btn btn-sm btn-warning float-right"
+                            onClick={this.addToCart}>Add product</button>
                         {/*<button className="btn btn-sm float-right" 
                             onClick={this.addToCart}>Add to cart</button>*/}
                         <input type="number" value={this.state.quantity} name="quantity" 
