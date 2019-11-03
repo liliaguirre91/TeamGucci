@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import javax.validation.Valid;
 
 import com.gucci.luminaries.model.users;
-import com.gucci.luminaries.payload.ApiResponse;
 import com.gucci.luminaries.payload.JwtAuthenticationResponse;
 import com.gucci.luminaries.payload.LoginRequest;
 import com.gucci.luminaries.payload.SignUpRequest;
@@ -74,19 +73,6 @@ public class AuthController {
         System.out.println("email is " + signUpRequest.getEmail());
         System.out.println("password is " + signUpRequest.getPassword());
 
-
-        //TODO: Fix Roles. This returns a null pointer which causes a null pointer exception
-
-       /* if(UserRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        if(UserRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
-                    HttpStatus.BAD_REQUEST);
-        }*/
-
         // Creating user's account
         users user = new users(signUpRequest.getName(),
                 signUpRequest.getEmail(), signUpRequest.getPassword());
@@ -104,6 +90,6 @@ public class AuthController {
                 .fromCurrentContextPath().path("/api/users/{email}")
                 .buildAndExpand(result.getEmail()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+        return ResponseEntity.created(location).body( "User registered successfully" );
     }
 } 

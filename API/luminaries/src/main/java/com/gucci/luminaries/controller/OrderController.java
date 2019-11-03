@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.text.SimpleDateFormat;
- 
+
 import javax.validation.Valid;
- 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -99,6 +100,7 @@ public class OrderController {
     }//end orderQuerry
  
     @GetMapping( "/orders/count/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public int orderCount( @PathVariable( "camp" ) Long camp ){
     
         //get order information
@@ -108,6 +110,7 @@ public class OrderController {
     }//end orderCount
 
     @GetMapping( "/orders/find/{address}/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<?> orderFind( @PathVariable( "address" ) String address, @PathVariable( "camp" ) int camp ){
     
         Iterable<orders> orderData = orderRepository.findByAddress( address, camp );
@@ -120,6 +123,7 @@ public class OrderController {
     }//end orderCount
 
     @PutMapping( "/orders/delivered/{id}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id ){
         Optional<orders> orderData = orderRepository.findById( id );
         if( orderData.isPresent() ){

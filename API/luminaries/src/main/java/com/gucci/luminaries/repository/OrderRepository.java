@@ -1,7 +1,5 @@
 package com.gucci.luminaries.repository;
 
-import java.util.Optional;
-
 import com.gucci.luminaries.model.*;
 
 import org.springframework.data.jpa.repository.Query;
