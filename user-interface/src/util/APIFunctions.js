@@ -87,9 +87,8 @@ export function createCampaign(campaignInfo) {
 }
 export function deleteCampaign(campaignInfo) {
    return APIRequest({
-      url:'/api/campaigns/',
-      method: 'DELETE',
-      body: JSON.stringify(campaignInfo)
+      url:'/api/campaigns/' + campaignInfo,
+      method: 'DELETE'
    })
    .then(response =>
       response.json().then(json => {

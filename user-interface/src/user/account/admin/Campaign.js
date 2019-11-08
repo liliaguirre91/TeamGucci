@@ -33,8 +33,11 @@ class Campaign extends Component {
          .then(response => response.text())
          .then(result => this.setState({ result }));*/
       
-      const campaignNumber = parseInt( this.state.CampaignID, 2 );
-      createCampaign(campaignNumber)
+      const campaignNumber = parseInt( this.state.CampaignID );
+       const campaign = {
+         yearRan: campaignNumber
+      };      
+      createCampaign(campaign)
       .then(result => 
          this.setState({ result })
        );
@@ -69,11 +72,8 @@ class Campaign extends Component {
          .then(response => response.text())
          .then(result => this.setState({ result }));*/
       
-      const campaignNumber = parseInt( this.state.CampaignID, 2 );
-      const campaign = {
-         year_ran: campaignNumber
-      };
-      deleteCampaign(campaign)
+      const campaignNumber = parseInt( this.state.CampaignID );
+      deleteCampaign(campaignNumber)
       .then(result => 
          this.setState({ result })
        );
