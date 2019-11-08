@@ -49,6 +49,9 @@
   }
 
   .account-dropdown-menu {
+    position: fixed;
+    left: 0;
+
     min-width: 180px;
   }
 

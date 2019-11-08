@@ -78,7 +78,7 @@ function AccountDropdownMenu(props) {
             </Menu.Item>
             <Menu.Divider />
             <Menu.Item key="account" className="dropdown-item">
-                <Link to={`/users/${props.currentUser.email}`}>Account</Link>
+                <Link to={`/admin-account`}>Account</Link>
             </Menu.Item>
             <Menu.Item key="logout" className="dropdown-item">
                 Logout

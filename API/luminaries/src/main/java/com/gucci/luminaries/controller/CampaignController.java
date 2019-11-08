@@ -96,7 +96,7 @@ public class CampaignController {
     //It is given the year ran and returns that it was deleted
     //or it wasn't
     @DeleteMapping( "/campaigns/{id}" )
-    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    @PreAuthorize( "hasAnyAuthority('Role_ROOT')" )
     public ResponseEntity<String> deleteCampaign( @PathVariable( "id" ) long id ) {
         //Print to the console to log
         System.out.println( "Delete Campaign with ID = " + id + "..." );
