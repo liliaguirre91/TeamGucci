@@ -115,7 +115,9 @@ public class UserController {
 		//Try to get the current users information if their isn't a current user it throws an
 		//error which is caught and handled
 		try{
-        users u = new users(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
+		
+		Optional<users> user = userRepository.findById( currentUser.getId() );
+		users u = user.get();
 		return new ResponseEntity<>( u, HttpStatus.OK );
 		}//end try
 		catch( Exception e ){

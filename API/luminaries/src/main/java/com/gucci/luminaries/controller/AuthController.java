@@ -82,7 +82,7 @@ public class AuthController {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        user.setRole("Role_USER"); 
+        user.setRole( "Role_USER" ); 
 
         users result = userRepository.save(user);
 
