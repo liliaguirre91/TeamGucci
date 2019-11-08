@@ -83,10 +83,7 @@ class CreateAccount extends React.Component {
       const signupRequest = {
          name: name,
          email: email,
-         password: password,
-         username: "username"
-         //levels: 2,
-         //comments: "Comments"
+         password: password
       };
       
       //Call the createAccount function to insert user into database

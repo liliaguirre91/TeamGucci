@@ -94,13 +94,17 @@ class Campaign extends Component {
    renderCampaignInfo() {
       return <Campaign CampaignID={this.state.CampaignID}/>
    }
+
+   handleSubmit( event ){
+      alert( "Please Press a Button")
+   }
    
    render() {
       return (
          <div className="campaign-container">
             <h1 className="page-title"> Create/Delete a Campaign </h1>
             <h2 align="center"> Enter a campaign ID number: </h2>
-                <Form className="campaign-form" align="center"> 
+                <Form className="campaign-form" align="center" onSubmit={this.handleSubmit}> 
                     <FormItem
                         label="Campaign Number">
                         <Input 

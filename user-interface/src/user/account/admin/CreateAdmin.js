@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
-import { createAccount , checkEmail } from '../../../util/APIFunctions'; //PROBABLY NEED
+import { createAccount , checkEmail, createAdmin } from '../../../util/APIFunctions'; //PROBABLY NEED
 
 import './CreateAdmin.css';
 
@@ -122,14 +122,11 @@ class CreateAdmin extends React.Component {
 
       //Create a constant containing all the information necessary to create a user account in database
 
-      const signupRequest = {
+      const adminInfo = {
 
          name: name,
          email: email,
-         password: password,
-         username: "username"
-         //levels: 2,
-         //comments: "Comments"
+         password: password
 
       };
 
@@ -137,18 +134,18 @@ class CreateAdmin extends React.Component {
 
       //Call the createAccount function to insert user into database
 
-      createAccount(signupRequest)
+      createAdmin(adminInfo)
 	  .then(response => {
 
          notification.success({
 
             message: 'LCHS Band Fundraising',
 
-            description: "Congratulations! You have succesfully created an account. Please Login to continue!",
+            description: "Congratulations! You have succesfully created an admin.",
 
          });
 
-         this.props.history.push("/login");
+         this.props.history.push("/");
 
       }).catch(error => {
 
@@ -208,7 +205,7 @@ class CreateAdmin extends React.Component {
 
                                 autoComplete="off"
 
-                                placeholder="Your full name"
+                                placeholder="Admin's full name"
 
                                 value={this.state.name.value}
 
@@ -236,7 +233,7 @@ class CreateAdmin extends React.Component {
 
                                 autoComplete="off"
 
-                                placeholder="Your email"
+                                placeholder="Admin's email"
 
                                 value={this.state.email.value}
 

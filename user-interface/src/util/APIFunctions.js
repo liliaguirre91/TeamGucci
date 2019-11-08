@@ -38,7 +38,21 @@ export function createAccount(signupRequest) {
         })
     );
 }
-
+export function createAdmin(adminInfo) {
+   return APIRequest({
+      url: '/api/users/createAdmin',
+      method: 'POST',
+      body: JSON.stringify(adminInfo)
+   })
+   .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+}
 export function login(loginRequest) {
     return APIRequest({
         url: 'api/auth/signin',
