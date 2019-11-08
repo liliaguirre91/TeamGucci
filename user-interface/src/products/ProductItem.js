@@ -44,7 +44,7 @@ class ProductItem extends React.Component {
                             onClick={this.addToCart}>Add product</button>
                         {/*<button className="btn btn-sm float-right" 
                             onClick={this.addToCart}>Add to cart</button>*/}
-                        <input type="number" value={this.state.quantity} name="quantity" 
+                        <input type="number" value={this.state.quantity} min="1" name="quantity" 
                             onChange={this.handleInputChange} className="float-right" 
                             style={{ width: "60px", marginRight: "10px", borderRadius: "3px"}}/>
                     </div>
