@@ -71,7 +71,7 @@ class OrderLookup extends Component {
    render() {
       return (
          <div className="order-search-container">
-            <h1 className="page-title">Order Lookup</h1>
+            <h1 className="page-title">Order LoOkup</h1>
             <h2 align="center"> Enter your order ID number: </h2>
             <h3 align="center"> (It is the number from your confirmation page) </h3>
                 <Form className="search-form" align="center" onSubmit={this.handleSubmit}> 
@@ -89,18 +89,15 @@ class OrderLookup extends Component {
                          <Button type="primary"
                                 htmlType="submit"
                                 size="large"
-                                className="search-form-button">Search</Button>
+                               className="search-form-button">Search</Button>
                     </FormItem>
                 </Form>
-                {this.state.submitted && this.renderDeliveryInfo()}
+                {this.state.submitted}
          </div>
       );
    }
 }
 
-/*ReactDOM.render(
-  <OrderLookup />,
-  document.getElementById('root')
-);*/
+
 
 export default OrderLookup;

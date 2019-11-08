@@ -17,7 +17,7 @@
     "react-phone-number-input": "^2.4.1",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.1.2",
+    "react-scripts": "^3.1.2",
     "react-shopping-cart": "^1.8.32",
     "react-table": "^6.10.3",
     "reactstrap": "6.5.0"

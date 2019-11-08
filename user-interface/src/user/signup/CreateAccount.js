@@ -162,7 +162,8 @@ class CreateAccount extends React.Component {
                             <Button type="primary"
                                 htmlType="submit"
                                 size="large"
-                                className="signup-form-button">Sign Up</Button>
+                                className="signup-form-button"
+								disabled={this.isFormInvalid()}>Sign Up</Button>
                         </FormItem>
                     </Form>
                 </div>
