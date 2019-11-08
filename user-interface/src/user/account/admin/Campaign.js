@@ -144,7 +144,7 @@ class Campaign extends Component {
 */
 
 ReactDOM.render(
-  <Campaign />,
+  <Campaign/>,
   document.getElementById('root')
 );
 

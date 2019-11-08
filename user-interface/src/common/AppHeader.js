@@ -81,7 +81,7 @@ function AccountDropdownMenu(props) {
                 <Link to={`/admin-account`}>Account</Link>
             </Menu.Item>
             <Menu.Item key="logout" className="dropdown-item">
-                Logout
+                <Link to = {`/`}>Logout</Link>
             </Menu.Item>
         </Menu>
     );
