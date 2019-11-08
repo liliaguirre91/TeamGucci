@@ -30,8 +30,19 @@ class Products extends React.Component {
    
     handleSubmit(event) {
         event.preventDefault();
-        //let cart = localStorage.getItem('cart');
-        this.props.history.push("/delivery-form");
+        let user_role = '';
+        if (this.props.currentUser) {
+            let currentUser = this.props.currentUser;
+            user_role = currentUser.role;
+            console.log(user_role);
+        }
+        
+        if (user_role === 'Role_ADMIN' || user_role === 'Role_ROOT') {
+            this.props.history.push("/delivery-form");
+        }
+        else {
+            this.props.history.push("/paypal");
+        }
     }
 
     render() {
@@ -47,55 +58,6 @@ class Products extends React.Component {
             </div>
             );
     }
-    /* <div className="Products">
-                <h2> Product names </h2>
-                {products.map(product =>
-                    <div key={product.product}>
-                        {product.product}
-                    </div>
-                )}
-                <h2> Product prices </h2>
-                {products.map(product =>
-                    <div key={product.price}>
-                        {product.price}
-                    </div>
-                )}
-                <h2> Product images </h2>
-                {products.map(product =>
-                    <div key={product.image}>
-                        <img src={'data:image/jpg;base64, ${product.image}'}/>
-                    </div>
-                )}
-            </div>
-        );*/
-    /*<form align="center" onSubmit={this.handleSubmit}> 
-                <h1> What we offer: </h1>
-                <div>
-                    
-                    <img src={logo} 
-                    class="center" 
-                    alt="logo" 
-                    height={240} 
-                    width={240}/>
-                    <br/>
-                        This is a complete luminary. 
-                    <br/>
-                        It includes the paper bag and the candle.
-                    <br/><br/>
-                        Price: $15
-                    <br/>
-                        Quantity: 20
-                    <br/>
-               
-                    <input onChange="{handleProductChange}" 
-                      type="checkbox" 
-                      name="product" 
-                      value="luminary"/> 
-                        SELECT THIS PRODUCT
-                    <br/><br/>
-                </div>
-                <input type="submit" value="Continue" />
-            </form>*/
 }
 
 ReactDOM.render(

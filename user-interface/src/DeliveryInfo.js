@@ -17,9 +17,9 @@ import {
 const FormItem = Form.Item;
 
 class DeliveryInfo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
+    constructor(props) {
+        super(props);
+        this.state = { 
     			   name:    { value: '' },
                    phone:   { value: '' },
                    address: { value: '' },
@@ -27,13 +27,13 @@ class DeliveryInfo extends React.Component {
                    st:	 	{ value: '' },
                    zipCode: { value: '' },
                    order_id: 0
-   };
+        };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.isFormInvalid = this.isFormInvalid.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.isFormInvalid = this.isFormInvalid.bind(this);
   
-  }
+    }
   
   /***********************************************************************************
    * State Handlers: These handlers set the states based on the given events. These
@@ -66,7 +66,7 @@ class DeliveryInfo extends React.Component {
    ********************************************************************************************/
    handleSubmit(event) {
         event.preventDefault();
-        let user_id = -1;
+        let user_id = -2;
         const name  = this.state.name.value;
         const phone = this.state.phone.value;
         const address = this.state.address.value;
@@ -86,11 +86,11 @@ class DeliveryInfo extends React.Component {
         the order make sure payment went through correctly. So check response from paypal.
         ********************************************************************************************/
         
-        if(this.props.currentUser) {
+        /*if(this.props.currentUser) {
             let currentUser = this.props.currentUser;
             user_id = currentUser.userId;
             //console.log(user_id);
-        }
+        }*/
             
       
         const orderInfo = {

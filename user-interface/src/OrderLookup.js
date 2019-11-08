@@ -46,10 +46,11 @@ class OrderLookup extends Component {
          else if (this.state.result == 'true')
              alert('Your product has been delivered!!');
          else
-            alert(this.state.result);
+            alert("Hello");
+         this.setState({ submitted: true });
       }.bind(this), 200)
       
-      this.setState({ submitted: true });
+      
 
       if (this.state.result == 'false')
          this.setState({ deliveryInfo: 'Your product has not been delivery yet'});
@@ -97,16 +98,6 @@ class OrderLookup extends Component {
    }
 }
 
-/*
-               </Form>
-                {this.state.submitted && this.renderDeliveryInfo()}
-			 </div>
 
-*/
-
-ReactDOM.render(
-  <OrderLookup />,
-  document.getElementById('root')
-);
 
 export default OrderLookup;
