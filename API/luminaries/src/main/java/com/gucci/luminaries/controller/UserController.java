@@ -109,13 +109,15 @@ public class UserController {
 	//getCurrentUser checks to see what user is currently logged in
 	//It returns a ResponseEntity to say whether someone is logged in or not
 	//If someone is logged in it'll return the user's info
-	@GetMapping("/user/me")
-    @PreAuthorize("isAuthenticated()")
+	@GetMapping( "/user/me" )
+    @PreAuthorize( "isAuthenticated()" )
     public ResponseEntity<users> getCurrentUser( @CurrentUser UserPrincipal currentUser ) {
 		//Try to get the current users information if their isn't a current user it throws an
 		//error which is caught and handled
 		try{
-        users u = new users(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
+		
+		Optional<users> user = userRepository.findById( currentUser.getId() );
+		users u = user.get();
 		return new ResponseEntity<>( u, HttpStatus.OK );
 		}//end try
 		catch( Exception e ){

@@ -20,6 +20,7 @@ import Products from './products/Products.js';
 import DeliveryInfo from './DeliveryInfo.js';
 import AppHeader from './common/AppHeader';
 import LoadingIndicator from './common/LoadingIndicator';
+import PayPalPage from './paypal/PayPalPage.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Layout, notification } from 'antd';
@@ -120,6 +121,9 @@ class App extends React.Component {
                                     currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/delivery-form"
                                  render={(props) => <DeliveryInfo isAuthenticated={this.state.isAuthenticated} 
+                                    currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/paypal"
+                                 render={(props) => <PayPalPage isAuthenticated={this.state.isAuthenticated} 
                                     currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/order-lookup" component={ OrderLookup }></Route>
                         </Switch>

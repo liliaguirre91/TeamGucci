@@ -85,7 +85,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                     .antMatchers("/api/orders/create", "/api/user/checkEmailAvailability", "/api/productOrdered/create")
                         .permitAll()
-                    .antMatchers(HttpMethod.GET, "/api/products/**", "/api/users/**")
+                    .antMatchers( HttpMethod.GET, "/api/products/**", "/api/users/**", "/api/orders/search/**" )
                         .permitAll()
                     .anyRequest()
                         .authenticated();

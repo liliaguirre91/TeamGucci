@@ -138,7 +138,7 @@ class DeliveryInfo extends React.Component {
                             message: 'LCHS Band Fundraising',
                             description: "Your order has been placed!"
                         });
-                        this.props.history.push("/"); //for now will redirect to home, later to confirmation
+                        this.props.history.push("/paypal"); //for now will redirect to home, later to confirmation
                     })
                     .catch(error => {
                         notification.error({

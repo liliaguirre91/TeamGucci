@@ -14,7 +14,7 @@ class ProductItem extends React.Component {
     addToCart = () => {
         let cart = localStorage.getItem('cart') 
                  ? JSON.parse(localStorage.getItem('cart')) : {};
-        let id = this.props.product.product_id.toString();
+        let id = this.props.product.productId.toString();
         cart[id] = (cart[id] ? cart[id]: 0);
         let qty = cart[id] + parseInt(this.state.quantity);
         /*if (this.props.product.available_quantity < qty) {
