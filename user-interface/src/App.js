@@ -21,9 +21,12 @@ import DeliveryInfo from './DeliveryInfo.js';
 import AppHeader from './common/AppHeader';
 import LoadingIndicator from './common/LoadingIndicator';
 import PayPalPage from './paypal/PayPalPage.js';
+import AdminAccountPage from './user/account/admin/AdminAccountPage.js';
+import CreateAdmin from './user/account/admin/CreateAdmin.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Layout, notification } from 'antd';
+
 const { Content } = Layout;
 
 class App extends React.Component {
@@ -125,6 +128,12 @@ class App extends React.Component {
                             <Route path="/paypal"
                                  render={(props) => <PayPalPage isAuthenticated={this.state.isAuthenticated} 
                                     currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/admin-account"
+                                render={(props) => <AdminAccountPage isAuthenticated={this.state.isAuthenticated} 
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/admin-create-admin"
+                                render={(props) => <CreateAdmin isAuthenticated={this.state.isAuthenticated} 
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/order-lookup" component={ OrderLookup }></Route>
                         </Switch>
                     </div>
