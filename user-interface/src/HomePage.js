@@ -58,30 +58,8 @@ class HomePage extends React.Component {
         //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-    
-
-                            
-                            
-                            
-                            
-                            
- /* handleSubmit(event) {
-//    
-//    event.preventDefault();
-//    const { name } = this.state;
-//    const { email } = this.state;
-//    alert('A name and email were submitted: ' + name + ' ' + email);
-//    
-//    /*UserDataService.retrieveUserInfo(name, email)
-//      .then((res) => {
-//         let user = res.data.result;
-//         this.setState({
-//            id: user.name
-//         })
-//      });
-//    //const { id } = this.state;
-//    this.props.history.push( "user/" + name + "/" + email);
-}*/
+   
+                        
    
    /*****************************************************************************************
     * Handler: handleClick - This handler will route the application to other existing pages.

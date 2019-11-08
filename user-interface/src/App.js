@@ -21,6 +21,7 @@ import DeliveryInfo from './DeliveryInfo.js';
 import AppHeader from './common/AppHeader';
 import LoadingIndicator from './common/LoadingIndicator';
 import PayPalPage from './paypal/PayPalPage.js';
+import OrderReview from './OrderReview.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Layout, notification } from 'antd';
@@ -45,7 +46,7 @@ class App extends React.Component {
         notification.config({
             placement: 'topRight',
             top: 70,
-            duration: 3,
+            duration: 5,
         });
   }
   
@@ -125,6 +126,9 @@ class App extends React.Component {
                             <Route path="/paypal"
                                  render={(props) => <PayPalPage isAuthenticated={this.state.isAuthenticated} 
                                     currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/order-review"
+                                 render={(props) => <OrderReview isAuthenticated={this.state.isAuthenticated} 
+                                    currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/order-lookup" component={ OrderLookup }></Route>
                         </Switch>
                     </div>
@@ -132,115 +136,7 @@ class App extends React.Component {
             </Layout>
         );
     }
-    
-
-                            
-                            
-     /*const routing = (
-   <Router>
-      <div>
-         <ul>
-            <li>
-               <Link to="/">Home</Link>
-            </li>
-         </ul>
-         <Route exact path="/" component={HomePage} />
-         <Route path="/order-lookup" component={OrderLookup} />
-         <Route path="/signup" component={CreateAccount} />
-         <Route path="/login" component={Login} />
-         <Route path="/products" component={Products} />
-         <Route path="/delivery-form" component={DeliveryInfo} />
-      </div>
-   </Router>
-)                       
-                            
-                            
- /* handleSubmit(event) {
-//    
-//    event.preventDefault();
-//    const { name } = this.state;
-//    const { email } = this.state;
-//    alert('A name and email were submitted: ' + name + ' ' + email);
-//    
-//    /*UserDataService.retrieveUserInfo(name, email)
-//      .then((res) => {
-//         let user = res.data.result;
-//         this.setState({
-//            id: user.name
-//         })
-//      });
-//    //const { id } = this.state;
-//    this.props.history.push( "user/" + name + "/" + email);
-}*/
-   
-   /*****************************************************************************************
-    * Handler: handleClick - This handler will route the application to other existing pages.
-    * This handler will be called on the button's click. 
-    * Parameters: This handler takes one parameter representing the URL extension where the
-    * page that will be accesses will be located.
-    * Preconditions: None
-    * Postconditions: The user will be rerouted to the correct page
-    **************************************************************************************/
-   /*handleClick = param => e => {
-      e.preventDefault();
-      this.props.history.push(param);
-   }
-
-   clicked(){
-      console.log("button was clicked");
-   }
-
-   render() {
-      return (
-         <form onSubmit={this.handleSubmit}> 
-            <h1 align="center"> Welcome to the Las Cruces High School Band Luminary Fundraiser  </h1> 
-            <div>
-                  <img src={logo} class="center" alt="logo" 
-                  height={150}
-                  width={150}/><br/>
-                  <br/><br/>
-            </div>
-            <div> 
-               <button class="center" onClick={ this.handleClick("/products") }> View Products </button> <br/>
-               <button class="center" onClick={ this.handleClick("/login") }> Login </button> <br/>
-               <button class="center" onClick={ this.handleClick("/signup") }> Create Account </button> <br/>
-               <button class="center" onClick={(e) => { e.preventDefault(); this.clicked()} }> Account </button> <br/>
-               <button class="center" onClick={ this.handleClick("/order-lookup") }> Order search </button> <br/>
-            </div>
-         </form>
-      );
-   }*/
 }
 
 
-/*ReactDOM.render(
-  <HomePage/>,
-  document.getElementById('root')
-);*/
-
-
-
 export default withRouter(App); //I COMMENTED THESE OUT TO MAKE IT RUN IN THE WEB BROWSER
-
-               
-         { /* <h3 align="center"> What would you like to do? </h3>*/}
-         {/*<button class="center"  onClick={(e) => { e.preventDefault(); this.clicked()} }> Products </button> <br/>*/}
-
-{/*
-<Button content="Sample Button" variant="green" />
-<button type="button" class="btn btn-primary" > DID IT WORK </button>
-*/}
-{/*
-
-         <label>
-            Full name: <br/>
-            <input type="text" value={this.state.value}  onChange={this.handleNameChange} /> <br/>
-         </label>
-         <label>
-            Email: <br/>
-            <input type="text" value={this.state.value} onChange={this.handleEmailChange} /> <br/><br/>
-         </label>
-         
-         <input type="submit" value="Submit" />
-
-*/}
