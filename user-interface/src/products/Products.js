@@ -29,15 +29,18 @@ class Products extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         let user_role = '';
-        if(this.props.currentUser) {
+        if (this.props.currentUser) {
             let currentUser = this.props.currentUser;
-            user_role = JSON.stringify(currentUser);
+            user_role = currentUser.role;
             console.log(user_role);
         }
         
-        
-        //let cart = localStorage.getItem('cart');
-        this.props.history.push("/delivery-form");
+        if (user_role === 'Role_ADMIN' || user_role === 'Role_ROOT') {
+            this.props.history.push("/delivery-form");
+        }
+        else {
+            this.props.history.push("/paypal");
+        }
     }
 
     render() {
