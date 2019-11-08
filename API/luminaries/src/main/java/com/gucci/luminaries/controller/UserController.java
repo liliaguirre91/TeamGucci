@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -77,28 +80,49 @@ public class UserController {
 		}//end catch
 	}//end create user
 	
+	@PostMapping( "/users/createAdmin" )
+	@PreAuthorize( "hasAuthority( 'Role_ROOT' )" )
+	public ResponseEntity<String> createAdmin(@RequestBody users user ) {
+		//Print to system out to log start of method
+		System.out.println( "Create User: " + user.getName() + "..." );
+        //Save the new admin
+        try{
+			user.setRole( "Role_ADMIN" );
+			user.setPassword( passwordEncoder.encode( user.getPassword() ) );
+			userRepository.save( user );
+			return new ResponseEntity<>( user.getName(), HttpStatus.OK );
+		}//end try
+		catch( Exception e ){
+			return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+		}//end catch
+	}//end create Admin
 
+	//checkEmail is used to check whether an email already has an account
+	//It is expecting an email in the Path and it will query the database
+	//with that email and return true if an account has that email or false if there is not an 
+	//account with that email
 	@GetMapping( "/users/check/{email}" )
 	public boolean checkEmail( @PathVariable( "email" ) String email ){
 		return userRepository.checkEmail( email ).isPresent();
-	}
+	}//end checkEmail
 
-	@GetMapping("/user/me")
-/*<<<<<<< HEAD
-    @PreAuthorize("hasAuthority('Role_USER')")
-    public users getCurrentUser( @CurrentUser UserPrincipal currentUser ) {
-=======*/
-    @PreAuthorize("isAuthenticated()")
+	//getCurrentUser checks to see what user is currently logged in
+	//It returns a ResponseEntity to say whether someone is logged in or not
+	//If someone is logged in it'll return the user's info
+	@GetMapping( "/user/me" )
+    @PreAuthorize( "isAuthenticated()" )
     public ResponseEntity<users> getCurrentUser( @CurrentUser UserPrincipal currentUser ) {
+		//Try to get the current users information if their isn't a current user it throws an
+		//error which is caught and handled
 		try{
-
         users u = new users(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
 		return new ResponseEntity<>( u, HttpStatus.OK );
 		}//end try
 		catch( Exception e ){
 		    return new ResponseEntity<>( HttpStatus.NOT_FOUND );
 		}//end else
-    }
+	}//end getCurrentUser
+	
 	//getUser returns a users information based on their id
 	//The url look like localhost:port_number/api/users/{the user id}
 	@GetMapping( "/users/{id}" )
@@ -140,7 +164,7 @@ public class UserController {
 	//or null if no user has that email
 	@GetMapping( "/users/{email}" )
 	public users getUserOnEmail( @PathVariable String email ){
-		Optional<users> userData = userRepository.findByEmail( email );
+		Optional<users> userData = userRepository.checkEmail( email );
 		if( userData.isPresent() ){
 			return userData.get( );
 		}//end if
@@ -167,6 +191,25 @@ public class UserController {
 		}//end else
 	}// end getonName_Email
 	
+	//Needs testing
+	@PutMapping( "/users/password/{id}" )
+	@PreAuthorize( "isAuthenticated()" )
+	public ResponseEntity<Long> setPassword( @PathVariable( "id" ) Long id, @Valid @RequestParam( value = "password" ) String pass ){
+		//Check the database for the user
+		Optional<users> userData = userRepository.findById( id );
+		//if the user exists set the new password
+		if ( userData.isPresent() ) {
+			users u = userData.get();
+			u.setPassword( passwordEncoder.encode( pass ) );
+			userRepository.save( u );
+		    return new ResponseEntity<>( u.getUserId(),  HttpStatus.OK );
+		}//end try
+        else {
+		    return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+		}//end else
+
+	}//end setPassword
+
 	//Works on PostMan send put code to localhost:portnumber/api/users/id
 	//choose body, chose raw and change type to json
 	//enter new data inclosed in '{}' in format

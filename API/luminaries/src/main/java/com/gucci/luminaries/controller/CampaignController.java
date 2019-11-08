@@ -3,12 +3,13 @@ package com.gucci.luminaries.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-    
+
 import javax.validation.Valid;
-    
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,13 +59,19 @@ public class CampaignController {
     //with a json body that has the entry information
     //for all fields in the campaign table
     @PostMapping( "/campaigns/create" )
-    public long createCampaign( @Valid @RequestBody campaigns campaign ) {
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<Long> createCampaign( @Valid @RequestBody campaigns campaign ) {
          //Print to the console for logging
         System.out.println( "Create Campaign: " + campaign.getYearRan() + "..." );
         //Add the campiagn to the table and return the key to show
         //it worked
-        campaignRepository.save( campaign );
-        return campaign.getYearRan();
+        try{
+            campaignRepository.save( campaign );
+            return new ResponseEntity<>( campaign.getYearRan(), HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end try
     }//end create campaign
     
     //getCampaign returns a campaign information based on their id
@@ -89,6 +96,7 @@ public class CampaignController {
     //It is given the year ran and returns that it was deleted
     //or it wasn't
     @DeleteMapping( "/campaigns/{id}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<String> deleteCampaign( @PathVariable( "id" ) long id ) {
         //Print to the console to log
         System.out.println( "Delete Campaign with ID = " + id + "..." );

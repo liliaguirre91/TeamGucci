@@ -15,4 +15,6 @@ public interface ProductRepository extends CrudRepository<products, Long> {
 	//Query for Products page to only show products in current campaign
 	@Query( value = "select * from products p where p.year_ran = :year_ran", nativeQuery = true )
 	Iterable<products> selectProductFor( @Param( "year_ran" ) int year_ran );
+	@Query( value = "select p.price from products p where p.product_id = :id", nativeQuery = true )
+	int getPrice( @Param( "id" ) long id );
 }

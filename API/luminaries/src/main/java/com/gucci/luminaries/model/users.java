@@ -2,6 +2,8 @@ package com.gucci.luminaries.model;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 //import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,6 +27,8 @@ public class users {
     private String Role;
     @Column( name = "comments" )
     private String comments;
+    @Column( name = "createdAt" )
+    private Timestamp createdAt;
   
     /*@OneToMany( mappedBy="user_id" )
     private Collection<orders> order;*/
@@ -80,6 +84,16 @@ public class users {
 	public void setName( String n ) {
         name = n;
     }//end setter
+
+    //setter for createdAt
+    public void setCreatedAt( Timestamp c ){
+        createdAt = c;
+    }//end setter
+
+    //getter for CreatedAt
+    public Timestamp getCreatedAt( ){
+        return createdAt;
+    }//end getter
     
     ///getter for comments
 	public String getComments() {

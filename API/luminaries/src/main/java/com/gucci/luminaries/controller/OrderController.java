@@ -1,14 +1,17 @@
 package com.gucci.luminaries.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
- 
+import java.text.SimpleDateFormat;
+
 import javax.validation.Valid;
- 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +34,8 @@ public class OrderController {
  
     @Autowired
     OrderRepository orderRepository;
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
  
     //Select all method 
     //While running go to localhost:port_number/api/orders
@@ -61,6 +66,9 @@ public class OrderController {
     public ResponseEntity<Long> createOrder( @Valid @RequestBody orders order ) {
         //Print to the console for logging
         System.out.println( "Create Order: " + order.getAddress() + "..." );
+        Timestamp d = new Timestamp(System.currentTimeMillis());
+        sdf.format( d );
+        order.setCreatedAt( d );
         try{ 
             //Add the order to the table
             orderRepository.save( order );
@@ -91,6 +99,42 @@ public class OrderController {
         }//end else
     }//end orderQuerry
  
+    @GetMapping( "/orders/count/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public int orderCount( @PathVariable( "camp" ) Long camp ){
+    
+        //get order information
+        int c = orderRepository.countOrders( camp );
+        //If the order exists return its information
+        return c;
+    }//end orderCount
+
+    @GetMapping( "/orders/find/{address}/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<?> orderFind( @PathVariable( "address" ) String address, @PathVariable( "camp" ) int camp ){
+    
+        Iterable<orders> orderData = orderRepository.findByAddress( address, camp );
+        if ( orderData != null ) {
+            return new ResponseEntity<>( orderData, HttpStatus.OK );
+        }//end if
+        else {
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end else
+    }//end orderCount
+
+    @PutMapping( "/orders/delivered/{id}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id ){
+        Optional<orders> orderData = orderRepository.findById( id );
+        if( orderData.isPresent() ){
+            orders o = orderData.get();
+            o.setDelivered( true );
+            return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
+        }
+        else{
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }
+    }
     //getOrder returns a orders information based on their id
     //The url look like localhost:port_number/api/orders/{the order id}
     @GetMapping( "/orders/{id}" )

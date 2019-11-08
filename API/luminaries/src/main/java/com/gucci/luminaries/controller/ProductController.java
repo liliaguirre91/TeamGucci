@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,20 +78,41 @@ public class ProductController {
     // with a json body that has the entry information
     // for all fields in the product table
     @PostMapping("/products/create")
-    public long createProduct(@Valid @RequestParam(value = "product") String pname,
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<Long> createProduct( @RequestBody products product ) {
+        // Print to the console for logging
+        try {
+            System.out.println( "Create Product: " + product.getProduct() + "..." );
+            //Add the product to the table and return the product id to show it worked
+            productRepository.save( product );
+            return new ResponseEntity<>( product.getProductId(), HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }//end createProduct
+
+    // Create product function is used to create a new product
+    // Send a post request to /api/products/create/postman
+    // To be used with postman to enter picture
+    // with a json body that has the entry information
+    // for all fields in the product table
+    @PostMapping( "/products/create/postman" )
+    @PreAuthorize( "hasAnyAuthority('Role_ROOT')" )
+    public long createProductPostman( @Valid @RequestParam(value = "product") String pname,
             @Valid @RequestParam(value = "price") int price, @Valid @RequestParam(value = "year_ran") int year_ran,
-            @Valid @RequestParam(value = "image") MultipartFile image) {
+            @Valid @RequestParam(value = "image") MultipartFile image ) {
         // Print to the console for logging
         products product;
         try{
             InputStream im = image.getInputStream();
             BufferedImage i = ImageIO.read(im);
             product = new products( pname, price, year_ran, i );
-        }
+        }//end try
         catch( IOException e ){
             System.out.println( "Error reading image" );
             return -1;
-        }        
+        }//end catch 
         System.out.println( product.getYearRan() );
         System.out.println( "Create Product: " + product.getProduct() + "..." );
         //Add the product to the table and return the product id to show it worked
@@ -116,8 +138,19 @@ public class ProductController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end else
     }//end getProduct
+
+    @GetMapping( "products/price/{id}" )
+    public ResponseEntity<Integer> getPrice( @PathVariable( "id" ) long id ){
+        try{
+            return new ResponseEntity<>( productRepository.getPrice( id ), HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }//end getPrice
     
     @PutMapping( "/products/{id}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<products> updateProduct( @PathVariable( "id" ) long id, @RequestBody products product ) {
         System.out.println( "Update Product with ID = " + id + "..." );
     
@@ -137,6 +170,7 @@ public class ProductController {
     }//end update Product
     
     @DeleteMapping( "/products/{id}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<String> deleteProduct( @PathVariable( "id" ) long id ) {
         System.out.println( "Delete Product with ID = " + id + "..." );
     
