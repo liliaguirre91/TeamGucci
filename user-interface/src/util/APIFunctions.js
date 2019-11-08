@@ -70,7 +70,36 @@ export function createOrder(orderInfo) {
       })
     );
 }
-
+export function createCampaign(campaignInfo) {
+   return APIRequest({
+      url:'/api/campaigns/create',
+      method: 'POST',
+      body: JSON.stringify(campaignInfo)
+   })
+   .then(response =>
+      response.json().then(json => {
+         if(!response.ok) {
+            return Promise.reject(json);
+         }
+         return json;
+      })
+    );
+}
+export function deleteCampaign(campaignInfo) {
+   return APIRequest({
+      url:'/api/campaigns/',
+      method: 'DELETE',
+      body: JSON.stringify(campaignInfo)
+   })
+   .then(response =>
+      response.json().then(json => {
+         if(!response.ok) {
+            return Promise.reject(json);
+         }
+         return json;
+      })
+    );
+}
 export function createProductsOrdered(productsOrdered) {
    return APIRequest({
       url:'http://localhost:5555/api/productOrdered/create',

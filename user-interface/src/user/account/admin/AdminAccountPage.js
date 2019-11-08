@@ -105,7 +105,7 @@ class AdminAccountPage extends React.Component {
             <div> 
                   {/* BUTTONS ON HOME PAGE*/}
                <button class="center"> Add a product </button> <br/>
-               <button class="center"> Create a campaign </button> <br/>
+               <button class="center"onClick={ this.handleClick("/campaigns") }> Create/Delete a campaign </button> <br/>
                <button class="center"> View orders </button> <br/>
                <button class="center" onClick={ this.handleClick("/admin-create-admin") }> Create an Admin</button> <br/>
             </div>

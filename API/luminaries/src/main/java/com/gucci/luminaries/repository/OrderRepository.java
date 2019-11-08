@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 public interface OrderRepository extends CrudRepository<orders, Long> {
 	//Querying method called selectAll this method returns all entries in the orders table
-	@Query( value = "select * from orders;", nativeQuery = true )
+	@Query( value = "select * from orders order by order_number;", nativeQuery = true )
 	Iterable<orders> selectAll( );
 	@Query( value = "select count( order_number ) from orders o where o.camp = :camp", nativeQuery = true )
 	int countOrders(Long camp);
