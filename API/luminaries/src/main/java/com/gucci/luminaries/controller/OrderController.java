@@ -125,37 +125,6 @@ public class OrderController {
         }//end else
     }//end orderCount
 
-    @PutMapping( "/orders/delivered/{id}" )
-    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
-    public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id ){
-        Optional<orders> orderData = orderRepository.findById( id );
-        if( orderData.isPresent() ){
-            orders o = orderData.get();
-            o.setDelivered( true );
-            return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
-        }
-        else{
-            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
-        }
-    }
-    //getOrder returns a orders information based on their id
-    //The url look like localhost:port_number/api/orders/{the order id}
-    @GetMapping( "/orders/{id}" )
-    public ResponseEntity<orders> getOrder( @PathVariable( "id" ) Long id ) {
-        //Print to system out to log the start of this method
-        System.out.println( "Get Order by id..." );
- 
-        //Run findById method from order repository
-        //this method runs a query that searches the database for the given id
-        Optional<orders> orderData = orderRepository.findById( id );
-        if ( orderData.isPresent() ) {
-            return new ResponseEntity<>( orderData.get(), HttpStatus.OK );
-        }//end if
-        else {
-            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
-        }//end else
-    }//end getOrders
-
     // countProducts is expecting an integer camp and a product id it then returns the number of
     //products of that id in the specified campaign the user running it has to be some type of admin
     @GetMapping( "/orders/products/{camp}/{product}" )
@@ -167,7 +136,6 @@ public class OrderController {
         try{
             Iterable<orders> o = orderRepository.getCamp( camp );
             o.forEach( list::add );
-            System.out.println( list.size() + "Here" );
             for( int i = 0; i < list.size(); i++ ){
                 orders temp = list.get( i );
                 Optional<Long> temp2 = productOrderedRepository.getQuantity( temp.getOrderId(), product );
@@ -180,8 +148,18 @@ public class OrderController {
         catch( Exception e ){
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end catch
+    }//end countProducts
 
-    }
+    @GetMapping( "/orders/total/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<Long> getAmountPaid( @PathVariable( "camp" ) int camp ){
+        try{
+            return new ResponseEntity<>( orderRepository.getSum( camp ), HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catrch
+    }//end getAmountPaid
  
     //Put mapping updates an order entry in the orders table
     //To create go to /api/orders/{order number}
@@ -213,7 +191,21 @@ public class OrderController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end else
     }//end updateOrder
- 
+
+    @PutMapping( "/orders/delivered/{id}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id ){
+        Optional<orders> orderData = orderRepository.findById( id );
+        if( orderData.isPresent() ){
+            orders o = orderData.get();
+            o.setDelivered( true );
+            return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
+        }//end if 
+        else{
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end else
+    }//end setDelivered
+
     //Delete Order is used to delete an order from the table
     //Send delete request to /api/orders/{the order number}
     @DeleteMapping( "/orders/{id}" )

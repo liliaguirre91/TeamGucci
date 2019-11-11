@@ -104,6 +104,7 @@ public class CampaignController {
     }//end getCurrent
 
     @PutMapping( "/campaigns/current/{id}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<Long> setCurrent( @PathVariable( "id" ) long id ){
         try{
             Optional<campaigns> previous = campaignRepository.findById( campaignRepository.getCurrent() );
