@@ -174,6 +174,20 @@ public class OrderController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end catch
     }//end getToBeDelivered
+
+    @GetMapping( "orders/previous/{userId}" )
+    @PreAuthorize( "isAuthenticated()" )
+    public ResponseEntity<List<orders>> getPrevious( @PathVariable( "userId" ) long userId ){
+        List<orders> list = new ArrayList<>();
+        try{
+            Iterable<orders> o = orderRepository.getPrevious( userId );
+            o.forEach( list::add );
+            return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }//end getPrevious
  
     //Put mapping updates an order entry in the orders table
     //To create go to /api/orders/{order number}
