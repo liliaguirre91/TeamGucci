@@ -172,6 +172,8 @@ public class OrderController {
             o.setDelivered( order.getDelivered() );
             o.setUserId( order.getUserId() );
             o.setPhone( order.getPhone() );
+            o.setName( order.getName() );
+            o.setPaid( order.getPaid() );
 
         
             orders update = orderRepository.save( o );

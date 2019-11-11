@@ -27,6 +27,10 @@ public class orders {
     private String phone;
     @Column( name = "createdAt" )
     private Timestamp createdAt;
+    @Column( name = "name" )
+    private String name;
+    @Column( name = "paid" )
+    private Integer paid;
     @Column( name = "user_id" )
     //@ManyToOne( targetEntity = users.class )
     //@PrimaryKeyJoinColumn( name = "user_id", referencedColumnName = "user_id" )
@@ -95,6 +99,16 @@ public class orders {
     public void setCreatedAt( Timestamp c ){
         createdAt = c;
     }//end setter
+
+    //setter for name
+    public void setName( String n ){
+        name =n;
+    }//end setter
+
+    //setter for paid
+    public void setPaid( Integer p ){
+        paid = p;
+    }//end setter
     
     //getter for payment
     public String getPayment( ) {
@@ -132,6 +146,16 @@ public class orders {
     public Timestamp getCreatedAt( ){
         return createdAt;
     }//end getter
+
+    //getter for name
+    public String getName( ){
+        return name;
+    }//end setter
+
+    //getter for paid
+    public Integer getPaid( ){
+        return paid;
+    }
 
     //To String for Orders
     public String toString( ){
