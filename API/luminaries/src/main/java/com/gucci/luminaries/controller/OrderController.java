@@ -160,6 +160,20 @@ public class OrderController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end catrch
     }//end getAmountPaid
+
+    @GetMapping( "orders/deliver/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<List<orders>> getToBeDelivered( @PathVariable( "camp" ) int camp ){
+        List<orders> list = new ArrayList<>();
+        try{
+            Iterable<orders> o = orderRepository.getToBeDelivered( camp );
+            o.forEach( list::add );
+            return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }//end getToBeDelivered
  
     //Put mapping updates an order entry in the orders table
     //To create go to /api/orders/{order number}

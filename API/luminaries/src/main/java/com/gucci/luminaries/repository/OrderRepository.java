@@ -16,4 +16,6 @@ public interface OrderRepository extends CrudRepository<orders, Long> {
 	Iterable<orders> getCamp( int camp );
 	@Query( value = "select sum( o.paid )from orders o where o.camp = :camp", nativeQuery = true )
 	long getSum( int camp );
+	@Query( value = "select * from orders o where o.camp = :camp and delivered = false order by order_number", nativeQuery = true )
+	Iterable<orders> getToBeDelivered(int camp);
 }
