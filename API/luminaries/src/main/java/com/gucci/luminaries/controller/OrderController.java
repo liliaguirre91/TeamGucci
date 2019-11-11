@@ -35,6 +35,9 @@ public class OrderController {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    ProductOrderedRepository productOrderedRepository;
+
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
  
     //Select all method 
@@ -152,6 +155,33 @@ public class OrderController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end else
     }//end getOrders
+
+    // countProducts is expecting an integer camp and a product id it then returns the number of
+    //products of that id in the specified campaign the user running it has to be some type of admin
+    @GetMapping( "/orders/products/{camp}/{product}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<Long> countProducts( @PathVariable( "camp" ) int camp, 
+        @PathVariable( "product" ) long product ){
+        long total = 0;
+        List<orders> list = new ArrayList<>();
+        try{
+            Iterable<orders> o = orderRepository.getCamp( camp );
+            o.forEach( list::add );
+            System.out.println( list.size() + "Here" );
+            for( int i = 0; i < list.size(); i++ ){
+                orders temp = list.get( i );
+                Optional<Long> temp2 = productOrderedRepository.getQuantity( temp.getOrderId(), product );
+                if( temp2.isPresent() ){
+                    total = total + temp2.get( );
+                }//end if
+            }//end for
+            return new ResponseEntity<>( total, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+
+    }
  
     //Put mapping updates an order entry in the orders table
     //To create go to /api/orders/{order number}

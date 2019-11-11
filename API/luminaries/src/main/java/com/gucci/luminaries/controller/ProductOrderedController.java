@@ -34,7 +34,7 @@ public class ProductOrderedController {
     @GetMapping( "/productOrdered" )
     public List<productOrdered> getAllProductOrdereds() {
         //System log to show startup
-        System.out.println( "Get all ProductOrdereded entries..." );
+        System.out.println( "Get all ProductOrdered entries..." );
  
         List<productOrdered> list = new ArrayList<>();
         //Run select all method from productordered repository

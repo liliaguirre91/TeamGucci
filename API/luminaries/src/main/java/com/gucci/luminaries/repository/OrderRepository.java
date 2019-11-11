@@ -12,4 +12,6 @@ public interface OrderRepository extends CrudRepository<orders, Long> {
 	int countOrders(Long camp);
 	@Query( value = "select * from orders o where o.address = :address and o.camp = :camp", nativeQuery = true )
 	Iterable<orders> findByAddress(String address, int camp);
+	@Query( value = "select * from orders o where o.camp = :camp order by o.order_number", nativeQuery = true )
+	Iterable<orders> getCamp(int camp);
 }
