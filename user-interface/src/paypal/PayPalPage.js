@@ -6,6 +6,7 @@ import "./PayPalPage.css";
 
 class PayPalPage extends React.Component {
     render() {
+        let cart = JSON.parse(localStorage.getItem('cart'));
         return (
             <div className="paypal-container">
                 <h1 className="page-title"> Payment Page </h1>
@@ -47,7 +48,7 @@ class PayPalPage extends React.Component {
                                 phone: 9234373472,
                                 delivered: false,
                                 camp: 19,
-                                user_id: user_id
+                                userId: user_id
                             };
                             
                             localStorage.setItem('orderInfo', JSON.stringify(orderInfo));
@@ -110,7 +111,7 @@ class PayPalPage extends React.Component {
                                     }
                                     if (products_added === false) {
                                         break;
-                                        //redirect to other page to attempt order again
+                                        //remove order and redirect to other page to attempt order again
                                     }
                                 }//end for
                                 if (products_added === true) {

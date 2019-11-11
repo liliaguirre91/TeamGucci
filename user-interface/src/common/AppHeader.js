@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import {
     Link,
     withRouter
 } from 'react-router-dom';
 import './AppHeader.css';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
+import 'antd/dist/antd.css';
 const Header = Layout.Header;
 
 class AppHeader extends Component {
@@ -47,33 +49,38 @@ class AppHeader extends Component {
           
 
         return (
-            <Header className="app-header">
-            <div className="container">
-                <div className="app-title" >
-                    <Link to="/">Home</Link>
-                </div>
-                <Menu
-                    className="app-menu"
-                    mode="horizontal"
-                    selectedKeys={[this.props.location.pathname]}
-                    style={{ lineHeight: '64px' }} >
-                    {menuItems}
-                </Menu>
-                </div>
-            </Header>
+            <Layout className="Layout">
+                <Header className="app-header">
+                    <div className="container">
+                        <div className="app-title" >
+                            <Link to="/">LCHS Band</Link>
+                        </div>
+                        <Menu
+                            className="app-menu"
+                            theme="dark"
+                            mode="horizontal"
+                            selectedKeys={[this.props.location.pathname]}
+                            style={{ lineHeight: '64px' }} >
+                            {menuItems}
+                        </Menu>
+                    </div>
+                </Header>
+            </Layout>
         );
     }
 }
 
 function AccountDropdownMenu(props) {
     const dropdownMenu = (
-        <Menu onClick={props.handleMenuClick} className="account-dropdown-menu">
+        <Menu 
+            theme="dark"
+            onClick={props.handleMenuClick} className="account-dropdown-menu">
             <Menu.Item key="user-info" className="dropdown-item" disabled>
                 <div className="user-full-name-info">
                     {props.currentUser.name}
                 </div>
                 <div className="email-info">
-                    @{props.currentUser.email}
+                    {props.currentUser.email}
                 </div>
             </Menu.Item>
             <Menu.Divider />
@@ -98,6 +105,10 @@ function AccountDropdownMenu(props) {
   );
 }
 
+/*ReactDOM.render(
+    <AppHeader/>,
+    document.getElementById('root')
+);*/
 
 export default withRouter(AppHeader);
 

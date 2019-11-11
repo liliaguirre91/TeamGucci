@@ -1,3 +1,4 @@
+
 .app-title {
     float: left;
   }
@@ -27,6 +28,7 @@
     left: 0;
     width: 100%;
     box-shadow: 0 2px 8px #f0f1f2;
+    background-color: #f0f1f2;
     z-index: 99;
     padding: 0;
   }
@@ -51,14 +53,13 @@
   .account-dropdown-menu {
     position: fixed;
     left: 0;
-
     min-width: 180px;
   }
 
   .account-menu .user-full-name-info {
     font-size: 17px;
     font-weight: 600;
-    color: rgba(0,0,0,0.85);
+    color: rgba(255,255,255,255.85);
   }
   
   .account-menu .username-info {
@@ -79,9 +80,7 @@
     font-size: 20px;
   }
 
-  .poll-icon {
-    margin-top: -4px;
-  }
+
 
 @media (max-width: 768px) {
   .app-title a {

@@ -159,6 +159,22 @@ export function getProducts() {
     );
 }
 
+export function getProductPrice(productID) {
+    return APIRequest({
+        url:'api/products/' + productID,
+        method: 'GET'
+    })
+    .then(response =>
+        response.json().then(result => {
+            if(!response.ok) {
+                return Promise.reject(result);
+            }
+            return result;
+        })
+    );
+}
+        
+
 export function checkEmail(email) {
     return APIRequest({
         url:'api/users/check/' + email ,

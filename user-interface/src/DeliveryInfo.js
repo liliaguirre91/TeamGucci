@@ -101,7 +101,8 @@ class DeliveryInfo extends React.Component {
             camp: 19,
             user_id: user_id
         };
-
+        
+        localStorage.setItem('cashOrderInfo', JSON.stringify(orderInfo));
         /* Call the createOrder function to create order in database */
         createOrder(orderInfo)
             .then((order_id) => this.setState({ order_id }))
