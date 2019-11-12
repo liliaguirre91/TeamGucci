@@ -12,4 +12,12 @@ public interface OrderRepository extends CrudRepository<orders, Long> {
 	int countOrders(Long camp);
 	@Query( value = "select * from orders o where o.address = :address and o.camp = :camp", nativeQuery = true )
 	Iterable<orders> findByAddress(String address, int camp);
+	@Query( value = "select * from orders o where o.camp = :camp order by o.order_number", nativeQuery = true )
+	Iterable<orders> getCamp( int camp );
+	@Query( value = "select sum( o.paid )from orders o where o.camp = :camp", nativeQuery = true )
+	long getSum( int camp );
+	@Query( value = "select * from orders o where o.camp = :camp and delivered = false order by order_number", nativeQuery = true )
+	Iterable<orders> getToBeDelivered(int camp);
+	@Query( value = "select * from orders o where o.user_id = :userId", nativeQuery = true )
+	Iterable<orders> getPrevious(long userId);
 }
