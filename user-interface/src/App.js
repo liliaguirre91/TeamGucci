@@ -23,6 +23,7 @@ import LoadingIndicator from './common/LoadingIndicator';
 import PayPalPage from './paypal/PayPalPage.js';
 import OrderReview from './OrderReview.js';
 import AdminAccountPage from './user/account/admin/AdminAccountPage.js';
+import CustomerAccountPage from './user/account/customer/CustomerAccountPage.js';
 import CreateAdmin from './user/account/admin/CreateAdmin.js';
 import CampaignsPage from './user/account/admin/Campaign.js';
 import DeliveryReport from './user/account/admin/DeliveryReport.js';
@@ -138,6 +139,9 @@ class App extends React.Component {
                                     currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/admin-account"
                                 render={(props) => <AdminAccountPage isAuthenticated={this.state.isAuthenticated} 
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/user-account"
+                                render={(props) => <CustomerAccountPage isAuthenticated={this.state.isAuthenticated} 
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/admin-create-admin"
                                 render={(props) => <CreateAdmin isAuthenticated={this.state.isAuthenticated} 
