@@ -53,6 +53,35 @@ export function createAdmin(adminInfo) {
         })
     );
 }
+export function orderCount( camp ){
+   return APIRequest({
+      url: '/api/orders/count/' + camp,
+      method: 'GET'
+   })
+   .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+}
+export function amountPaid( camp ){
+   return APIRequest({
+      url: '/api/orders/total/' + camp,
+      method: 'GET'
+   })
+   .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+}
+
 export function login(loginRequest) {
     return APIRequest({
         url: 'api/auth/signin',
@@ -135,11 +164,11 @@ export function lookupOrder(orderNumber) {
       method: 'GET'
    })
    .then(response =>
-      response.text().then(name => {
+      response.text().then(result => {
          if(!response.ok) {
-            return Promise.reject(name);
+            return Promise.reject(result);
          }
-         return name;
+         return result;
       })
     );
 }

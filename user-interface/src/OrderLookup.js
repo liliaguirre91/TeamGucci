@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import { lookupOrder } from './util/APIFunctions';
 import './OrderLookup.css';
-import { Form, Input, Button, notification } from 'antd'
+import { Form, Input, Button, message } from 'antd'
 const FormItem= Form.Item;
 
 class OrderLookup extends Component {
@@ -25,7 +25,7 @@ class OrderLookup extends Component {
    }
 
     
-   handleSubmit(event) {
+   async handleSubmit(event) {
       event.preventDefault();
       /*const url = '/api/orders/search/'+ this.state.OrderID;
       fetch(url)
@@ -33,14 +33,14 @@ class OrderLookup extends Component {
          .then(result => this.setState({ result }));*/
       
       const orderNumber = this.state.OrderID;
-      lookupOrder(orderNumber)
+      
+      await lookupOrder(orderNumber) 
       .then(result => 
          this.setState({ result })
        );
-       
       
             
-      setTimeout(function() {
+      /*setTimeout(function() {
          if (this.state.result == 'false')
             alert('Your product has not been delivered!!');
          else if (this.state.result == 'true')
@@ -49,29 +49,41 @@ class OrderLookup extends Component {
             alert("Hello");
          this.setState({ submitted: true });
       }.bind(this), 200)
+      */
       
-      
+         if (this.state.result == 'false') {
+            //this.setState({ deliveryInfo: 'Your product has not been delivered yet'});
+            //alert('Your product has not been delivered yet');
+            message.error('Order number ' + orderNumber + ' has not been delivered yet.');
+            this.setState({deliveryInfo:"Your Order has not been delivered yet."});
+         }
+         else if (this.state.result == 'true') {
+            //this.setState({ deliveryInfo: 'Your product has been delivered!!' });
+            //alert('Your product has been delivered!');
+            message.success('Order number ' + orderNumber + ' has been delivered!')
+            this.setState({deliveryInfo: "Your order has been delivered!!"});
+         }
 
-      if (this.state.result == 'false')
-         this.setState({ deliveryInfo: 'Your product has not been delivery yet'});
-      else if (this.state.result == 'true')
-         this.setState({ deliveryInfo: 'Your product has been delivered!!' });
-      else
-         this.setState({ deliveryInfo: this.state.result });
+         //never triggers because of the await on line 37
+        else {
+         //this.setState({ deliveryInfo: this.state.result });
+         alert('Could not find order');
+         this.setState({deliveryInfo:"There is not order with that order number!!"});
+        }
       
-      
-      
-   }
+         
+         this.setState({ submitted: true});
+      }
+   
 
    
-   renderDeliveryInfo() {
-      return <OrderLookup OrderID={this.state.OrderID}/>
-   }
+
+  
    
    render() {
       return (
          <div className="order-search-container">
-            <h1 className="page-title">Order LoOkup</h1>
+            <h1 className="page-title">Order Lookup</h1>
             <h2 align="center"> Enter your order ID number: </h2>
             <h3 align="center"> (It is the number from your confirmation page) </h3>
                 <Form className="search-form" align="center" onSubmit={this.handleSubmit}> 
@@ -92,7 +104,8 @@ class OrderLookup extends Component {
                                className="search-form-button">Search</Button>
                     </FormItem>
                 </Form>
-                {this.state.submitted}
+                {this.state.submitted &&
+                  <h1>{this.state.deliveryInfo}</h1>}
          </div>
       );
    }

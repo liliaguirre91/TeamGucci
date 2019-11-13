@@ -9,7 +9,11 @@ import com.gucci.luminaries.model.productOrdered;
 import com.gucci.luminaries.repository.ProductOrderedRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +50,20 @@ public class ProductOrderedController {
         //it to the screen
         return list;
     }//end getAllProductOrdereds
+
+    @GetMapping( "/productOrdered/{id}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<List<productOrdered>> getProductOrdered( @PathVariable( "id" ) long id ){
+        List<productOrdered> list = new ArrayList<>();
+        try{
+            Iterable<productOrdered> p = productOrderedRepository.getOrder( id );
+            p.forEach( list::add );
+            return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }//enc getProductOrdered
     
     //Create productordered function is used to create a new productOrdered
     //Send a post request to /api/productOrdereds/create
