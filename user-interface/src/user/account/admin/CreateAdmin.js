@@ -247,51 +247,31 @@ class CreateAdmin extends React.Component {
                         </FormItem>
 
                         <FormItem
-
                             label="Password"
-
                             validateStatus={this.state.password.validateStatus}
-
                             help={this.state.password.errorMsg}>
 
                             <Input
-
                                 size="large"
-
                                 name="password"
-
                                 type="password"
-
                                 autoComplete="off"
-
                                 placeholder="8-15 characters"
-
                                 value={this.state.password.value}
-
                                 onChange={(event) => this.handleInputChange(event, this.validatePassword)}/>
-
                         </FormItem>	 
 
                         <FormItem>
-
                             <Button type="primary"
-
                                 htmlType="submit"
-
                                 size="large"
-
-                                className="signup-form-button"> Create </Button>
-
+                                className="signup-form-button"
+                                disabled={this.isFormInvalid()}> Create </Button>
                         </FormItem>
-
                     </Form>
-
                 </div>
-
             </div>
-
         );
-
     }
 
 
