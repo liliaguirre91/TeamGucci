@@ -71,27 +71,54 @@ class AppHeader extends Component {
 }
 
 function AccountDropdownMenu(props) {
-    const dropdownMenu = (
-        <Menu 
-            theme="dark"
-            onClick={props.handleMenuClick} className="account-dropdown-menu">
-            <Menu.Item key="user-info" className="dropdown-item" disabled>
-                <div className="user-full-name-info">
-                    {props.currentUser.name}
-                </div>
-                <div className="email-info">
-                    {props.currentUser.email}
-                </div>
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item key="account" className="dropdown-item">
-                <Link to={`/admin-account`}>Account</Link>
-            </Menu.Item>
-            <Menu.Item key="logout" className="dropdown-item">
-                <Link to = {`/`}>Logout</Link>
-            </Menu.Item>
-        </Menu>
-    );
+    var dropdownMenu;
+    let user_role = props.currentUser.role;
+    if( user_role === 'Role_ROOT' || user_role === 'Role_ADMIN' ){
+        dropdownMenu = (
+            <Menu 
+                theme="dark"
+                onClick={props.handleMenuClick} className="account-dropdown-menu">
+                <Menu.Item key="user-info" className="dropdown-item" disabled>
+                    <div className="user-full-name-info">
+                        {props.currentUser.name}
+                    </div>
+                    <div className="email-info">
+                        {props.currentUser.email}
+                    </div>
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item key="account" className="dropdown-item">
+                    <Link to={`/admin-account`}>Account</Link>
+                </Menu.Item>
+                <Menu.Item key="logout" className="dropdown-item">
+                    <Link to = {`/`}>Logout</Link>
+                </Menu.Item>
+            </Menu>
+        );
+    }
+    else {
+        dropdownMenu = (
+            <Menu 
+                theme="dark"
+                onClick={props.handleMenuClick} className="account-dropdown-menu">
+                <Menu.Item key="user-info" className="dropdown-item" disabled>
+                    <div className="user-full-name-info">
+                        {props.currentUser.name}
+                    </div>
+                    <div className="email-info">
+                        {props.currentUser.email}
+                    </div>
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item key="account" className="dropdown-item">
+                    <Link to={`/user-account`}>Account</Link>
+                </Menu.Item>
+                <Menu.Item key="logout" className="dropdown-item">
+                    <Link to = {`/`}>Logout</Link>
+                </Menu.Item>
+            </Menu>
+        );
+    }
 
   return (
         <Dropdown 
