@@ -1,7 +1,7 @@
 //import React from 'react';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { createCampaign, deleteCampaign } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
+import { createCampaign, deleteCampaign, orderCount, amountPaid } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
 import './Campaign.css';
 import { Form, Input, Button, notification } from 'antd'
 const FormItem= Form.Item;
@@ -18,6 +18,8 @@ class Campaign extends Component {
       this.handleIDChange = this.handleIDChange.bind(this);    
       this.handleCreate = this.handleCreate.bind(this);  
       this.handleDelete = this.handleDelete.bind(this);
+      this.handleCount = this.handleCount.bind(this);
+      this.handleEarnings = this.handleEarnings.bind(this);
    //this.loadUser = this.saveUser.bind(this);
   }
 
@@ -90,7 +92,24 @@ class Campaign extends Component {
       }.bind(this), 200)
    }
 
-   
+   async handleCount( event ){
+      const campaignNumber = parseInt( this.state.CampaignID );
+      await orderCount(campaignNumber)
+      .then(result => 
+         this.setState({ result })
+         );
+      alert( this.state.result );
+   }
+
+   async handleEarnings( event ){
+      const campaignNumber = parseInt( this.state.CampaignID );
+      await amountPaid(campaignNumber)
+      .then(result => 
+         this.setState({ result })
+         );
+      alert( this.state.result );
+   }
+
    renderCampaignInfo() {
       return <Campaign CampaignID={this.state.CampaignID}/>
    }
@@ -102,18 +121,19 @@ class Campaign extends Component {
    render() {
       return (
          <div className="campaign-container">
-            <h1 className="page-title"> Create/Delete a Campaign </h1>
-            <h2 align="center"> Enter a campaign ID number: </h2>
-                <Form className="campaign-form" align="center" onSubmit={this.handleSubmit}> 
+            <h2 className="page-title"> Campaign Configuration </h2>
+            <h5 align="center"> Enter a campaign ID number: </h5>
+                <Form className="campaign-form" align="center"> 
                     <FormItem
-                        label="Campaign Number">
+                        label="">
                         <Input 
                             size="large"
                             type="text" 
+                            pattern="^[0-9]*$"
                             autocomplete="off"
                             placeholder="campaign ID"
                             CampaignID={this.state.CampaignID} 
-                            onChange={this.handleIDChange} maxLength="4"/>
+                            onChange={this.handleIDChange} maxLength="2"/>
                     </FormItem>
                     <FormItem>
                          <Button type="primary"
@@ -128,6 +148,48 @@ class Campaign extends Component {
                                 size="large"
                                className="campaign-form-delete-button"
                                onClick={(e) => this.handleDelete(e) }>Delete campaign</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-earnings-button"
+                               onClick={(e) => this.handleEarnings( e ) }>Revenue report</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-addProduct-button"
+                               onClick={(e) => this.handleCreate(e) }>Add a product</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-delProduct-button"
+                               onClick={(e) => this.handleCreate(e) }>Delete a product</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-viewOrders-button"
+                               onClick={(e) => this.handleCount(e) }>Count all orders</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-viewProductsOrders-button"
+                               onClick={(e) => this.handleCreate(e) }>Products ordered</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-ordersDelivered-button"
+                               onClick={(e) => this.handleCreate(e) }>Delivery report</Button>
                     </FormItem>
                 </Form>
                 {this.state.submitted}

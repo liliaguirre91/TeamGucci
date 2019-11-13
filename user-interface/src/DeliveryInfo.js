@@ -32,7 +32,6 @@ class DeliveryInfo extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.isFormInvalid = this.isFormInvalid.bind(this);
-  
     }
   
   /***********************************************************************************
@@ -99,7 +98,8 @@ class DeliveryInfo extends React.Component {
             phone: phone,
             delivered: false,
             camp: 19,
-            user_id: user_id
+            user_id: user_id,
+            name: name
         };
         
         localStorage.setItem('cashOrderInfo', JSON.stringify(orderInfo));
@@ -124,7 +124,6 @@ class DeliveryInfo extends React.Component {
             let keys = Object.keys(cart); 
             
             for (var i = 0; i < cartSize; i++) {
-                //console.log(keys[i] + ":" + cart[keys[i]]);
                 let productID = keys[i];
                 let quantity = cart[keys[i]];
                 const productsOrdered = {
@@ -167,16 +166,16 @@ class DeliveryInfo extends React.Component {
             description: error.message || 'Sorry! Something went wrong!'
          });
       });*/
-   }
+    }
 
-   isFormInvalid() {
-   	return !(this.state.name.validateStatus === 'success' &&
-   			 this.state.address.validateStatus === 'success' &&
-   			 this.state.city.validateStatus === 'success' &&
-  			 this.state.st.validateStatus === 'success' &&
-   			 this.state.zipCode.validateStatus === 'success'
-   		);
-   }
+    isFormInvalid() {
+        return !(this.state.name.validateStatus === 'success' &&
+            this.state.address.validateStatus === 'success' &&
+            this.state.city.validateStatus === 'success' &&
+            this.state.st.validateStatus === 'success' &&
+            this.state.zipCode.validateStatus === 'success'
+        );
+    }
    
 
   render() {

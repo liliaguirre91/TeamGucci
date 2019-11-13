@@ -1,7 +1,6 @@
 .login-container {
     max-width: 420px;
     margin: 0 auto;
-    margin: 0 auto;
     margin-top: 80px;
 }
 
@@ -12,7 +11,7 @@
 }
 
 .login-form input {
-    margin-bottom: 10px;
+    margin-bottom: 3px;
     width: 60%;
     text-align: center;
 }

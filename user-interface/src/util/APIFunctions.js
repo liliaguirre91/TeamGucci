@@ -53,6 +53,35 @@ export function createAdmin(adminInfo) {
         })
     );
 }
+export function orderCount( camp ){
+   return APIRequest({
+      url: '/api/orders/count/' + camp,
+      method: 'GET'
+   })
+   .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+}
+export function amountPaid( camp ){
+   return APIRequest({
+      url: '/api/orders/total/' + camp,
+      method: 'GET'
+   })
+   .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+}
+
 export function login(loginRequest) {
     return APIRequest({
         url: 'api/auth/signin',
@@ -159,7 +188,7 @@ export function getProducts() {
     );
 }
 
-export function getProductPrice(productID) {
+export function getProduct(productID) {
     return APIRequest({
         url:'api/products/' + productID,
         method: 'GET'
