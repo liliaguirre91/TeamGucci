@@ -102,18 +102,19 @@ class Campaign extends Component {
    render() {
       return (
          <div className="campaign-container">
-            <h1 className="page-title"> Create/Delete a Campaign </h1>
-            <h2 align="center"> Enter a campaign ID number: </h2>
+            <h2 className="page-title"> Campaign Configuration </h2>
+            <h5 align="center"> Enter a campaign ID number: </h5>
                 <Form className="campaign-form" align="center" onSubmit={this.handleSubmit}> 
                     <FormItem
-                        label="Campaign Number">
+                        label="">
                         <Input 
                             size="large"
                             type="text" 
+                            pattern="^[0-9]*$"
                             autocomplete="off"
                             placeholder="campaign ID"
                             CampaignID={this.state.CampaignID} 
-                            onChange={this.handleIDChange} maxLength="4"/>
+                            onChange={this.handleIDChange} maxLength="2"/>
                     </FormItem>
                     <FormItem>
                          <Button type="primary"
@@ -128,6 +129,48 @@ class Campaign extends Component {
                                 size="large"
                                className="campaign-form-delete-button"
                                onClick={(e) => this.handleDelete(e) }>Delete campaign</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-earnings-button"
+                               onClick={(e) => this.handleCreate(e) }>Revenue report</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-addProduct-button"
+                               onClick={(e) => this.handleCreate(e) }>Add a product</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-delProduct-button"
+                               onClick={(e) => this.handleCreate(e) }>Delete a product</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-viewOrders-button"
+                               onClick={(e) => this.handleCreate(e) }>View all orders</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-viewProductsOrders-button"
+                               onClick={(e) => this.handleCreate(e) }>Products ordered</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-ordersDelivered-button"
+                               onClick={(e) => this.handleCreate(e) }>Delivery report</Button>
                     </FormItem>
                 </Form>
                 {this.state.submitted}
