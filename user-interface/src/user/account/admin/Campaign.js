@@ -25,6 +25,10 @@ class Campaign extends Component {
       this.setState({CampaignID: event.target.value});
    }
 
+   handleClick = param => e => {
+    e.preventDefault();
+    this.props.history.push(param);
+    }
     
    handleCreate(event) {
       event.preventDefault();
@@ -142,7 +146,7 @@ class Campaign extends Component {
                                 htmlType="submit"
                                 size="large"
                                className="campaign-form-addProduct-button"
-                               onClick={(e) => this.handleCreate(e) }>Add a product</Button>
+                               onClick={this.handleClick("/add-product") }>Add a product</Button>
                     </FormItem>
                     <FormItem>
                          <Button type="primary"

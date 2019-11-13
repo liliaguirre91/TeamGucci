@@ -25,6 +25,7 @@ import OrderReview from './OrderReview.js';
 import AdminAccountPage from './user/account/admin/AdminAccountPage.js';
 import CreateAdmin from './user/account/admin/CreateAdmin.js';
 import CampaignsPage from './user/account/admin/Campaign.js';
+import AddProduct from './user/account/admin/addProduct.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -142,6 +143,9 @@ class App extends React.Component {
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/campaigns"
                                 render={(props) => <CampaignsPage isAuthenticated={this.state.isAuthenticated} 
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/add-product"
+                                render={(props) => <AddProduct isAuthenticated={this.state.isAuthenticated} 
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/order-lookup" component={ OrderLookup }></Route>
                         </Switch>

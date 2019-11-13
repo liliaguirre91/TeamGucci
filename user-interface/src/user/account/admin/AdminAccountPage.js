@@ -94,7 +94,7 @@ class AdminAccountPage extends React.Component {
       return (
          <form onSubmit={this.handleSubmit}> 
          {/* WELCOME TITLE */}
-            <h1 class="title" align="center"> ADMIN ACCOUNT TEST </h1> 
+            <h1 class="title" align="center"> ADMIN ACCOUNT </h1> 
             <div>
                   {/* LOGO */}
                   <img src={logo} class="center" alt="logo" 
@@ -105,7 +105,7 @@ class AdminAccountPage extends React.Component {
             <div> 
                   {/* BUTTONS ON HOME PAGE*/}
                <button class="center"> Add a product </button> <br/>
-               <button class="center"onClick={ this.handleClick("/campaigns") }> Create/Delete a campaign </button> <br/>
+               <button class="center"onClick={ this.handleClick("/campaigns") }> Campaign Configuration </button> <br/>
                <button class="center"> View orders </button> <br/>
                <button class="center" onClick={ this.handleClick("/admin-create-admin") }> Create an Admin</button> <br/>
             </div>

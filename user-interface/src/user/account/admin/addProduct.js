@@ -1,160 +1,123 @@
+//import React from 'react';
+//import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
+
+
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'antd/dist/antd.css';
+import './addProduct.css';
+import {
+  Form,
+  Select,
+  InputNumber,
+  Input,
+  Switch,
+  Radio,
+  Slider,
+  Button,
+  Upload,
+  Icon,
+  Rate,
+  Checkbox,
+  Row,
+  Col,
+} from 'antd';
 
-//import './NameForm.css';
+const FormItem= Form.Item;
+const { Option } = Select;
 
+class addProduct extends React.Component {
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  };
 
-
-class NameForm extends React.Component {
-
-  constructor(props) {
-
-    super(props);
-
-    this.state = {name: '',
-
-                  email: '',
-
-                  address: '',
-
-                  id:''
-
-   };
-
-
-
-    this.handleNameChange = this.handleNameChange.bind(this);
-
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-
-    this.handleAddressChange = this.handleAddressChange.bind(this);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-    //this.loadUser = this.saveUser.bind(this);
-
-  }
-
-  
-
-  handleNameChange(event) {
-
-    this.setState({name: event.target.value});
-
-  }
-
-  
-
-  handleEmailChange(event) {
-
-    this.setState({email: event.target.value});
-
-  }
-
-
-
-  handleAddressChange(event) {
-
-  	this.setState({address: event.target.value});
-
-  }
-
-
-
-  handleSubmit(event) {
-
-    
-
-    event.preventDefault();
-
-    const { name } = this.state;
-
-    const { email } = this.state;
-
-    const { address } = this.state;
-
-    alert('A name and email were submitted: ' + name + ' ' + email);
-
-    /*UserDataService.retrieveUserInfo(name, email)
-
-      .then((res) => {
-
-         let user = res.data.result;
-
-         this.setState({
-
-            id: user.name
-
-         })
-
-      });
-
-    //const { id } = this.state;*/
-
-    this.props.history.push( "user/" + name + "/" + email);
-
-  }
-
-
+  normFile = e => {
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
 
   render() {
-
+    const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 14 },
+    };
     return (
+    <div className="product-container">
+        <h2 className="page-title"> Add a Product </h2>
+          <Form onSubmit={this.handleSubmit}>
+            <FormItem
+                label="Product">
+                <Input 
+                    name="product"
+                    size="large"
+                    type="text" 
+                    autocomplete="off"
+                    placeholder="product name"
+                    onChange={this.handleIDChange} maxLength="20"/>
+            </FormItem>
+            <FormItem
+                label="Product description">
+                <Input 
+                    name="description"
+                    size="large"
+                    type="text" 
+                    autocomplete="off"
+                    placeholder="description"
+                    onChange={this.handleIDChange} maxLength="50"/>
+            </FormItem>
+            <FormItem
+                label="Price">
+                <Input 
+                    name="price"
+                    size="large"
+                    type="Integer" 
+                    autocomplete="off"
+                    placeholder="0.00"
+                    onChange={this.handleIDChange} maxLength="5"/>
+            </FormItem>
 
-      <form onSubmit={this.handleSubmit}> 
-
-         <h1> Fill in the blanks below </h1>
-
-         <label>
-
-            Full name: <br/>
-
-            <input type="text" value={this.state.value} onChange={this.handleNameChange} /> <br/><br/>
-
-         </label>
-
-         
-
-         <label>
-
-            Email: <br/>
-
-            <input type="email" value={this.state.value} onChange={this.handleEmailChange} /> <br/><br/>
-
-         </label>
-
-         
-
-         <label>
-
-         	Address: <br/>
-
-         	<input type="text" value={this.state.value} onChange={this.handleAddressChange} /> <br/><br/>
-
-         </label>
-
-         
-
-         <input type="submit" value="Submit" />
-
-      </form>
-
+            <FormItem label="Upload">
+          {getFieldDecorator('upload', {
+            valuePropName: 'fileList',
+            getValueFromEvent: this.normFile,
+          })(
+            <Upload name="logo" action="/upload.do" listType="picture">
+              <Button>
+                <Icon type="upload" /> Click to upload
+              </Button>
+            </Upload>,
+          )}
+        </FormItem>
+        <FormItem >
+          <Button type="primary" htmlType="submit">
+            Add
+          </Button>
+        </FormItem>
+      </Form>
+      </div>
     );
-
   }
-
 }
 
+const WrappedDemo = Form.create({ name: 'validate_other' })(addProduct);
+ReactDOM.render(<addProduct />, document.getElementById('root'));        
+export default WrappedDemo;
 
 
-ReactDOM.render(
-
-  <NameForm />,
-
-  document.getElementById('root')
-
-);
-
-
-
-export default NameForm;
+//const WrappedDemo = Form.create({ name: 'validate_other' })(Demo);
+/*ReactDOM.render(
+    <AddProduct/>,
+    document.getElementById('root')
+  );
+export default AddProduct;
+*/

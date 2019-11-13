@@ -15,17 +15,11 @@ const FormItem = Form.Item;
 
 
 class CreateAdmin extends React.Component {
-
   constructor(props) {
-
     super(props);
-
     this.state = { 
-
                   name: {
-
                      value: ''
-
                   },
 
                   email: {
@@ -182,72 +176,42 @@ class CreateAdmin extends React.Component {
         return (
 
             <div className="signup-container">
-
                 <h1 className="page-title"> Create a new Admin account </h1>
-
                  <div className="signup-content">
-
                     <Form align="center" onSubmit={this.handleSubmit} className="signup-form">
-
                         <FormItem
-
                             label="Full Name"
-
                             validateStatus={this.state.name.validateStatus}
-
                             help={this.state.name.errorMsg}>
-
                             <Input
-
                                 size="large"
-
                                 name="name"
-
                                 autoComplete="off"
-
                                 placeholder="Admin's full name"
-
                                 value={this.state.name.value}
-
                                 onChange={(event) => this.handleInputChange(event, this.validateName)}/>
-
                         </FormItem>
 
                         <FormItem
-
                             label="Email"
-
                             hasFeedback
-
                             validateStatus={this.state.email.validateStatus}
-
                             help={this.state.email.errorMsg}>
-
                             <Input
-
                                 size="large"
-
                                 name="email"
-
                                 type="email"
-
                                 autoComplete="off"
-
                                 placeholder="Admin's email"
-
                                 value={this.state.email.value}
-
                                 onBlur={this.validateEmailAvailability}
-
                                 onChange={(event) => this.handleInputChange(event, this.validateEmail)}/>
-
                         </FormItem>
 
                         <FormItem
                             label="Password"
                             validateStatus={this.state.password.validateStatus}
                             help={this.state.password.errorMsg}>
-
                             <Input
                                 size="large"
                                 name="password"
