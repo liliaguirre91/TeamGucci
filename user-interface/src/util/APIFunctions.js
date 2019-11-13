@@ -159,7 +159,7 @@ export function getProducts() {
     );
 }
 
-export function getProductPrice(productID) {
+export function getProduct(productID) {
     return APIRequest({
         url:'api/products/' + productID,
         method: 'GET'

@@ -226,7 +226,7 @@ class CreateAccount extends React.Component {
         } else if (password.length > PASSWORD_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
-                errorMsg: 'Password is too long (Maximum 15 characters allowed.)'
+                errorMsg: 'Password is too long (Maximum 32 characters allowed.)'
             }
         } else {
             return {

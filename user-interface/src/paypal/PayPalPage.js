@@ -1,19 +1,115 @@
 import React from 'react';
 import { PayPalButton } from "react-paypal-button-v2";
-import { createOrder, createProductsOrdered } from '../util/APIFunctions';
-import {Form, Input, Button, notification } from 'antd';
+import { createOrder, createProductsOrdered, getProduct } from '../util/APIFunctions';
+import {Form, Input, Button, notification, Table } from 'antd';
 import "./PayPalPage.css";
 
+
+const items = [];
+//var total = 0;
 class PayPalPage extends React.Component {
-    render() {
+    constructor(props) {
+        super(props);
+        this.state = {
+                    productName: "",
+                    productPrice: 0,
+                    total: 0,
+                    summary: ""
+                    //product: "hello"
+        }
+    }
+    
+    async componentDidMount() {
+        
         let cart = JSON.parse(localStorage.getItem('cart'));
+        let cartSize = Object.keys(cart).length;
+        let keys = Object.keys(cart);
+        var tot = 0;
+        const productNames = [];
+        const productPrices = [];
+        const productQuantities = [];
+        const product = {};
+        
+        
+        for (var i = 0; i < cartSize; i++) {
+                let productID = keys[i];
+                let quantity = cart[keys[i]];
+                const response = await getProduct(productID)
+                    .then (response => {
+                        this.setState({
+                            productName: response.product,
+                            productPrice: response.price
+                        });
+                    })
+                    .catch(error => {
+                        notification.error({
+                            message: 'LCHS Band Fundraising',
+                            description:error.message || 'Sorry! Something went wrong!'
+                        });
+                    })
+                //let id = productID.toString();
+                //const productInfo = [this.state.productName, this.state.productPrice];
+               // setTimeout(function() {
+               //     console.log(productInfo);
+                //}.bind(this), 500)
+                //product[id] = productInfo;
+                //console.log(product[id]);
+                productNames.push(this.state.productName);
+                productPrices.push(this.state.productPrice);
+                productQuantities.push(quantity);
+                tot += (this.state.productPrice * quantity);
+        }
+        for (var i = 0; i < productNames.length; i++) {
+            const item = { product: productNames[i], price: productPrices[i], quantity: productQuantities[i] }
+            console.log(item);
+            items.push(item);
+        }
+        console.log(items)
+        this.setState({ total: tot });
+        //console.log(product);
+        //console.log(productNames, productPrices, productQuantities, this.state.total);
+        
+        /*for (const [index, value] of productNames.entries()) {
+            items.push(<li key={index}>{value}</li>)
+            console.log(items);
+        }*/
+
+    }
+    
+    render() {
+        const columns = [
+            {
+                title: 'Product',
+                dataIndex: 'product',
+                key: 'product',
+            },
+            {
+                title: 'Price',
+                dataIndex: 'price',
+                key: 'price',
+            },
+            {
+                title: 'Quantity',
+                dataIndex: 'quantity',
+                key: 'quantity',
+            },    
+        ];
+
         return (
             <div className="paypal-container">
                 <h1 className="page-title"> Payment Page </h1>
-                <h5 align="center"> Please enter your delivery information directly on the PayPal page</h5>
+                <h5 align="center"> Please enter your delivery information directly on the PayPal page</h5> <br/>
+                <div className="paypal-summary">
+                <Table 
+                    dataSource={items} 
+                    columns={columns} 
+                    pagination={false}
+                    footer={ () => 'Your total is: $' + this.state.total }
+                />
+                </div>
                 <div className="paypal-button" align="center">
                     <PayPalButton
-                        amount="0.01"
+                        amount={ this.state.total }
                         onSuccess={(details, data) => {
                             //alert("Transaction completed by " + JSON.stringify(details.purchase_units[0].shipping.address));
                 
@@ -21,7 +117,7 @@ class PayPalPage extends React.Component {
                             var address = '';
                             var order_created = true;
                             var products_added = true;
-                            const name  = JSON.stringify(details.purchase_units[0].shipping.name.full_name);
+                            const name = details.purchase_units[0].shipping.name.full_name;
                             //const phone = this.state.phone.value;
                             const address_line_1 = details.purchase_units[0].shipping.address.address_line_1;
 
@@ -48,7 +144,9 @@ class PayPalPage extends React.Component {
                                 phone: 9234373472,
                                 delivered: false,
                                 camp: 19,
-                                userId: user_id
+                                userId: user_id,
+                                paid: this.state.total,
+                                name: name
                             };
                             
                             localStorage.setItem('orderInfo', JSON.stringify(orderInfo));

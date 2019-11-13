@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import ProductItem from './ProductItem.js';
 import DeliveryInfo from '../DeliveryInfo.js';
 import { getProducts } from '../util/APIFunctions';
+import { message } from 'antd';
 import './Products.css';
 
 
@@ -16,7 +17,7 @@ class Products extends React.Component {
         this.state = {
             products: [],
         }
-    this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     
@@ -27,21 +28,26 @@ class Products extends React.Component {
         getProducts().then((products) =>this.setState({ products }));
     }
 
-   
+    
     handleSubmit(event) {
         event.preventDefault();
-        let user_role = '';
-        if (this.props.currentUser) {
-            let currentUser = this.props.currentUser;
-            user_role = currentUser.role;
-            console.log(user_role);
-        }
-        
-        if (user_role === 'Role_ADMIN' || user_role === 'Role_ROOT') {
-            this.props.history.push("/delivery-form");
+        if (localStorage.getItem('cart') === null) {
+            message.error('Your cart is empty!! Cannot continue!!', 7);
         }
         else {
-            this.props.history.push("/paypal");
+            let user_role = '';
+            if (this.props.currentUser) {
+                let currentUser = this.props.currentUser;
+                user_role = currentUser.role;
+                console.log(user_role);
+            }
+            
+            if (user_role === 'Role_ADMIN' || user_role === 'Role_ROOT') {
+                this.props.history.push("/delivery-form");
+            }
+            else {
+                this.props.history.push("/paypal");
+            }
         }
     }
 
