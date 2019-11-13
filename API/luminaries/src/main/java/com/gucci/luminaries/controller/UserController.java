@@ -1,5 +1,7 @@
 package com.gucci.luminaries.controller;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +42,7 @@ public class UserController {
     @Autowired
     PasswordEncoder passwordEncoder;
 	
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 	//Select all method 
 	//While running go to localhost:port_number/api/users
 	//This will return all users in the table
@@ -85,6 +88,9 @@ public class UserController {
 	public ResponseEntity<String> createAdmin(@RequestBody users user ) {
 		//Print to system out to log start of method
 		System.out.println( "Create User: " + user.getName() + "..." );
+        Timestamp d = new Timestamp(System.currentTimeMillis());
+        sdf.format( d );
+        user.setCreatedAt( d );
         //Save the new admin
         try{
 			user.setRole( "Role_ADMIN" );

@@ -25,6 +25,7 @@ class ProductItem extends React.Component {
         }*/
         cart[id] = qty
         localStorage.setItem('cart', JSON.stringify(cart));
+        alert("You have added " + qty + " of product " + this.props.product.product.toString() + " to your cart.");
     }
     
     removeFromCart = (product) => {

@@ -101,7 +101,8 @@ class DeliveryInfo extends React.Component {
             camp: 19,
             user_id: user_id
         };
-
+        
+        localStorage.setItem('cashOrderInfo', JSON.stringify(orderInfo));
         /* Call the createOrder function to create order in database */
         createOrder(orderInfo)
             .then((order_id) => this.setState({ order_id }))
@@ -138,7 +139,7 @@ class DeliveryInfo extends React.Component {
                             message: 'LCHS Band Fundraising',
                             description: "Your order has been placed!"
                         });
-                        this.props.history.push("/paypal"); //for now will redirect to home, later to confirmation
+                        this.props.history.push("/"); //for now will redirect to home, later to confirmation
                     })
                     .catch(error => {
                         notification.error({

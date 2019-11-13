@@ -38,7 +38,21 @@ export function createAccount(signupRequest) {
         })
     );
 }
-
+export function createAdmin(adminInfo) {
+   return APIRequest({
+      url: '/api/users/createAdmin',
+      method: 'POST',
+      body: JSON.stringify(adminInfo)
+   })
+   .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+}
 export function login(loginRequest) {
     return APIRequest({
         url: 'api/auth/signin',
@@ -70,7 +84,35 @@ export function createOrder(orderInfo) {
       })
     );
 }
-
+export function createCampaign(campaignInfo) {
+   return APIRequest({
+      url:'/api/campaigns/create',
+      method: 'POST',
+      body: JSON.stringify(campaignInfo)
+   })
+   .then(response =>
+      response.json().then(json => {
+         if(!response.ok) {
+            return Promise.reject(json);
+         }
+         return json;
+      })
+    );
+}
+export function deleteCampaign(campaignInfo) {
+   return APIRequest({
+      url:'/api/campaigns/' + campaignInfo,
+      method: 'DELETE'
+   })
+   .then(response =>
+      response.json().then(json => {
+         if(!response.ok) {
+            return Promise.reject(json);
+         }
+         return json;
+      })
+    );
+}
 export function createProductsOrdered(productsOrdered) {
    return APIRequest({
       url:'http://localhost:5555/api/productOrdered/create',
@@ -116,6 +158,22 @@ export function getProducts() {
       })
     );
 }
+
+export function getProductPrice(productID) {
+    return APIRequest({
+        url:'api/products/' + productID,
+        method: 'GET'
+    })
+    .then(response =>
+        response.json().then(result => {
+            if(!response.ok) {
+                return Promise.reject(result);
+            }
+            return result;
+        })
+    );
+}
+        
 
 export function checkEmail(email) {
     return APIRequest({

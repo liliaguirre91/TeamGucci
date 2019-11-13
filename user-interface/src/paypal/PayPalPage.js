@@ -6,9 +6,10 @@ import "./PayPalPage.css";
 
 class PayPalPage extends React.Component {
     render() {
+        let cart = JSON.parse(localStorage.getItem('cart'));
         return (
-            <div className="page-title">
-                <h1 align="center"> Payment Page </h1>
+            <div className="paypal-container">
+                <h1 className="page-title"> Payment Page </h1>
                 <h5 align="center"> Please enter your delivery information directly on the PayPal page</h5>
                 <div className="paypal-button" align="center">
                     <PayPalButton
@@ -18,6 +19,8 @@ class PayPalPage extends React.Component {
                 
                             let user_id = -1;
                             var address = '';
+                            var order_created = true;
+                            var products_added = true;
                             const name  = JSON.stringify(details.purchase_units[0].shipping.name.full_name);
                             //const phone = this.state.phone.value;
                             const address_line_1 = details.purchase_units[0].shipping.address.address_line_1;
@@ -27,8 +30,8 @@ class PayPalPage extends React.Component {
                             else
                                 address = address_line_1;
                             address = address.concat(' ', details.purchase_units[0].shipping.address.admin_area_2, 
-                                                    ' ', details.purchase_units[0].shipping.address.admin_area_1, 
-                                                    ' ', details.purchase_units[0].shipping.address.postal_code);
+                                                     ' ', details.purchase_units[0].shipping.address.admin_area_1, 
+                                                     ' ', details.purchase_units[0].shipping.address.postal_code);
                             console.log(address)
 
 
@@ -36,22 +39,27 @@ class PayPalPage extends React.Component {
                             if(this.props.currentUser) {
                                 let currentUser = this.props.currentUser;
                                 user_id = currentUser.userId;
-                                //console.log(user_id);
+                                console.log(user_id);
                             }  
                             
                             const orderInfo = {
                                 address: address,
                                 payment_type: 'paypal',
-                                phone: 9999999999,
+                                phone: 9234373472,
                                 delivered: false,
                                 camp: 19,
-                                user_id: user_id
+                                userId: user_id
                             };
-
+                            
+                            localStorage.setItem('orderInfo', JSON.stringify(orderInfo));
+                            //let info = JSON.parse(localStorage.getItem('orderInfo'));
+                            //console.log(info);
+                            
                             /* Call the createOrder function to create order in database */
-                            /*createOrder(orderInfo)
+                            createOrder(orderInfo)
                                 .then((order_id) => this.setState({ order_id }))
                                 .catch(error => {
+                                    order_created = false;
                                     notification.error({
                                         message: 'LCHS Band Fundraising',
                                         description: error.message || 'Sorry! Something went wrong!'
@@ -60,11 +68,10 @@ class PayPalPage extends React.Component {
                             
                                 
                             /*Implementing insertion of multiple products tied to one order number*/
-                            /*setTimeout(function() {
+                            setTimeout(function() {
                                 const orderID = this.state.order_id;
                             
                                 let cart = JSON.parse(localStorage.getItem('cart'));
-                                //let productID = Object.keys(cart)[1];
                                 let cartSize = Object.keys(cart).length;
                                 let keys = Object.keys(cart); 
                                 
@@ -77,28 +84,48 @@ class PayPalPage extends React.Component {
                                         productId: productID,
                                         quantity: quantity
                                     };
-                                        
-                                    createProductsOrdered(productsOrdered)
-                                        .then (response => {
-                                            notification.success({
-                                                message: 'LCHS Band Fundraising',
-                                                description: "Your order has been placed!"
+                                    
+                                    if (order_created === true) {
+                                        createProductsOrdered(productsOrdered)
+                                            /*.then (response => {
+                                                notification.success({
+                                                    message: 'LCHS Band Fundraising',
+                                                    description: "Your order has been placed!"
+                                                });
+                                                this.props.history.push("/"); //for now will redirect to home, later to order confirmation
+                                            })*/
+                                            .catch(error => {
+                                                products_added = false;
+                                                notification.error({
+                                                    message: 'LCHS Band Fundraising',
+                                                    description:error.message || 'Sorry! Something went wrong!'
+                                                })
                                             });
-                                            this.props.history.push("/paypal"); //for now will redirect to home, later to confirmation
-                                        })
-                                        .catch(error => {
-                                            notification.error({
-                                                message: 'LCHS Band Fundraising',
-                                                description:error.message || 'Sorry! Something went wrong!'
-                                            });
+                                    }
+                                    else {
+                                        notification.error({
+                                                    message: 'LCHS Band Fundraising',
+                                                    description:'Sorry! Something went wrong! Please try creating your order again.'
                                         });
+                                        //redirect to other page
+                                    }
+                                    if (products_added === false) {
+                                        break;
+                                        //remove order and redirect to other page to attempt order again
+                                    }
+                                }//end for
+                                if (products_added === true) {
+                                    notification.success({
+                                                    message: 'LCHS Band Fundraising',
+                                                    description: "Your order has been placed!"
+                                                });
+                                    localStorage.removeItem('cart')
+                                    this.props.history.push("/");
                                 }
-                                
-                                localStorage.removeItem('cart')
-                            }.bind(this), 500)*/
+                            }.bind(this), 500)
                         }}
                         onError={(details, data) => {
-                            alert("HELLO");
+                            alert("Something went wrong! Please try make your payment again!");
                         }}
                         options={{
                             clientId: "AVNKckm9ldJ3royPVTzmL7it6dXl0reDKlHjqI13rJ9oCoVRGXRH_KvResh4NYjDxNpdGsGJUD3Md2TI"

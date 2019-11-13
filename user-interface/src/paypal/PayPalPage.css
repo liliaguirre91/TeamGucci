@@ -1,3 +1,12 @@
+.paypal-container {
+    max-width: 420px;
+    margin: 0 auto;
+    margin-top: 80px;    
+}
+
+.page-title {
+  text-align: center;
+}
 .paypal-button {
   margin-top: 200px;
 }
