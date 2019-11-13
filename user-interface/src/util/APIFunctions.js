@@ -135,11 +135,11 @@ export function lookupOrder(orderNumber) {
       method: 'GET'
    })
    .then(response =>
-      response.text().then(name => {
+      response.text().then(result => {
          if(!response.ok) {
-            return Promise.reject(name);
+            return Promise.reject(result);
          }
-         return name;
+         return result;
       })
     );
 }

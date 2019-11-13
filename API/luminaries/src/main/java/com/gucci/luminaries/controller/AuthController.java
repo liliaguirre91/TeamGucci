@@ -69,9 +69,9 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
             
         //System.out.println("Username is " + signUpRequest.getUsername());
-        System.out.println("Name is " + signUpRequest.getName());
-        System.out.println("email is " + signUpRequest.getEmail());
-        System.out.println("password is " + signUpRequest.getPassword());
+        //System.out.println("Name is " + signUpRequest.getName());
+        //System.out.println("email is " + signUpRequest.getEmail());
+        //System.out.println("password is " + signUpRequest.getPassword());
 
         // Creating user's account
         users user = new users(signUpRequest.getName(),
