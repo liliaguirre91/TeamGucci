@@ -208,8 +208,36 @@ export function getCurrentUser() {
     );
 }
 
-        
-        
+export function getOrdersNotDelivered(campaign) {
+    return APIRequest({
+        url:'api/orders/deliver/' + campaign ,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}      
+
+export function getProductsOrdered(orderNumber) {
+    return APIRequest({
+        url:'api/productOrdered/' + orderNumber ,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}
+
         
         
         

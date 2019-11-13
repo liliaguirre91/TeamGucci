@@ -14,7 +14,6 @@ class PayPalPage extends React.Component {
                     productName: "",
                     productPrice: 0,
                     total: 0,
-                    summary: ""
                     //product: "hello"
         }
     }

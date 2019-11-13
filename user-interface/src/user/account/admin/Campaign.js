@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import { createCampaign, deleteCampaign } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
 import './Campaign.css';
+import DeliveryReport from './DeliveryReport.js';
 import { Form, Input, Button, notification } from 'antd'
 const FormItem= Form.Item;
 
@@ -18,50 +19,50 @@ class Campaign extends Component {
       this.handleIDChange = this.handleIDChange.bind(this);    
       this.handleCreate = this.handleCreate.bind(this);  
       this.handleDelete = this.handleDelete.bind(this);
+      this.handleClick = this.handleClick.bind(this);
    //this.loadUser = this.saveUser.bind(this);
   }
 
-   handleIDChange(event) {
-      this.setState({CampaignID: event.target.value});
-   }
+    handleIDChange(event) {
+        this.setState({CampaignID: event.target.value});
+    }
 
-    
-   handleCreate(event) {
-      event.preventDefault();
+    handleClick = param => e => {
+        e.preventDefault();
+        const setCampaign = { year: this.state.CampaignID };
+        localStorage.setItem('setCampaign', JSON.stringify(setCampaign));
+        console.log(localStorage.getItem('setCampaign'));
+        this.props.history.push(param);
+    }
+
+    handleCreate(event) {
+        event.preventDefault();
       /*const url = '/api/orders/search/'+ this.state.OrderID;
       fetch(url)
          .then(response => response.text())
          .then(result => this.setState({ result }));*/
       
-      const campaignNumber = parseInt( this.state.CampaignID );
-       const campaign = {
-         yearRan: campaignNumber
-      };      
-      createCampaign(campaign)
-      .then(result => 
-         this.setState({ result })
-       );
+        const campaignNumber = parseInt( this.state.CampaignID );
+        const campaign = {
+            yearRan: campaignNumber
+        };      
+        createCampaign(campaign)
+            .then(result => 
+            this.setState({ result })
+        );
        
       
             
-      setTimeout(function() {
-         if (this.state.result == 'false')
-            alert('campaign was not created');
-         else if (this.state.result == 'true')
-             alert('campaign was created');
-         else
-            alert(this.state.result);
-      }.bind(this), 200)
+        setTimeout(function() {
+            if (this.state.result == 'false')
+                alert('campaign was not created');
+            else if (this.state.result == 'true')
+                alert('campaign was created');
+            else
+                alert(this.state.result);
+        }.bind(this), 200)
       
-      /*this.setState({ submitted: true });
-
-      if (this.state.result == 'false')
-         this.setState({ deliveryInfo: 'campaign was not created/deleted'});
-      else if (this.state.result == 'true')
-         this.setState({ deliveryInfo: 'campaign was created/deleted' });
-      else
-         this.setState({ deliveryInfo: this.state.result });*/
-      
+     
       
       
    }
@@ -135,42 +136,42 @@ class Campaign extends Component {
                                 htmlType="submit"
                                 size="large"
                                className="campaign-form-earnings-button"
-                               onClick={(e) => this.handleCreate(e) }>Revenue report</Button>
+                               onClick={this.handleClick("/revenue-report")}>Revenue report</Button>
                     </FormItem>
                     <FormItem>
                          <Button type="primary"
                                 htmlType="submit"
                                 size="large"
                                className="campaign-form-addProduct-button"
-                               onClick={(e) => this.handleCreate(e) }>Add a product</Button>
+                               onClick={this.handleClick("/add-product")}>Add a product</Button>
                     </FormItem>
                     <FormItem>
                          <Button type="primary"
                                 htmlType="submit"
                                 size="large"
                                className="campaign-form-delProduct-button"
-                               onClick={(e) => this.handleCreate(e) }>Delete a product</Button>
+                               onClick={this.handleClick("/delete-product")}>Delete a product</Button>
                     </FormItem>
                     <FormItem>
                          <Button type="primary"
                                 htmlType="submit"
                                 size="large"
                                className="campaign-form-viewOrders-button"
-                               onClick={(e) => this.handleCreate(e) }>View all orders</Button>
+                               onClick={this.handleClick("/view-all-orders") }>View all orders</Button>
                     </FormItem>
                     <FormItem>
                          <Button type="primary"
                                 htmlType="submit"
                                 size="large"
                                className="campaign-form-viewProductsOrders-button"
-                               onClick={(e) => this.handleCreate(e) }>Products ordered</Button>
+                               onClick={this.handleClick("/products-ordered") }>Products ordered</Button>
                     </FormItem>
                     <FormItem>
                          <Button type="primary"
                                 htmlType="submit"
                                 size="large"
                                className="campaign-form-ordersDelivered-button"
-                               onClick={(e) => this.handleCreate(e) }>Delivery report</Button>
+                               onClick={this.handleClick("/delivery-report") }>Delivery Report</Button>
                     </FormItem>
                 </Form>
                 {this.state.submitted}
