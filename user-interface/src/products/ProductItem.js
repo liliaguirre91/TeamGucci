@@ -25,15 +25,26 @@ class ProductItem extends React.Component {
         else {
             cart[id] = qty
         }*/
-       
-        cart[id] = qty
-        localStorage.setItem('cart', JSON.stringify(cart));
-        //alert("You have added " + qty + " of product " + this.props.product.product.toString() + " to your cart.");
-        notification.success({
-            message: 'LCHS Band Fundraising',
-            description: "Your cart contains " + qty + " of product " + this.props.product.product.toString()
-        });
+
+        //Prevent negative numbers from adding to cart
+        if (parseInt(this.state.quantity) >= 0) {
+
+            cart[id] = qty
+            localStorage.setItem('cart', JSON.stringify(cart));
+            //alert("You have added " + qty + " of product " + this.props.product.product.toString() + " to your cart.");
+            notification.success({
+                message: 'LCHS Band Fundraising',
+                description: "Your cart contains " + qty + " of product " + this.props.product.product.toString()
+            });
          //console.log(cart);
+        }
+
+        else {
+            notification.error({
+                message: 'Error inputting product',
+                description: 'Please only enter positive numbers.'
+            });
+        }
     }
     
     removeFromCart = (product) => {
