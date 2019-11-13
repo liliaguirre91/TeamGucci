@@ -1,7 +1,7 @@
 //import React from 'react';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { createCampaign, deleteCampaign } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
+import { createCampaign, deleteCampaign, orderCount, amountPaid } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
 import './Campaign.css';
 import { Form, Input, Button, notification } from 'antd'
 const FormItem= Form.Item;
@@ -18,6 +18,8 @@ class Campaign extends Component {
       this.handleIDChange = this.handleIDChange.bind(this);    
       this.handleCreate = this.handleCreate.bind(this);  
       this.handleDelete = this.handleDelete.bind(this);
+      this.handleCount = this.handleCount.bind(this);
+      this.handleEarnings = this.handleEarnings.bind(this);
    //this.loadUser = this.saveUser.bind(this);
   }
 
@@ -90,7 +92,24 @@ class Campaign extends Component {
       }.bind(this), 200)
    }
 
-   
+   async handleCount( event ){
+      const campaignNumber = parseInt( this.state.CampaignID );
+      await orderCount(campaignNumber)
+      .then(result => 
+         this.setState({ result })
+         );
+      alert( this.state.result );
+   }
+
+   async handleEarnings( event ){
+      const campaignNumber = parseInt( this.state.CampaignID );
+      await amountPaid(campaignNumber)
+      .then(result => 
+         this.setState({ result })
+         );
+      alert( this.state.result );
+   }
+
    renderCampaignInfo() {
       return <Campaign CampaignID={this.state.CampaignID}/>
    }
@@ -104,7 +123,7 @@ class Campaign extends Component {
          <div className="campaign-container">
             <h2 className="page-title"> Campaign Configuration </h2>
             <h5 align="center"> Enter a campaign ID number: </h5>
-                <Form className="campaign-form" align="center" onSubmit={this.handleSubmit}> 
+                <Form className="campaign-form" align="center"> 
                     <FormItem
                         label="">
                         <Input 
@@ -135,7 +154,7 @@ class Campaign extends Component {
                                 htmlType="submit"
                                 size="large"
                                className="campaign-form-earnings-button"
-                               onClick={(e) => this.handleCreate(e) }>Revenue report</Button>
+                               onClick={(e) => this.handleEarnings( e ) }>Revenue report</Button>
                     </FormItem>
                     <FormItem>
                          <Button type="primary"
@@ -156,7 +175,7 @@ class Campaign extends Component {
                                 htmlType="submit"
                                 size="large"
                                className="campaign-form-viewOrders-button"
-                               onClick={(e) => this.handleCreate(e) }>View all orders</Button>
+                               onClick={(e) => this.handleCount(e) }>Count all orders</Button>
                     </FormItem>
                     <FormItem>
                          <Button type="primary"
