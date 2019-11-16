@@ -1,13 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { withRouter } from 'react-router-dom';
 import logo from './admin_logo.png';
-//import OrderLookup from './OrderLookup.js';
-//import Login from './Login.js';
-//import Products from './Products.js';
-
-import CreateAdmin from './CreateAdmin';
-
 import './AdminAccountPage.css';
 
 
@@ -120,29 +113,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-
-
-export default AdminAccountPage; //I COMMENTED THESE OUT TO MAKE IT RUN IN THE WEB BROWSER
-
-               
-         { /* <h3 align="center"> What would you like to do? </h3>*/}
-         {/*<button class="center"  onClick={(e) => { e.preventDefault(); this.clicked()} }> Products </button> <br/>*/}
-
-{/*
-<Button content="Sample Button" variant="green" />
-<button type="button" class="btn btn-primary" > DID IT WORK </button>
-*/}
-{/*
-
-         <label>
-            Full name: <br/>
-            <input type="text" value={this.state.value}  onChange={this.handleNameChange} /> <br/>
-         </label>
-         <label>
-            Email: <br/>
-            <input type="text" value={this.state.value} onChange={this.handleEmailChange} /> <br/><br/>
-         </label>
-         
-         <input type="submit" value="Submit" />
-
-*/}
+export default AdminAccountPage;

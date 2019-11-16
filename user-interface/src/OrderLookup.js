@@ -1,5 +1,3 @@
-//import React from 'react';
-import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import { lookupOrder, getProductsOrdered, getProduct } from './util/APIFunctions';
 import './OrderLookup.css';
@@ -93,13 +91,13 @@ class OrderLookup extends Component {
       }.bind(this), 200)
       */
          //check if order has been delivered or not, give a message saying yes or no
-         if (this.state.result == 'false') {
+         if (this.state.result === 'false') {
             
             message.error('Order number ' + orderNumber + ' has not been delivered yet.');
             this.setState({deliveryInfo:"Your Order has not been delivered yet."});
             
          }
-         else if (this.state.result == 'true') {
+         else if (this.state.result === 'true') {
             
             message.success('Order number ' + orderNumber + ' has been delivered!')
             this.setState({deliveryInfo: "Your order has been delivered!!"});

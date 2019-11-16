@@ -1,10 +1,8 @@
-//import React from 'react';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import { createCampaign, deleteCampaign, orderCount, amountPaid, setCampaign } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
 import './Campaign.css';
-import DeliveryReport from './DeliveryReport.js';
-import { Form, Input, Button, notification } from 'antd'
+import { Form, Input, Button } from 'antd'
 const FormItem= Form.Item;
 
 class Campaign extends Component {
@@ -56,9 +54,9 @@ class Campaign extends Component {
       
             
         setTimeout(function() {
-            if (this.state.result == 'false')
+            if (this.state.result === 'false')
                 alert('campaign was not created');
-            else if (this.state.result == 'true')
+            else if (this.state.result === 'true')
                 alert('campaign was created');
             else
                 alert(this.state.result);
@@ -84,9 +82,9 @@ class Campaign extends Component {
       
             
       setTimeout(function() {
-         if (this.state.result == 'false')
+         if (this.state.result === 'false')
             alert('campaign was not deleted');
-         else if (this.state.result == 'true')
+         else if (this.state.result === 'true')
              alert('campaign was deleted');
          else
             alert(this.state.result);

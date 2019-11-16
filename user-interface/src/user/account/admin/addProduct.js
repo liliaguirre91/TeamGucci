@@ -1,33 +1,16 @@
-//import React from 'react';
-//import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
-
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './addProduct.css';
 import {
   Form,
-  Select,
-  InputNumber,
   Input,
-  Switch,
-  Radio,
-  Slider,
   Button,
-  Upload,
-  Icon,
-  Rate,
-  Checkbox,
-  Row,
-  Col,
   notification,
 } from 'antd';
 import { createProduct } from '../../../util/APIFunctions.js';
 
 const FormItem= Form.Item;
-const { Option } = Select;
 
 class addProduct extends React.Component {
   constructor(props) {
@@ -110,11 +93,6 @@ class addProduct extends React.Component {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 14 },
-    };
     return (
     <div className="product-container">
         <h2 className="page-title"> Add a Product </h2>

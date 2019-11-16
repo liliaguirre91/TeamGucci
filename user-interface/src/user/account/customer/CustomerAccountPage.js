@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { withRouter } from 'react-router-dom';
-import logo from './admin_logo.png';
+import logo from '../admin/admin_logo.png';
 //import OrderLookup from './OrderLookup.js';
 //import Login from './Login.js';
 //import Products from './Products.js';
 
 //import CreateAdmin from './CreateAdmin';
 
-import './AdminAccountPage.css';
+import '../admin/AdminAccountPage.css';
 
 
 //import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}

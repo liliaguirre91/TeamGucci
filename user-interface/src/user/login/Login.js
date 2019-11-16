@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Form, Input, Button, Icon, notification } from 'antd';
 import { ACCESS_TOKEN } from '../../constants';
 import { login } from '../../util/APIFunctions';

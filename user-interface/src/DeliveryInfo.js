@@ -2,15 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './DeliveryInfo.css';
 import { createOrder, createProductsOrdered } from './util/APIFunctions';
-import axios from 'axios';
-import PhoneInput from 'react-phone-number-input/input';
 import {Form, Input, Button, notification } from 'antd';
 import {
     NAME_MIN_LENGTH,
     NAME_MAX_LENGTH, 
-    EMAIL_MAX_LENGTH,
-    PASSWORD_MIN_LENGTH,
-    PASSWORD_MAX_LENGTH
 } from './constants';
 
 

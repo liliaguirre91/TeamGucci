@@ -1,14 +1,11 @@
 import React from 'react';
 import './HomePage.css';
-import ReactDOM from 'react-dom';
 import { 
     Route, 
-    Link, 
     withRouter, 
     Switch 
 } from 'react-router-dom'
 
-import logo from './LCHS_logo.png';
 import { ACCESS_TOKEN } from './constants';
 import { getCurrentUser, getCampaign } from './util/APIFunctions';
 
