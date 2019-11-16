@@ -10,7 +10,7 @@ import {
 
 import logo from './LCHS_logo.png';
 import { ACCESS_TOKEN } from './constants';
-import { getCurrentUser } from './util/APIFunctions';
+import { getCurrentUser, getCampaign } from './util/APIFunctions';
 
 import HomePage from './HomePage';
 import OrderLookup from './OrderLookup';
@@ -50,6 +50,7 @@ class App extends React.Component {
         this.loadCurrentUser = this.loadCurrentUser.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.loadCurrentCampaign = this.loadCurrentCampaign.bind(this);
         
         notification.config({
             placement: 'topRight',
@@ -74,10 +75,17 @@ class App extends React.Component {
                     isLoading: false
                 });  
         });
-  }
+    }
+    async loadCurrentCampaign() {
+        await getCampaign()
+        .then( response => {
+            localStorage.setItem( 'campaign', ( JSON.parse( response ) ) );
+        });
+    }
   
     componentDidMount() {
         this.loadCurrentUser();
+        this.loadCurrentCampaign();
     }
     
     handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {

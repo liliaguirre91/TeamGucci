@@ -175,7 +175,7 @@ export function lookupOrder(orderNumber) {
 
 export function getProducts() {
     return APIRequest({
-        url:'api/products/camp/19',
+        url:'api/products/camp/' + localStorage.getItem( 'campaign' ),
         method: 'GET'
     })
     .then(response =>
@@ -282,8 +282,31 @@ export function createProduct( newProduct ){
     })
   );
 }  
-        
-        
-        
-        
-        
+export function setCampaign(campNumber) {
+    return APIRequest({
+        url:'api/campaigns/current/' + campNumber ,
+        method: 'PUT'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}
+export function getCampaign() {
+    return APIRequest({
+        url:'api/campaigns/current/' ,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}
