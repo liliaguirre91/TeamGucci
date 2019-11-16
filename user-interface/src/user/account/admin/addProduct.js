@@ -22,28 +22,92 @@ import {
   Checkbox,
   Row,
   Col,
+  notification,
 } from 'antd';
+import { createProduct } from '../../../util/APIFunctions.js';
 
 const FormItem= Form.Item;
 const { Option } = Select;
 
 class addProduct extends React.Component {
+  constructor(props) {
+      super(props);
+        this.state = { 
+            selectedFile: null,
+            product:        { value: '' },
+            description:    { value: '' },
+            price:          { value: '' },
+            image: [],
+        };
+      this.handleUpload = this.handleUpload.bind( this );
+      this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const inputName = target.name;
+    const inputValue = target.value;
+    
+    this.setState ({
+       [inputName] : {
+          value: inputValue
+       }
+    });
+ }
   handleSubmit = e => {
     e.preventDefault();
+    if( this.state.image === [] ){
+      return;
+    }
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
       }
     });
+    console.log( this.state.image );
+    const newProduct = {
+      product: this.state.product.value,
+      price: this.state.price.value,
+      description: this.state.description.value,
+      image: this.state.image,
+      yearRan: 19
+  };
+      
+  createProduct(newProduct)
+      .then (response => {
+          notification.success({
+              message: 'LCHS Band Fundraising',
+              description: "Your product has been created!"
+          });
+          this.props.history.push("/admin-account"); //for now will redirect to home, later to confirmation
+      })
+      .catch(error => {
+          notification.error({
+              message: 'LCHS Band Fundraising',
+              description:error.message || 'Sorry! Something went wrong!'
+          });
+      });
   };
 
-  normFile = e => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
+  fileChangedHandler = (event) => {
+    this.setState({ selectedFile: event.target.files[0] });
+  }
+
+  async handleUpload( event ){
+    const reader = new FileReader();
+    var r;
+    reader.readAsDataURL( this.state.selectedFile );
+    reader.onload = function () {
+      r = reader.result.split(',')[1];
+    };
+    setTimeout( function( ) {
+      this.setState( { image: r } );
+      console.log( r );
+    }.bind( this ), 500 );
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    }; 
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -54,7 +118,7 @@ class addProduct extends React.Component {
     return (
     <div className="product-container">
         <h2 className="page-title"> Add a Product </h2>
-          <Form onSubmit={this.handleSubmit}>
+          <Form>
             <FormItem
                 label="Product">
                 <Input 
@@ -63,7 +127,8 @@ class addProduct extends React.Component {
                     type="text" 
                     autocomplete="off"
                     placeholder="product name"
-                    onChange={this.handleIDChange} maxLength="20"/>
+                    value={this.state.product.value}
+                    onChange={(event) => this.handleInputChange(event) } maxLength="20"/>
             </FormItem>
             <FormItem
                 label="Product description">
@@ -73,7 +138,8 @@ class addProduct extends React.Component {
                     type="text" 
                     autocomplete="off"
                     placeholder="description"
-                    onChange={this.handleIDChange} maxLength="50"/>
+                    value={this.state.description.value}
+                    onChange={(event) => this.handleInputChange(event) } maxLength="50"/>
             </FormItem>
             <FormItem
                 label="Price">
@@ -83,23 +149,16 @@ class addProduct extends React.Component {
                     type="Integer" 
                     autocomplete="off"
                     placeholder="0.00"
-                    onChange={this.handleIDChange} maxLength="5"/>
+                    value={this.state.price.value}
+                    onChange={(event) => this.handleInputChange(event) } maxLength="5"/>
             </FormItem>
 
             <FormItem label="Upload">
-          {getFieldDecorator('upload', {
-            valuePropName: 'fileList',
-            getValueFromEvent: this.normFile,
-          })(
-            <Upload name="logo" action="/upload.do" listType="picture">
-              <Button>
-                <Icon type="upload" /> Click to upload
-              </Button>
-            </Upload>,
-          )}
-        </FormItem>
+              <input type="file" onChange={ this.fileChangedHandler }></input>
+              <button onClick={ this.handleUpload }>Upload!</button>
+            </FormItem>
         <FormItem >
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick = { this.handleSubmit}>
             Add
           </Button>
         </FormItem>

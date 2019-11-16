@@ -267,7 +267,21 @@ export function getProductsOrdered(orderNumber) {
     );
 }
 
-        
+export function createProduct( newProduct ){
+   return APIRequest({
+      url:'api/products/create',
+      method: 'POST',
+      body: JSON.stringify( newProduct )
+  })
+  .then(response =>
+    response.json().then(result => {
+        if(!response.ok) {
+            return Promise.reject(result);
+        }
+        return result;
+    })
+  );
+}  
         
         
         
