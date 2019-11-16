@@ -29,6 +29,7 @@ class OrderLookup extends Component {
 
     
    async handleSubmit(event) {
+      items.length =0;
       event.preventDefault();
       /*const url = '/api/orders/search/'+ this.state.OrderID;
       fetch(url)
@@ -118,7 +119,6 @@ class OrderLookup extends Component {
       }  
    
    render() {
-      
       //table columns
       const columns = [
          {
