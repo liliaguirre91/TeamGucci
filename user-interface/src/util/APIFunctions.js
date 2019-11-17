@@ -298,7 +298,7 @@ export function setCampaign(campNumber) {
 }
 export function getCampaign() {
     return APIRequest({
-        url:'api/campaigns/current/' ,
+        url:'api/campaigns/current' ,
         method: 'GET'
     })
     .then(response =>
