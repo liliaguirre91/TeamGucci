@@ -262,6 +262,20 @@ public class OrderController {
         }//end else
     }//end setDelivered
 
+    @PutMapping( "/orders/paid/{id}/{amount}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<orders> setPaid( @PathVariable( "id" ) long id, @PathVariable( "amount" ) int paid ){
+        Optional<orders> orderData = orderRepository.findById( id );
+        if( orderData.isPresent() ){
+            orders o = orderData.get();
+            o.setPaid( paid );
+            return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
+        }//end if 
+        else{
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end else
+    }//end setDelivered
+
     //Delete Order is used to delete an order from the table
     //Send delete request to /api/orders/{the order number}
     @DeleteMapping( "/orders/{id}" )
