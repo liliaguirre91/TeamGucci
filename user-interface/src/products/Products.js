@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 //import logo from './luminary.jpg';
 import ProductItem from './ProductItem.js';
-import DeliveryInfo from '../DeliveryInfo.js';
 import { getProducts } from '../util/APIFunctions';
 import { message } from 'antd';
 import './Products.css';

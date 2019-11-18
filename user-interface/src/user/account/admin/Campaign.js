@@ -1,10 +1,8 @@
-//import React from 'react';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { createCampaign, deleteCampaign, orderCount, amountPaid } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
+import { createCampaign, deleteCampaign, orderCount, amountPaid, setCampaign } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
 import './Campaign.css';
-import DeliveryReport from './DeliveryReport.js';
-import { Form, Input, Button, notification } from 'antd'
+import { Form, Input, Button } from 'antd'
 const FormItem= Form.Item;
 
 class Campaign extends Component {
@@ -22,6 +20,7 @@ class Campaign extends Component {
       this.handleClick = this.handleClick.bind(this);
       this.handleCount = this.handleCount.bind(this);
       this.handleEarnings = this.handleEarnings.bind(this);
+      this.handleCurrent = this.handleCurrent.bind(this);
   }
 
     handleIDChange(event) {
@@ -55,9 +54,9 @@ class Campaign extends Component {
       
             
         setTimeout(function() {
-            if (this.state.result == 'false')
+            if (this.state.result === 'false')
                 alert('campaign was not created');
-            else if (this.state.result == 'true')
+            else if (this.state.result === 'true')
                 alert('campaign was created');
             else
                 alert(this.state.result);
@@ -83,9 +82,9 @@ class Campaign extends Component {
       
             
       setTimeout(function() {
-         if (this.state.result == 'false')
+         if (this.state.result === 'false')
             alert('campaign was not deleted');
-         else if (this.state.result == 'true')
+         else if (this.state.result === 'true')
              alert('campaign was deleted');
          else
             alert(this.state.result);
@@ -108,6 +107,14 @@ class Campaign extends Component {
          this.setState({ result })
          );
       alert( this.state.result );
+   }
+   async handleCurrent( event ){
+      const campaignNumber = parseInt( this.state.CampaignID );
+      await setCampaign(campaignNumber)
+      .then(result => 
+         this.setState({ result })
+         );
+      alert( "The current Campaign is " + this.state.result );
    }
 
    renderCampaignInfo() {
@@ -190,6 +197,13 @@ class Campaign extends Component {
                                 size="large"
                                className="campaign-form-ordersDelivered-button"
                                onClick={this.handleClick("/delivery-report") }>Delivery Report</Button>
+                    </FormItem>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="campaign-form-setCampaign-button"
+                               onClick={(e) => this.handleCurrent( e ) }>Set Current Campaign</Button>
                     </FormItem>
                 </Form>
                 {this.state.submitted}
