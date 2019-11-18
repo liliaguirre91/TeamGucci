@@ -165,7 +165,7 @@ public class orders {
     }//getter for paid
     
     //getter for totalCost
-    public int getTotalCost( ){
+    public Integer getTotalCost( ){
         return totalCost;
     }//getter for totalCost
 

@@ -69,6 +69,7 @@ class OrderLookup extends Component {
          });
       } )
         const name = this.state.temp.product
+        console.log( name );
       productNames.push( name );
       productQuantities.push( this.state.productsOrdered[ i ].quantity );
          /*const item = { productId: getProduct( this.state.productOrdered[i].productId ), quantity: this.state.productOrdered[i].quantity, orderId: this.state.productOrdered[i].orderId }
@@ -157,7 +158,7 @@ class OrderLookup extends Component {
                 {this.state.submitted &&
                     <div>
                     <h3 align="center">{this.state.deliveryInfo}</h3><br/>
-                    <Table columns = {columns} dataSource = {this.state.productsOrdered} pagination = {false} size = 'middle'/>
+                    <Table columns = {columns} dataSource = {items} pagination = {false} size = 'middle'/>
                     </div>
                 }
          </div>
