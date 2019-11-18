@@ -202,6 +202,20 @@ public class OrderController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end catch
     }//end getPrevious
+
+    @GetMapping( "orders/notPaid" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<List<orders>> getNotDelivered( ){
+        List<orders> list = new ArrayList<>();
+        try{
+            Iterable<orders> o = orderRepository.getNotPaid( );
+            o.forEach( list::add );
+            return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }
  
     //Put mapping updates an order entry in the orders table
     //To create go to /api/orders/{order number}

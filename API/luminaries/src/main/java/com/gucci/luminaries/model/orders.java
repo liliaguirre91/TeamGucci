@@ -31,6 +31,8 @@ public class orders {
     private String name;
     @Column( name = "paid" )
     private Integer paid;
+    @Column( name = "total_cost" )
+    private Integer totalCost;
     @Column( name = "user_id" )
     //@ManyToOne( targetEntity = users.class )
     //@PrimaryKeyJoinColumn( name = "user_id", referencedColumnName = "user_id" )
@@ -109,6 +111,11 @@ public class orders {
     public void setPaid( Integer p ){
         paid = p;
     }//end setter
+
+    //setter for totalCost
+    public void setTotalCost( Integer t ){
+        totalCost = t;
+    }//setter for totalCost
     
     //getter for payment
     public String getPayment( ) {
@@ -155,7 +162,12 @@ public class orders {
     //getter for paid
     public Integer getPaid( ){
         return paid;
-    }
+    }//getter for paid
+    
+    //getter for totalCost
+    public int getTotalCost( ){
+        return totalCost;
+    }//getter for totalCost
 
     //To String for Orders
     public String toString( ){
