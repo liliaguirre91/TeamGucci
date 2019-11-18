@@ -9,12 +9,8 @@ import logo from './customer_logo.jpg';
 
 //import CreateAdmin from './CreateAdmin';
 
-
 import '../admin/AdminAccountPage.css';
 import { Form, Input, Button } from 'antd' 
-
-//import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
-
 
 
 class CustomerAccountPage extends React.Component {
@@ -101,5 +97,5 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-export default CustomerAccountPage; //I COMMENTED THESE OUT TO MAKE IT RUN IN THE WEB BROWSER
+export default CustomerAccountPage; 
 

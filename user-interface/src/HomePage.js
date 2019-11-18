@@ -34,6 +34,9 @@ class HomePage extends React.Component {
     **************************************************************************************/
    handleClick = param => e => {
       e.preventDefault();
+      if (param === "/products") {
+          localStorage.removeItem('cart');
+      }
       this.props.history.push(param);
    }
 
@@ -42,6 +45,7 @@ class HomePage extends React.Component {
    }
 
    render() {
+       console.log(localStorage.getItem('cart'));
       return (
          <form onSubmit={this.handleSubmit}> 
             <h1 class="title" align="center"> Welcome to the Las Cruces High School Band Luminary Fundraiser  </h1> 
@@ -54,7 +58,7 @@ class HomePage extends React.Component {
             <div> 
                <button class="center" onClick={ this.handleClick("/products") }> View Products </button> <br/>
                <button class="center" onClick={ this.handleClick("/order-lookup") }> Order search </button> <br/>
-               <button class="center" onClick={ this.handleClick("/user-account") }> Order search </button> <br/>
+               
             </div>
          </form>
       );

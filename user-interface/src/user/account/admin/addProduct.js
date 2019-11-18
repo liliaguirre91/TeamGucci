@@ -6,6 +6,10 @@ import {
   Form,
   Input,
   Button,
+  Upload,
+  Icon,
+  Rate,
+  Checkbox,
   notification,
 } from 'antd';
 import { createProduct } from '../../../util/APIFunctions.js';
@@ -13,6 +17,7 @@ import { createProduct } from '../../../util/APIFunctions.js';
 const FormItem= Form.Item;
 
 class addProduct extends React.Component {
+
   constructor(props) {
       super(props);
         this.state = { 
@@ -37,6 +42,7 @@ class addProduct extends React.Component {
        }
     });
  }
+ 
   handleSubmit = e => {
     e.preventDefault();
     if( this.state.image === [] ){
@@ -76,21 +82,21 @@ class addProduct extends React.Component {
     this.setState({ selectedFile: event.target.files[0] });
   }
 
-  async handleUpload( event ){
-    const reader = new FileReader();
-    var r;
-    reader.readAsDataURL( this.state.selectedFile );
-    reader.onload = function () {
-      r = reader.result.split(',')[1];
-    };
-    setTimeout( function( ) {
-      this.setState( { image: r } );
-      console.log( r );
-    }.bind( this ), 500 );
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    }; 
-  }
+    async handleUpload( event ){
+        const reader = new FileReader();
+        var r;
+        reader.readAsDataURL( this.state.selectedFile );
+        reader.onload = function () {
+            r = reader.result.split(',')[1];
+        };
+        setTimeout( function( ) {
+            this.setState( { image: r } );
+            console.log( r );
+        }.bind( this ), 500 );
+        reader.onerror = function (error) {
+        console.log('Error: ', error);
+        }; 
+    }
 
   render() {
     return (

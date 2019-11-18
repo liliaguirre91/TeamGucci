@@ -1,11 +1,11 @@
 import React from 'react';
 import { PayPalButton } from "react-paypal-button-v2";
 import { createOrder, createProductsOrdered, getProduct } from '../util/APIFunctions';
-import { notification, Table } from 'antd';
+import { notification, Table, message } from 'antd';
 import "./PayPalPage.css";
 
 
-const items = [];
+//const items = [];
 //var total = 0;
 class PayPalPage extends React.Component {
     constructor(props) {
@@ -14,65 +14,72 @@ class PayPalPage extends React.Component {
                     productName: "",
                     productPrice: 0,
                     total: 0,
-                    //product: "hello"
+                    products: []
         }
     }
     
     async componentDidMount() {
         
         let cart = JSON.parse(localStorage.getItem('cart'));
-        let cartSize = Object.keys(cart).length;
-        let keys = Object.keys(cart);
-        var tot = 0;
-        const productNames = [];
-        const productPrices = [];
-        const productQuantities = [];
-        const product = {};
-        
-        
-        for (var i = 0; i < cartSize; i++) {
-                let productID = keys[i];
-                let quantity = cart[keys[i]];
-                const response = await getProduct(productID)
-                    .then (response => {
-                        this.setState({
-                            productName: response.product,
-                            productPrice: response.price
-                        });
-                    })
-                    .catch(error => {
-                        notification.error({
-                            message: 'LCHS Band Fundraising',
-                            description:error.message || 'Sorry! Something went wrong!'
-                        });
-                    })
-                //let id = productID.toString();
-                //const productInfo = [this.state.productName, this.state.productPrice];
-               // setTimeout(function() {
-               //     console.log(productInfo);
-                //}.bind(this), 500)
-                //product[id] = productInfo;
-                //console.log(product[id]);
-                productNames.push(this.state.productName);
-                productPrices.push(this.state.productPrice);
-                productQuantities.push(quantity);
-                tot += (this.state.productPrice * quantity);
+        console.log(cart);
+        if (localStorage.getItem('cart') === null) {
+            message.error('Your cart is empty!! Cannot continue!!', 7);
         }
-        for (var i = 0; i < productNames.length; i++) {
-            const item = { product: productNames[i], price: productPrices[i], quantity: productQuantities[i] }
-            console.log(item);
-            items.push(item);
+        else {
+            let cartSize = Object.keys(cart).length;
+            let keys = Object.keys(cart);
+            var tot = 0;
+            const productNames = [];
+            const productPrices = [];
+            const productQuantities = [];
+            const product = {};
+            const items = [];
+            
+            
+            for (var i = 0; i < cartSize; i++) {
+                    let productID = keys[i];
+                    let quantity = cart[keys[i]];
+                    const response = await getProduct(productID)
+                        .then (response => {
+                            this.setState({
+                                productName: response.product,
+                                productPrice: response.price
+                            });
+                        })
+                        .catch(error => {
+                            notification.error({
+                                message: 'LCHS Band Fundraising',
+                                description:error.message || 'Sorry! Something went wrong!'
+                            });
+                        })
+                    //let id = productID.toString();
+                    //const productInfo = [this.state.productName, this.state.productPrice];
+                // setTimeout(function() {
+                //     console.log(productInfo);
+                    //}.bind(this), 500)
+                    //product[id] = productInfo;
+                    //console.log(product[id]);
+                    productNames.push(this.state.productName);
+                    productPrices.push("$" + this.state.productPrice.toString());
+                    productQuantities.push(quantity);
+                    tot += (this.state.productPrice * quantity);
+            }
+            for (var i = 0; i < productNames.length; i++) {
+                const item = { product: productNames[i], price: productPrices[i], quantity: productQuantities[i] }
+                console.log(item);
+                items.push(item);
+            }
+            this.setState({ products: items })
+            console.log(items)
+            this.setState({ total: tot });
+            //console.log(product);
+            //console.log(productNames, productPrices, productQuantities, this.state.total);
+            
+            /*for (const [index, value] of productNames.entries()) {
+                items.push(<li key={index}>{value}</li>)
+                console.log(items);
+            }*/
         }
-        console.log(items)
-        this.setState({ total: tot });
-        //console.log(product);
-        //console.log(productNames, productPrices, productQuantities, this.state.total);
-        
-        /*for (const [index, value] of productNames.entries()) {
-            items.push(<li key={index}>{value}</li>)
-            console.log(items);
-        }*/
-
     }
     
     render() {
@@ -100,7 +107,7 @@ class PayPalPage extends React.Component {
                 <h5 align="center"> Please enter your delivery information directly on the PayPal page</h5> <br/>
                 <div className="paypal-summary">
                 <Table 
-                    dataSource={items} 
+                    dataSource={this.state.products} 
                     columns={columns} 
                     pagination={false}
                     footer={ () => 'Your total is: $' + this.state.total }

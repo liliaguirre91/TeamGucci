@@ -23,7 +23,8 @@ class Products extends React.Component {
     componentDidMount() {
         /* This removes the cart every time the user accesses the products page to prevent corrupted cart.
          * Will be removed if persisten cart is implemented*/
-        localStorage.removeItem('cart');
+        //localStorage.removeItem('cart');
+        console.log(localStorage.getItem('cart'));
         getProducts().then((products) =>this.setState({ products }));
     }
 
@@ -51,6 +52,7 @@ class Products extends React.Component {
     }
 
     render() {
+        //localStorage.removeItem('cart');
         const{ products } = this.state;
         return (
             <div className="product-container">
