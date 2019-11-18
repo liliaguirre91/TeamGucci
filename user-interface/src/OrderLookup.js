@@ -1,11 +1,10 @@
-//import React from 'react';
-import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { lookupOrder, getProductsOrdered } from './util/APIFunctions';
+import { lookupOrder, getProductsOrdered, getProduct } from './util/APIFunctions';
 import './OrderLookup.css';
 import { Form, Input, Button, message, Table, notification } from 'antd'
 const FormItem= Form.Item;
 
+const items = [];
 class OrderLookup extends Component {
    constructor(props) {
       super(props);
@@ -14,7 +13,8 @@ class OrderLookup extends Component {
          result: '',
          deliveryInfo:'',
          submitted: false,
-         productsOrdered: []
+         productsOrdered: [],
+         temp: ''
       };
       this.handleIDChange = this.handleIDChange.bind(this);    
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,6 +27,7 @@ class OrderLookup extends Component {
 
     
    async handleSubmit(event) {
+      items.length =0;
       event.preventDefault();
       /*const url = '/api/orders/search/'+ this.state.OrderID;
       fetch(url)
@@ -34,6 +35,8 @@ class OrderLookup extends Component {
          .then(result => this.setState({ result }));*/
       
       const orderNumber = this.state.OrderID;
+      const productNames = [];
+      const productQuantities = [];
       
       //lookup order number and return if delivered or not
       await lookupOrder(orderNumber) 
@@ -54,7 +57,29 @@ class OrderLookup extends Component {
              description: error.message
          });
      })
-
+     for (var i = 0; i < this.state.productsOrdered.length; i++) {
+        await getProduct( this.state.productsOrdered[ i ].productId )
+        .then( response => {
+           this.setState( { temp: response });
+        })
+        .catch(error => {
+         notification.error({
+             message: 'Error error Mr.Robinson',
+             description: error.message
+         });
+      } )
+        const name = this.state.temp.product
+      productNames.push( name );
+      productQuantities.push( this.state.productsOrdered[ i ].quantity );
+         /*const item = { productId: getProduct( this.state.productOrdered[i].productId ), quantity: this.state.productOrdered[i].quantity, orderId: this.state.productOrdered[i].orderId }
+         console.log(item);
+         items.push(item);*/
+      }
+      for (var i = 0; i < this.state.productsOrdered.length; i++) {
+            const item = { productId: productNames[ i ] , quantity: productQuantities[  i ] }
+            console.log(item);
+            items.push(item);
+         }
       /*setTimeout(function() {
          if (this.state.result == 'false')
             alert('Your product has not been delivered!!');
@@ -66,13 +91,13 @@ class OrderLookup extends Component {
       }.bind(this), 200)
       */
          //check if order has been delivered or not, give a message saying yes or no
-         if (this.state.result == 'false') {
+         if (this.state.result === 'false') {
             
             message.error('Order number ' + orderNumber + ' has not been delivered yet.');
             this.setState({deliveryInfo:"Your Order has not been delivered yet."});
             
          }
-         else if (this.state.result == 'true') {
+         else if (this.state.result === 'true') {
             
             message.success('Order number ' + orderNumber + ' has been delivered!')
             this.setState({deliveryInfo: "Your order has been delivered!!"});
@@ -92,18 +117,12 @@ class OrderLookup extends Component {
       }  
    
    render() {
-      
       //table columns
       const columns = [
          {
-            title: 'Order Number',
-            dataIndex: 'order_id',
-            key: 'order_id'
-         },
-         {
             title:'Products',
-            dataIndex: 'product_id',
-            key: 'product_id'
+            dataIndex: 'productId',
+            key: 'productId'
          },
          {
             title: 'Quantity',

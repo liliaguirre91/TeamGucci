@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
+
 import logo from '../admin/admin_logo.png';
 //import OrderLookup from './OrderLookup.js';
 //import Login from './Login.js';
@@ -8,7 +9,7 @@ import logo from '../admin/admin_logo.png';
 
 //import CreateAdmin from './CreateAdmin';
 
-//import './AdminAccountPage.css';
+import '../admin/AdminAccountPage.css';
 
 
 //import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
@@ -111,5 +112,5 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-export default CustomerAccountPage; //I COMMENTED THESE OUT TO MAKE IT RUN IN THE WEB BROWSER
+export default CustomerAccountPage; 
 

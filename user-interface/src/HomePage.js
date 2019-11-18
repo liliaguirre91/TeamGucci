@@ -1,46 +1,9 @@
 import React from 'react';
 import './HomePage.css';
-import ReactDOM from 'react-dom';
-import { 
-    Route, 
-    Link, 
-    withRouter, 
-    Switch 
-} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import logo from './LCHS_logo.png';
-import { ACCESS_TOKEN } from './constants';
-import { getCurrentUser } from './util/APIFunctions';
-
-import OrderLookup from './OrderLookup';
-import Login from './user/login/Login.js';
-import CreateAccount from './user/signup/CreateAccount.js';
-import Products from './products/Products.js';
-import DeliveryInfo from './DeliveryInfo.js';
-import AppHeader from './common/AppHeader';
-import LoadingIndicator from './common/LoadingIndicator';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { Layout, notification } from 'antd';
-const { Content } = Layout;
-
-//import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
-
-{/* Button class for all attributes of buttons*/}
-/*class Button extends React.Component{
-
-   render(){
-      const{
-      color, variant, content, ...others
-      } = this.props;
-
-      return(
-      <button className={color}{...others}>
-      {content}
-      </button>
-      )
-   }
-}*/
 
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PayPalButton } from "react-paypal-button-v2";
 import { createOrder, createProductsOrdered, getProduct } from '../util/APIFunctions';
-import {Form, Input, Button, notification, Table, message } from 'antd';
+import { notification, Table, message } from 'antd';
 import "./PayPalPage.css";
 
 
