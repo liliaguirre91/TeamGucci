@@ -267,6 +267,22 @@ export function getProductsOrdered(orderNumber) {
     );
 }
 
+export function countProducts(campaign, productID) {
+   return APIRequest ({
+      url: 'api/orders/products/' + campaign + '/' + productID,
+      method: 'GET'
+   })
+   .then(response =>
+      response.json().then(result => {
+         if(!response.ok) {
+            return Promise.reject(result);
+         }
+         return result;
+      })
+   );
+
+}
+
         
         
         
