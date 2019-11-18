@@ -21,6 +21,7 @@ class DeliveryInfo extends React.Component {
                    city: 	{ value: '' },
                    st:	 	{ value: '' },
                    zipCode: { value: '' },
+                   paid:    { value: 0  },
                    order_id: 0
         };
 
@@ -94,7 +95,9 @@ class DeliveryInfo extends React.Component {
             delivered: false,
             camp: 19,
             user_id: user_id,
-            name: name
+            name: name,
+            paid: paid,
+            totalCost: totalCost
         };
         
         localStorage.setItem('cashOrderInfo', JSON.stringify(orderInfo));
@@ -256,6 +259,21 @@ class DeliveryInfo extends React.Component {
                                 placeholder="Zip code"
                                 maxLength="5"
                                 value={this.state.zipCode.value}
+                                onChange={(event) => this.handleInputChange(event, this.validateZipcode)}/>
+                        </FormItem>
+                        
+                        <FormItem
+                            label="Paid Amount"
+                            validateStatus={this.state.paid.validateStatus}
+                            help={this.state.paid.errorMsg}>
+                            <Input
+                                size="large"
+                                name="paid"
+                                type="Integer"
+                                autoComplete="off"
+                                placeholder="0.00"
+                                maxLength="8"
+                                value={this.state.paid.value}
                                 onChange={(event) => this.handleInputChange(event, this.validateZipcode)}/>
                         </FormItem>
 

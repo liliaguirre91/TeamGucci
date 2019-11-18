@@ -146,12 +146,13 @@ class PayPalPage extends React.Component {
                             
                             const orderInfo = {
                                 address: address,
-                                payment_type: 'paypal',
+                                payment: 'paypal',
                                 phone: 9234373472,
                                 delivered: false,
                                 camp: 19,
                                 userId: user_id,
                                 paid: this.state.total,
+                                totalCost: this.state.total,
                                 name: name
                             };
                             
