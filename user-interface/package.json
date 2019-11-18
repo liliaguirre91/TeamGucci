@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "latest",
+    "antd": "^3.25.1",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "dist": "^0.1.2",
@@ -12,6 +12,7 @@
     "react": "^16.9.0",
     "react-async-script-loader": "^0.3.0",
     "react-cookie": "3.0.4",
+    "react-data-grid": "^6.1.0",
     "react-dom": "^16.9.0",
     "react-json-to-table": "^0.1.5",
     "react-paypal-button-v2": "^2.5.0",

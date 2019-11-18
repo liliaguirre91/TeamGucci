@@ -1,32 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import logo from '../admin/admin_logo.png';
+import { withRouter } from 'react-router-dom';
+import logo from './customer_logo.jpg';
+
 //import OrderLookup from './OrderLookup.js';
 //import Login from './Login.js';
 //import Products from './Products.js';
 
 //import CreateAdmin from './CreateAdmin';
 
-import '../admin/AdminAccountPage.css';
 
+import '../admin/AdminAccountPage.css';
+import { Form, Input, Button } from 'antd' 
 
 //import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
-
-{/* Button class for all attributes of buttons*/}
-class Button extends React.Component{
-
-   render(){
-      const{
-      color, variant, content, ...others
-      } = this.props;
-
-      return(
-      <button className={color}{...others}>
-      {content}
-      </button>
-      )
-   }
-}
 
 
 
@@ -54,23 +41,7 @@ class CustomerAccountPage extends React.Component {
     this.setState({email: event.target.value});
   }
 
- /* handleSubmit(event) {
-//    
-//    event.preventDefault();
-//    const { name } = this.state;
-//    const { email } = this.state;
-//    alert('A name and email were submitted: ' + name + ' ' + email);
-//    
-//    /*UserDataService.retrieveUserInfo(name, email)
-//      .then((res) => {
-//         let user = res.data.result;
-//         this.setState({
-//            id: user.name
-//         })
-//      });
-//    //const { id } = this.state;
-//    this.props.history.push( "user/" + name + "/" + email);
-}*/
+
    
    /*****************************************************************************************
     * Handler: handleClick - This handler will route the application to other existing pages.
@@ -90,10 +61,18 @@ class CustomerAccountPage extends React.Component {
    }
 
    render() {
-      return (
-         <form onSubmit={this.handleSubmit}> 
+      
+      //console.log(this.props.currentUser.name);
+      let name = '';
+      if (this.props.currentUser) {
+          let currentUser = this.props.currentUser;
+          name = currentUser.name;
+          console.log(name);
+      }
+      return (    
+         <Form onSubmit={this.handleSubmit}> 
          {/* WELCOME TITLE */}
-            <h1 class="title" align="center"> ADMIN ACCOUNT </h1> 
+            <h1 class="title" align="center"> CUSTOMER ACCOUNT </h1> 
             <div>
                   {/* LOGO */}
                   <img src={logo} class="center" alt="logo" 
@@ -101,6 +80,9 @@ class CustomerAccountPage extends React.Component {
                   width={150}/><br/>
                   <br/><br/>
             </div>
+
+<h2>{name}</h2>
+
             <div> 
                   {/* BUTTONS ON HOME PAGE*/}
                <button class="center"> Add a product </button> <br/>
@@ -108,7 +90,7 @@ class CustomerAccountPage extends React.Component {
                <button class="center"> View orders </button> <br/>
                <button class="center" onClick={ this.handleClick("/admin-create-admin") }> Create an Admin</button> <br/>
             </div>
-         </form>
+         </Form>
       );
    }
 }
