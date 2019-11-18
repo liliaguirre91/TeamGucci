@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import { createCampaign, deleteCampaign, orderCount, amountPaid, setCampaign } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
 import './Campaign.css';
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Row, Col } from 'antd'
 const FormItem= Form.Item;
 
 class Campaign extends Component {
@@ -142,69 +142,89 @@ class Campaign extends Component {
                             CampaignID={this.state.CampaignID} 
                             onChange={this.handleIDChange} maxLength="2"/>
                     </FormItem>
-                    <FormItem>
+                    <Row gutter={[48]}>
+                    <Col span={8}>
+                     <FormItem>
                          <Button type="primary"
                                 htmlType="submit"
                                 size="large"
-                               className="campaign-form-create-button"
+                               className="row1-button"
                                onClick={(e) => this.handleCreate(e) }>Create campaign</Button>
-                    </FormItem>
-                    <FormItem>
+                    </FormItem> 
+                    </Col>
+                    <Col span={8}>
+                     <FormItem>
                          <Button type="primary"
                                 htmlType="submit"
                                 size="large"
-                               className="campaign-form-delete-button"
+                               className="row1-button"
                                onClick={(e) => this.handleDelete(e) }>Delete campaign</Button>
                     </FormItem>
+                    </Col>
+                    <Col span={8}>
                     <FormItem>
                          <Button type="primary"
                                 htmlType="submit"
                                 size="large"
-                               className="campaign-form-earnings-button"
-                               onClick={(e) => this.handleEarnings( e ) }>Revenue report</Button>
-                    </FormItem>
-                    <FormItem>
-                         <Button type="primary"
-                                htmlType="submit"
-                                size="large"
-                               className="campaign-form-addProduct-button"
-                               onClick={this.handleClick("/add-product")}>Add a product</Button>
-                    </FormItem>
-                    <FormItem>
-                         <Button type="primary"
-                                htmlType="submit"
-                                size="large"
-                               className="campaign-form-delProduct-button"
-                               onClick={this.handleClick("/delete-product")}>Delete a product</Button>
-                    </FormItem>
-                    <FormItem>
-                         <Button type="primary"
-                                htmlType="submit"
-                                size="large"
-                               className="campaign-form-viewOrders-button"
-                               onClick={(e) => this.handleCount(e) }>Count all orders</Button>
-                    </FormItem>
-                    <FormItem>
-                         <Button type="primary"
-                                htmlType="submit"
-                                size="large"
-                               className="campaign-form-viewProductsOrders-button"
-                               onClick={this.handleClick("/products-ordered") }>Products ordered</Button>
-                    </FormItem>
-                    <FormItem>
-                         <Button type="primary"
-                                htmlType="submit"
-                                size="large"
-                               className="campaign-form-ordersDelivered-button"
-                               onClick={this.handleClick("/delivery-report") }>Delivery Report</Button>
-                    </FormItem>
-                    <FormItem>
-                         <Button type="primary"
-                                htmlType="submit"
-                                size="large"
-                               className="campaign-form-setCampaign-button"
+                               className="row1-button"
                                onClick={(e) => this.handleCurrent( e ) }>Set Current Campaign</Button>
                     </FormItem>
+                    </Col>
+                    <Col span={8}>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="row2-button"
+                               onClick={this.handleClick("/add-product")}>Add a product</Button>
+                    </FormItem>
+                    </Col>
+                    <Col span={8}>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="row2-button"
+                               onClick={this.handleClick("/delete-product")}>Delete a product</Button>
+                    </FormItem>
+                    </Col>
+                    <Col span={8}>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="row2-button"
+                               onClick={this.handleClick("/products-ordered") }>Products ordered</Button>
+                    </FormItem>
+                    </Col>
+                    <Col span={8}>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="row3-button"
+                               onClick={(e) => this.handleCount(e) }>Count all orders</Button>
+                    </FormItem>
+                    </Col>
+                    <Col span={8}>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="row3-button"
+                               onClick={this.handleClick("/delivery-report") }>Delivery Report</Button>
+                    </FormItem>
+                    </Col>
+                    <Col span={8}>
+                    <FormItem>
+                         <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                               className="row3-button"
+                               onClick={(e) => this.handleEarnings( e ) }>Revenue report</Button>
+                    </FormItem>
+                    </Col>
+                    </Row>
                 </Form>
                 {this.state.submitted}
          </div>
