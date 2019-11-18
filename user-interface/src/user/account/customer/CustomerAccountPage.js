@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
 import logo from './customer_logo.jpg';
+
 //import OrderLookup from './OrderLookup.js';
 //import Login from './Login.js';
 //import Products from './Products.js';
 
 //import CreateAdmin from './CreateAdmin';
 
-//import './AdminAccountPage.css';
 
-
+import '../admin/AdminAccountPage.css';
 import { Form, Input, Button } from 'antd' 
 
 //import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}

@@ -175,6 +175,20 @@ public class OrderController {
         }//end catch
     }//end getToBeDelivered
 
+    @GetMapping( "orders/delivered/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<List<orders>> getDelivered( @PathVariable( "camp" ) int camp ){
+        List<orders> list = new ArrayList<>();
+        try{
+            Iterable<orders> o = orderRepository.getDelivered( camp );
+            o.forEach( list::add );
+            return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }//end getDelivered
+
     @GetMapping( "orders/previous/{userId}" )
     @PreAuthorize( "isAuthenticated()" )
     public ResponseEntity<List<orders>> getPrevious( @PathVariable( "userId" ) long userId ){

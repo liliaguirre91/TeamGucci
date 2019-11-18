@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
 
-import { createAccount , checkEmail, createAdmin } from '../../../util/APIFunctions'; //PROBABLY NEED
+import { checkEmail, createAdmin } from '../../../util/APIFunctions'; //PROBABLY NEED
 
 import './CreateAdmin.css';
 

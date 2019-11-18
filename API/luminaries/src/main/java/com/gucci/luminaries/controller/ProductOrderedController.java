@@ -11,7 +11,6 @@ import com.gucci.luminaries.repository.ProductOrderedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,7 +51,6 @@ public class ProductOrderedController {
     }//end getAllProductOrdereds
 
     @GetMapping( "/productOrdered/{id}" )
-    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<List<productOrdered>> getProductOrdered( @PathVariable( "id" ) long id ){
         List<productOrdered> list = new ArrayList<>();
         try{

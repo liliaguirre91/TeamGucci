@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { getProducts } from '../util/APIFunctions';
 import { notification, message } from 'antd';
 
 class ProductItem extends React.Component {

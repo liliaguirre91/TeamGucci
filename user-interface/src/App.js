@@ -1,16 +1,13 @@
 import React from 'react';
 import './HomePage.css';
-import ReactDOM from 'react-dom';
 import { 
     Route, 
-    Link, 
     withRouter, 
     Switch 
 } from 'react-router-dom'
 
-import logo from './LCHS_logo.png';
 import { ACCESS_TOKEN } from './constants';
-import { getCurrentUser } from './util/APIFunctions';
+import { getCurrentUser, getCampaign } from './util/APIFunctions';
 
 import HomePage from './HomePage';
 import OrderLookup from './OrderLookup';
@@ -28,6 +25,7 @@ import CreateAdmin from './user/account/admin/CreateAdmin.js';
 import CampaignsPage from './user/account/admin/Campaign.js';
 import DeliveryReport from './user/account/admin/DeliveryReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
+import CampaignProductsOrdered from './user/account/admin/CampaignProductsOrdered.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -50,6 +48,7 @@ class App extends React.Component {
         this.loadCurrentUser = this.loadCurrentUser.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.loadCurrentCampaign = this.loadCurrentCampaign.bind(this);
         
         notification.config({
             placement: 'topRight',
@@ -74,10 +73,17 @@ class App extends React.Component {
                     isLoading: false
                 });  
         });
-  }
+    }
+    async loadCurrentCampaign() {
+        await getCampaign()
+        .then( response => {
+            localStorage.setItem( 'campaign', ( JSON.parse( response ) ) );
+        });
+    }
   
     componentDidMount() {
         this.loadCurrentUser();
+        this.loadCurrentCampaign();
     }
     
     handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
@@ -156,6 +162,9 @@ class App extends React.Component {
                                 render={(props) => <AddProduct isAuthenticated={this.state.isAuthenticated} 
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/order-lookup" component={ OrderLookup }></Route>
+                            <Route path="/products-ordered"
+                                render={(props) => <CampaignProductsOrdered isAuthenticated={this.state.isAuthenticated} 
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                         </Switch>
                     </div>
                 </Content>

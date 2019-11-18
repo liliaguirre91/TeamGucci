@@ -93,7 +93,7 @@ public class CampaignController {
         }//end else
     }//end getCampaign
 
-    @GetMapping( "/api/campaigns/current" )
+    @GetMapping( "/campaigns/current" )
     public ResponseEntity<Long> getCurrent( ){
         try{
             return new ResponseEntity<>( campaignRepository.getCurrent( ), HttpStatus.OK ); 
