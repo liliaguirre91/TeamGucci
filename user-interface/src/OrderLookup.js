@@ -124,7 +124,7 @@ class OrderLookup extends Component {
                             size="large"
                             type="text" 
                             autocomplete="off"
-                            placeholder="year-number"
+                            placeholder="Order #"
                             OrderID={this.state.OrderID} 
                             onChange={this.handleIDChange} maxLength="9"/>
                     </FormItem>
@@ -136,8 +136,11 @@ class OrderLookup extends Component {
                     </FormItem>
                 </Form>
                 {this.state.submitted &&
-                  <h1>{this.state.deliveryInfo}</h1>}
-                  <Table columns = {columns} dataSource = {this.state.productsOrdered} pagination = {false} size = 'middle'/>
+                    <div>
+                    <h3 align="center">{this.state.deliveryInfo}</h3><br/>
+                    <Table columns = {columns} dataSource = {this.state.productsOrdered} pagination = {false} size = 'middle'/>
+                    </div>
+                }
          </div>
       );
    }

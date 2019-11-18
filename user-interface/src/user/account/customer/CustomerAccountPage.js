@@ -1,34 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
-import logo from './admin_logo.png';
+import logo from '../admin/admin_logo.png';
 //import OrderLookup from './OrderLookup.js';
 //import Login from './Login.js';
 //import Products from './Products.js';
 
 //import CreateAdmin from './CreateAdmin';
 
-import './AdminAccountPage.css';
+//import './AdminAccountPage.css';
 
 
 //import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
-
-{/* Button class for all attributes of buttons*/}
-class Button extends React.Component{
-
-   render(){
-      const{
-      color, variant, content, ...others
-      } = this.props;
-
-      return(
-      <button className={color}{...others}>
-      {content}
-      </button>
-      )
-   }
-}
-
 
 
 class CustomerAccountPage extends React.Component {
@@ -90,11 +73,19 @@ class CustomerAccountPage extends React.Component {
       console.log("button was clicked");
    }
 
-   render() {
+    render() {
+        let user_name = ""
+        if (this.props.currentUser) {
+            let currentUser = this.props.currentUser;
+            user_name = currentUser.name;
+             console.log(user_name);
+        }
+       
       return (
          <form onSubmit={this.handleSubmit}> 
          {/* WELCOME TITLE */}
-            <h1 class="title" align="center"> ADMIN ACCOUNT </h1> 
+            <h1 class="title" align="center"> CUSTOMER ACCOUNT </h1> 
+            <h2> {user_name}</h2>
             <div>
                   {/* LOGO */}
                   <img src={logo} class="center" alt="logo" 

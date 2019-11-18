@@ -12,22 +12,23 @@ import {
   Select,
   InputNumber,
   Input,
-  Switch,
-  Radio,
-  Slider,
   Button,
   Upload,
   Icon,
   Rate,
   Checkbox,
-  Row,
-  Col,
 } from 'antd';
 
 const FormItem= Form.Item;
 const { Option } = Select;
 
 class addProduct extends React.Component {
+    dummyRequest({ file, onSuccess }) {
+        setTimeout(() => {
+            onSuccess("ok");
+        }, 0);
+    }
+    
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
