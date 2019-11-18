@@ -25,6 +25,7 @@ import CreateAdmin from './user/account/admin/CreateAdmin.js';
 import CampaignsPage from './user/account/admin/Campaign.js';
 import DeliveryReport from './user/account/admin/DeliveryReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
+import CampaignProductsOrdered from './user/account/admin/CampaignProductsOrdered.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -161,6 +162,9 @@ class App extends React.Component {
                                 render={(props) => <AddProduct isAuthenticated={this.state.isAuthenticated} 
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/order-lookup" component={ OrderLookup }></Route>
+                            <Route path="/products-ordered"
+                                render={(props) => <CampaignProductsOrdered isAuthenticated={this.state.isAuthenticated} 
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                         </Switch>
                     </div>
                 </Content>
