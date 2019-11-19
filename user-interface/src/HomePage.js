@@ -58,6 +58,10 @@ class HomePage extends React.Component {
             <div> 
                <button class="center" onClick={ this.handleClick("/products") }> View Products </button> <br/>
                <button class="center" onClick={ this.handleClick("/order-lookup") }> Order search </button> <br/>
+
+               <button class="center" onClick={ this.handleClick("/order-confirmation") }> SUCCESS </button><br/>
+               <button class="center" onClick={ this.handleClick("/failure-page") }> FAIL </button><br/>
+
                
             </div>
          </form>

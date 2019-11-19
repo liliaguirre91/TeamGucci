@@ -25,8 +25,9 @@ class Products extends React.Component {
          * Will be removed if persisten cart is implemented*/
         //localStorage.removeItem('cart');
         console.log(localStorage.getItem('cart'));
-        console.log(this.props.currentUser);
-        getProducts().then((products) =>this.setState({ products }));
+        let campaign = localStorage.getItem( 'campaign' );
+        console.log(campaign);
+        getProducts(campaign).then((products) =>this.setState({ products }));
     }
 
     handleInputChange(event, validationFun) {

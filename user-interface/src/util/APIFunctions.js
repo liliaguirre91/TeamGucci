@@ -173,9 +173,9 @@ export function lookupOrder(orderNumber) {
     );
 }
 
-export function getProducts() {
+export function getProducts(campaign) {
     return APIRequest({
-        url:'api/products/camp/' + localStorage.getItem( 'campaign' ),
+        url:'api/products/camp/' + campaign,
         method: 'GET'
     })
     .then(response =>
