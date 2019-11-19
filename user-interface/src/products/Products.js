@@ -25,6 +25,7 @@ class Products extends React.Component {
          * Will be removed if persisten cart is implemented*/
         //localStorage.removeItem('cart');
         console.log(localStorage.getItem('cart'));
+        console.log(this.props.currentUser);
         getProducts().then((products) =>this.setState({ products }));
     }
 
@@ -95,7 +96,7 @@ class Products extends React.Component {
                     </Form>}
                  <Button className="btn btn-primary float-right"
                     style={{  marginRight: "10px" }} 
-                    disabled = {user_role === 'Role_USER' && !this.state.submitted}
+                    disabled = {(user_role === 'Role_USER' || this.props.currentUser === null) && !this.state.submitted}
                     onClick={(e) => this.handleSubmit(e) }> Next </Button><br/><br/>
             </div>
             );

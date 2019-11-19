@@ -64,7 +64,7 @@ class OrderLookup extends Component {
         })
         .catch(error => {
          notification.error({
-             message: 'Error error Mr.Robinson',
+             message: 'Error error Will Robinson',
              description: error.message
          });
       } )
