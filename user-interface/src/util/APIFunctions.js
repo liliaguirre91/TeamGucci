@@ -323,5 +323,19 @@ export function countProducts(campaign, productID) {
          return result;
       })
    );
+}
 
+export function setToDelivered(orderID) {
+    return APIRequest ({
+      url: 'api/orders/delivered/' + orderID,
+      method: 'PUT'
+   })
+   .then(response =>
+      response.json().then(result => {
+         if(!response.ok) {
+            return Promise.reject(result);
+         }
+         return result;
+      })
+   );
 }

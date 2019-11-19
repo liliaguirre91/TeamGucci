@@ -1,7 +1,7 @@
 //import React from 'react';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { getOrdersNotDelivered, getProductsOrdered, getProduct } from '../../../util/APIFunctions';
+import { getOrdersNotDelivered, getProductsOrdered, getProduct, setToDelivered } from '../../../util/APIFunctions';
 import {
     Form, 
     Input, 
@@ -22,13 +22,14 @@ class DeliveryReport extends Component {
             productID: 0,
             orders: '',
             productName: "",
-            //product: null,
-            items: null,
-            orderNumber: 0
+            items: '',
+            orderNumber: 0,
+            selectedRowKeys: [],
+            loading: false,
         }
     }
     
-  
+/*******************************************************************************************/  
     async componentDidMount() {
         var productQuantities= [];
         var productIDs= [];
@@ -47,8 +48,11 @@ class DeliveryReport extends Component {
                 const orders = this.state.orders;
                 for (var i = 0; i < orders.length; i++) {
                     //console.log("total cost:" + orders[i].totalCost)
-                    this.state.orders[i].totalCost = "$" + orders[i].totalCost.toString() + ".00";
-                    this.state.orders[i].paid = "$" + orders[i].paid.toString() + ".00";
+                    if (orders[i].totalCost != undefined) 
+                        this.state.orders[i].totalCost = "$" + orders[i].totalCost.toString() + ".00";
+                    if (orders[i].paid != undefined)
+                        this.state.orders[i].paid = "$" + orders[i].paid.toString() + ".00";
+                    
                     //console.log("total cost:" + this.state.orders[i].totalCost);
                 }
                 console.log("Orders:" + JSON.stringify(this.state.orders));
@@ -95,7 +99,52 @@ class DeliveryReport extends Component {
         this.setState({items: products});
         console.log(this.state.items);
     }
-    
+
+/*******************************************************************************************/    
+    start = () => {
+        const success = true;
+        console.log(this.state.loading);
+        this.setState({ loading: true });
+        
+        const selectedRowKeys = this.state.selectedRowKeys;
+        console.log(this.state.selectedRowKeys);
+        for (var i = 0; i < selectedRowKeys.length; i++) {
+            setToDelivered(selectedRowKeys[i]) 
+                .catch(error => {
+                    notification.error({
+                        message: 'LCHS Band Fundraising',
+                        description:error.message || 'Sorry! Something went wrong!'
+                    });
+                    success = false;
+                });
+            if (!success)
+                break;
+        }
+        if (success) {
+            window.location.reload();
+            notification.success({
+                message: 'LCHS Band Fundraising',
+                description:'Order(s): ' + selectedRowKeys + " have been set to 'Delivered'"
+            });
+        }
+        
+        setTimeout(() => {
+        this.setState({
+            selectedRowKeys: [],
+            loading: false,
+        });
+        }, 1000);
+    };
+
+  
+/*******************************************************************************************/    
+    onSelectChange = selectedRowKeys => {
+        console.log('selectedRowKeys changed: ', selectedRowKeys);
+        this.setState({ selectedRowKeys });
+    };
+  
+  
+/*******************************************************************************************/  
     getOrderedProducts(x)  {
         console.log(x);
         //const productQuantities= [];
@@ -108,32 +157,13 @@ class DeliveryReport extends Component {
         { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
         ];
 
-        
-        /*const data = [];
-        for (var i = 0; i < productIDs; i++) {
-            const item = { productID: productIDs[i], quantity: productQuantities[i] }
-                console.log(item);
-                data.push(item);
-        }*/
-        
-        
-        /*for (let i = 0; i < 3; ++i) {
-            data.push({
-                key: i,
-                productID: '2014-12-24 23:12:00',
-                product: 'This is production name',
-                quantity: 'Upgraded: 56',
-            });
-        }*/
-        //console
-        //this.setState({loaded: true});
         const products = this.state.items;
         const data = products[x];
-        return <Table columns={columns} dataSource={data} pagination={false} />
+        return <Table rowKey="productID" columns={columns} dataSource={data} pagination={false} />
     }
     
     
-    
+/*******************************************************************************************/      
     render() {
         const columns = [
             {
@@ -172,19 +202,38 @@ class DeliveryReport extends Component {
                 key: 'totalCost',
             },
         ];
+        
+        const loading = this.state.loading
+        const selectedRowKeys = this.state.selectedRowKeys;
+        const rowSelection = {
+            selectedRowKeys,
+            onChange: this.onSelectChange,
+        };
+        console.log(selectedRowKeys);
+        const hasSelected = selectedRowKeys.length > 0;
     
         return (
             <div className="delivery-report-container">
                 <h1 className="page-title">Delivery Report</h1>
+                <div style={{ marginBottom: 16 }}>
+                    <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
+                        Set as Delivered 
+                    </Button>
+                    <span style={{ marginLeft: 8 }}>
+                        {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+                    </span>
+                </div>
                 <Table 
                     dataSource={this.state.orders} 
                     columns={columns} 
-                    rowKey={(record) => record.id}
+                    rowKey={(record) => record.orderId}
+                    rowSelection={rowSelection}
                     expandedRowRender={(record, i) =>
                         this.getOrderedProducts(i)}
                         
                     bordered
                     pagination={false}
+                    scroll={{ y: 600 }}
                     
                 />
             </div>

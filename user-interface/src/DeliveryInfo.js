@@ -81,8 +81,10 @@ class DeliveryInfo extends React.Component {
                             })
                        const price = this.state.productPrice
                         //console.log(product[id]);
+                       
                         productNames.push(this.state.productName);
-                        productPrices.push("$" + price.toString());
+                        if (price != undefined)
+                            productPrices.push("$" + price.toString());
                         productQuantities.push(quantity);
                         tot += (this.state.productPrice * quantity);
             }
@@ -116,7 +118,7 @@ class DeliveryInfo extends React.Component {
         const st = this.state.st.value;
         const zipCode = this.state.zipCode.value;
         const paid  = this.state.paid.value.split('.');
-        console.log(paid[0]);
+        //console.log(paid[0]);
         
         var addr_info = address.concat(' ', city, ' ', st, ' ', zipCode);
         
@@ -181,21 +183,6 @@ class DeliveryInfo extends React.Component {
             localStorage.removeItem('cart')
         }.bind(this), 500)
         
-      /*setTimeout(function() {
-        alert(JSON.parse(this.state.order_id));
-      }.bind(this), 500)*/
-          /*response => {
-         notification.success({
-            message: 'LCHS Band Fundraising',
-            description: "Your order has been placed!"
-         });
-         this.props.history.push("/"); //for now will redirect to home, later to confirmation
-      }).catch(error => {
-         notification.error({
-            message: 'LCHS Band Fundraising',
-            description: error.message || 'Sorry! Something went wrong!'
-         });
-      });*/
     }
 
     isFormInvalid() {
@@ -249,7 +236,7 @@ class DeliveryInfo extends React.Component {
                                     size="large"
                                     name="name"
                                     autoComplete="off"
-                                    placeholder="Your full name"
+                                    placeholder="Customer's full name"
                                     value={this.state.name.value}
                                     onChange={(event) => this.handleInputChange(event, this.validateName)}/>
                             </FormItem>
