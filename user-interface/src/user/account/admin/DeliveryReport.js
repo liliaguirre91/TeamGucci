@@ -1,7 +1,7 @@
 //import React from 'react';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { getOrdersNotDelivered, getProductsOrdered, getProduct } from '../../../util/APIFunctions';
+import { getOrdersNotDelivered, getProductsOrdered, getProduct, getProducts } from '../../../util/APIFunctions';
 import {
     Form, 
     Input, 
@@ -21,6 +21,7 @@ class DeliveryReport extends Component {
             productQuantity: 0,
             productID: 0,
             orders: '',
+            productTmp: '',
             productName: "",
             //product: null,
             items: null,
@@ -31,11 +32,29 @@ class DeliveryReport extends Component {
   
     async componentDidMount() {
         var productQuantities= [];
-        var productIDs= [];
+        var product= [];
+        const allProducts = [];
         var data = [];
         const products = []
         //var orders = [];
-        
+        await getProducts( )
+            .then( response => {
+                this.setState( {
+                    productTmp: response
+                });
+             } )
+            .catch(error => {
+                notification.error({
+                    message: 'LCHS Band Fundraising',
+                    description:error.message || 'Sorry! Something went wrong!'
+                });
+            })
+        const idk = this.state.productTmp;
+        console.log( idk );
+        for( var i = 0; i < idk.length; i++ ){
+            allProducts[ idk[i].productId ] = idk[i].product
+        }
+        console.log( allProducts );
         let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
         let campaignYear = setCampaign["year"]
         //console.log("hello" + campaignYear);
@@ -60,12 +79,8 @@ class DeliveryReport extends Component {
                 .then (productResponse => {
                     const length = productResponse.length;
                     for (var i = 0; i < length; i++) {
-                        this.setState({
-                            productQuantity: productResponse[i].quantity,
-                            productID: productResponse[i].productId
-                        });
                         //do the api call to get product with productid
-                        const item = { productID: this.state.productID, quantity: this.state.productQuantity };
+                        const item = { productID: productResponse[i].productId, name: allProducts[productResponse[i].productId], quantity: productResponse[i].quantity };
                         console.log(orders[i].orderId, item);
                         data.push(item);
                         console.log(data);
@@ -96,6 +111,7 @@ class DeliveryReport extends Component {
         
         const columns = [
         { title: 'Product ID', dataIndex: 'productID', key: 'productID' },
+        { title: 'Product Name', dataIndex: 'name', key: 'name' },
         //{ title: 'Product Name', dataIndex: 'product', key: 'product' },
         { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
         ];
@@ -166,7 +182,7 @@ class DeliveryReport extends Component {
                         this.getOrderedProducts(i)}
                         
                     bordered
-                    pagination={true}
+                    pagination={false}
                     
                 />
             </div>
