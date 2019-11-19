@@ -142,7 +142,9 @@ class Campaign extends Component {
                               CampaignID={this.state.CampaignID} 
                               onChange={this.handleIDChange} maxLength="2"/>
                      </FormItem>
-                     <Row gutter={[96, 10]} type = 'flex'>
+                     <div className="campaign-container2">
+
+                     <Row gutter={[100, 40]} type = 'flex'>
                         <Col span={8}>
                            <FormItem>
                               <Button type="primary"
@@ -166,17 +168,18 @@ class Campaign extends Component {
                               <Button type="primary"
                                     htmlType="submit"
                                     size="large"
-                                    className="campaign-form-earnings-button"
+                                    className="row2-button"
                                     onClick={(e) => this.handleEarnings( e ) }>Revenue report</Button>
                            </FormItem>
                         </Col>
                         <Col span={8}>
                            <FormItem>
-                              <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="campaign-form-addProduct-button"
-                                    onClick={this.handleClick("/add-product")}>Add a product</Button>
+                              <Button 
+                                 type="primary"
+                                 htmlType="submit"
+                                 size="large"
+                                 className="row3-button"
+                                 onClick={this.handleClick("/add-product")}>Add a product</Button>
                            </FormItem>
                         </Col>
                         <Col span={8}>
@@ -193,7 +196,7 @@ class Campaign extends Component {
                               <Button type="primary"
                                     htmlType="submit"
                                     size="large"
-                                    className="campaign-form-viewOrders-button"
+                                    className="row2-button"
                                     onClick={(e) => this.handleCount(e) }>Count all orders</Button>
                            </FormItem>
                         </Col>
@@ -211,7 +214,7 @@ class Campaign extends Component {
                               <Button type="primary"
                                     htmlType="submit"
                                     size="large"
-                                    className="campaign-form-ordersDelivered-button"
+                                    className="row4-button"
                                     onClick={this.handleClick("/delivery-report") }>Delivery Report</Button>
                            </FormItem>
                         </Col>
@@ -225,6 +228,8 @@ class Campaign extends Component {
                            </FormItem>
                         </Col>
                      </Row>
+                     </div>
+   
                 </Form>
          </div>
       );

@@ -63,6 +63,14 @@ class DeliveryReport extends Component {
                 this.setState({
                     orders: response
                 });
+                const orders = this.state.orders;
+                for (var i = 0; i < orders.length; i++) {
+                    //console.log("total cost:" + orders[i].totalCost)
+                    this.state.orders[i].totalCost = "$" + orders[i].totalCost.toString() + ".00";
+                    this.state.orders[i].paid = "$" + orders[i].paid.toString() + ".00";
+                    //console.log("total cost:" + this.state.orders[i].totalCost);
+                }
+                console.log("Orders:" + JSON.stringify(this.state.orders));
                 //orders = this.state.orders;
             })
             .catch(error => {
@@ -169,6 +177,16 @@ class DeliveryReport extends Component {
                 dataIndex: 'createdAt',
                 key: 'createdAt',
             },
+            {
+                title: 'Amount Paid',
+                dataIndex: 'paid',
+                key: 'paid',
+            },
+            {
+                title: 'Total Cost',
+                dataIndex: 'totalCost',
+                key: 'totalCost',
+            },
         ];
     
         return (
@@ -177,7 +195,7 @@ class DeliveryReport extends Component {
                 <Table 
                     dataSource={this.state.orders} 
                     columns={columns} 
-                    rowKey={(record: any) => record.id}
+                    rowKey={(record) => record.id}
                     expandedRowRender={(record, i) =>
                         this.getOrderedProducts(i)}
                         
