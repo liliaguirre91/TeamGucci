@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import { createCampaign, deleteCampaign, orderCount, amountPaid, setCampaign } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
 import './Campaign.css';
-import { Form, Input, Button, Row, Col } from 'antd'
+import { Form, Input, Button, Row, Col, notification, Modal } from 'antd'
 const FormItem= Form.Item;
 
 class Campaign extends Component {
@@ -11,8 +11,12 @@ class Campaign extends Component {
       this.state = { 
          CampaignID: '',
          result: '',
+         count: false,
+         earnings: false,
          deliveryInfo:'',
-         submitted: false
+         submitted: false,
+         amount: 0,
+         orders: 0
       };
       this.handleIDChange = this.handleIDChange.bind(this);    
       this.handleCreate = this.handleCreate.bind(this);  
@@ -21,6 +25,8 @@ class Campaign extends Component {
       this.handleCount = this.handleCount.bind(this);
       this.handleEarnings = this.handleEarnings.bind(this);
       this.handleCurrent = this.handleCurrent.bind(this);
+      this.setEarning = this.setEarning.bind(this);
+      this.setCount = this.setCount.bind(this);
   }
 
     handleIDChange(event) {
@@ -34,8 +40,13 @@ class Campaign extends Component {
         console.log(localStorage.getItem('setCampaign'));
         this.props.history.push(param);
     }
-    
-   handleCreate(event) {
+   setEarning( b ){
+      this.setState( { earnings: b } );
+   }
+   setCount( b ){
+      this.setState( { count: b } );
+   }
+   async handleCreate(event) {
       event.preventDefault();
       /*const url = '/api/orders/search/'+ this.state.OrderID;
       fetch(url)
@@ -46,27 +57,23 @@ class Campaign extends Component {
         const campaign = {
             yearRan: campaignNumber
         };      
-        createCampaign(campaign)
+        await createCampaign(campaign)
             .then(result => 
-            this.setState({ result })
-        );
-       
-      
-            
-        setTimeout(function() {
-            if (this.state.result === 'false')
-                alert('campaign was not created');
-            else if (this.state.result === 'true')
-                alert('campaign was created');
-            else
-                alert(this.state.result);
-        }.bind(this), 200)
-      
-     
-      
-      
+               this.setState({ result }),
+               notification.success({
+                  message: 'LCHS Band Fundraising',
+                  description: "Your created a new campaign!"
+                  
+              })
+            )
+            .catch(error => {
+               notification.error({
+                   message: 'LCHS Band Fundraising',
+                   description:error.message || 'Sorry! Something went wrong!'
+               });
+           });  
    }
-   handleDelete(event) {
+   async handleDelete(event) {
       event.preventDefault();
       /*const url = '/api/orders/search/'+ this.state.OrderID;
       fetch(url)
@@ -74,47 +81,76 @@ class Campaign extends Component {
          .then(result => this.setState({ result }));*/
       
       const campaignNumber = parseInt( this.state.CampaignID );
-      deleteCampaign(campaignNumber)
-      .then(result => 
-         this.setState({ result })
-       );
-       
-      
-            
-      setTimeout(function() {
-         if (this.state.result === 'false')
-            alert('campaign was not deleted');
-         else if (this.state.result === 'true')
-             alert('campaign was deleted');
-         else
-            alert(this.state.result);
-      }.bind(this), 200)
+      if( this.state.submitted === false ){
+         notification.success({
+            message: 'LCHS Band Fundraising',
+            description: "Please click again to confirm"
+        });
+        this.setState( { submitted: true } );
+      }
+      else{ 
+         await deleteCampaign(campaignNumber)
+         .then(result => 
+            this.setState({ result }),
+            notification.success({
+               message: 'LCHS Band Fundraising',
+               description: "You successfully deleted a campaign"
+           })
+         )
+         .catch(error => {
+            notification.error({
+               message: 'LCHS Band Fundraising',
+               description:error.message || 'Sorry! Something went wrong!'
+            });
+         });
+      this.setState( { submitted: false } );
+      }
    }
 
    async handleCount( event ){
       const campaignNumber = parseInt( this.state.CampaignID );
       await orderCount(campaignNumber)
       .then(result => 
-         this.setState({ result })
-         );
-      alert( this.state.result );
+         this.setState( { orders: result } ),
+         this.setState( { count: true } )
+      )
+      .catch(error => {
+         notification.error({
+            message: 'LCHS Band Fundraising',
+            description:error.message || 'Sorry! Something went wrong!'
+         });
+      });
    }
 
    async handleEarnings( event ){
       const campaignNumber = parseInt( this.state.CampaignID );
       await amountPaid(campaignNumber)
       .then(result => 
-         this.setState({ result })
-         );
-      alert( this.state.result );
+         this.setState( { amount: result } ),
+         this.setState( { earnings: true } )
+      )
+      .catch(error => {
+         notification.error({
+            message: 'LCHS Band Fundraising',
+            description:error.message || 'Sorry! Something went wrong!'
+         });
+      });
    }
    async handleCurrent( event ){
       const campaignNumber = parseInt( this.state.CampaignID );
       await setCampaign(campaignNumber)
       .then(result => 
-         this.setState({ result })
-         );
-      alert( "The current Campaign is " + this.state.result );
+         notification.success({
+            message: 'LCHS Band Fundraising',
+            description: "The current Campaign is" + result
+        })
+      )
+      .catch(error => {
+         notification.error({
+            message: 'LCHS Band Fundraising',
+            description:error.message || 'Sorry! Something went wrong!'
+         });
+      });
    }
 
    renderCampaignInfo() {
@@ -130,7 +166,29 @@ class Campaign extends Component {
          <div className="campaign-container">
             <h2 className="page-title"> Campaign Configuration </h2>
             <h5 align="center"> Enter a campaign ID number: </h5>
-                <Form className="campaign-form" align="center" layout = 'inline'> 
+            <Modal
+                  title="Amount Earned"
+                  centered
+                  destroyOnClose={true}
+                  visible={ this.state.earnings }
+                  onOk={ () => this.setEarning( false ) }
+                  onCancel={ () => this.setEarning( false ) }
+               >
+                  <p>The amount of money earned in this campaign is ${this.state.amount}</p>
+               </Modal>
+               <br />
+               <br />
+               <Modal
+                  title="Number of orders"
+                  centered
+                  destroyOnClose={true}
+                  visible={ this.state.count }
+                  onOk={ () => this.setCount( false ) }
+                  onCancel={ () => this.setCount( false ) }
+               >
+                  <p>The number of orders made in this campaign is {this.state.orders}</p>
+               </Modal>
+               <Form className="campaign-form" align="center" layout = 'inline'> 
                   <FormItem
                            label="">
                            <Input 
@@ -235,13 +293,6 @@ class Campaign extends Component {
       );
    }
 }
-
-/*
-               </Form>
-                {this.state.submitted && this.renderDeliveryInfo()}
-			 </div>
-
-*/
 
 ReactDOM.render(
   <Campaign/>,

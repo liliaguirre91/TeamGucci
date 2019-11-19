@@ -54,12 +54,13 @@ class addProduct extends React.Component {
       }
     });
     console.log( this.state.image );
+    const camp = localStorage.getItem( 'setCampaign' );
     const newProduct = {
       product: this.state.product.value,
       price: this.state.price.value,
       description: this.state.description.value,
       image: this.state.image,
-      yearRan: 19
+      yearRan: camp
   };
       
   createProduct(newProduct)
