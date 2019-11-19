@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './DeliveryInfo.css';
-import { createOrder, createProductsOrdered } from './util/APIFunctions';
-import {Form, Input, Button, notification } from 'antd';
+import { createOrder, createProductsOrdered, getProduct } from './util/APIFunctions';
+import {Form, Input, Button, Table, notification, message } from 'antd';
 import {
     NAME_MIN_LENGTH,
     NAME_MAX_LENGTH, 
@@ -22,6 +22,8 @@ class DeliveryInfo extends React.Component {
                    st:	 	{ value: '' },
                    zipCode: { value: '' },
                    paid:    { value: 0  },
+                   totalCost: 0,
+                   products: [],
                    order_id: 0
         };
 
@@ -47,8 +49,53 @@ class DeliveryInfo extends React.Component {
       });
    }
    
-   //handlePhoneChange(event) {
-       
+    async componentDidMount() {
+       let cart = JSON.parse(localStorage.getItem('cart'));
+        if (localStorage.getItem('cart') === null) {
+            message.error('Your cart is empty!! Cannot continue!!', 5);
+        }
+        else {
+            let cartSize = Object.keys(cart).length;
+            let keys = Object.keys(cart);
+            var tot = 0;
+            const productNames = [];
+            const productPrices = [];
+            const productQuantities = [];
+            const items = [];
+            
+            for (var i = 0; i < cartSize; i++) {
+                        let productID = keys[i];
+                        let quantity = cart[keys[i]];
+                        const response = await getProduct(productID)
+                            .then (response => {
+                                this.setState({
+                                    productName: response.product,
+                                    productPrice: response.price
+                                });
+                            })
+                            .catch(error => {
+                                notification.error({
+                                    message: 'LCHS Band Fundraising',
+                                    description:error.message || 'Sorry! Something went wrong!'
+                                });
+                            })
+                       const price = this.state.productPrice
+                        //console.log(product[id]);
+                        productNames.push(this.state.productName);
+                        productPrices.push("$" + price.toString());
+                        productQuantities.push(quantity);
+                        tot += (this.state.productPrice * quantity);
+            }
+            for (var i = 0; i < productNames.length; i++) {
+                const item = { product: productNames[i], price: productPrices[i], quantity: productQuantities[i] }
+                console.log(item);
+                items.push(item);
+            }
+            this.setState({ products: items })
+            console.log(items)
+            this.setState({ totalCost: tot });
+        } 
+    }
 
   /*******************************************************************************************
    * Handler: handleSubmit() - This handler takes care of posting the order delivery
@@ -59,7 +106,7 @@ class DeliveryInfo extends React.Component {
    * Postcondition: An order will be created and all relevant order information will be inserted
    * into the database.
    ********************************************************************************************/
-   handleSubmit(event) {
+   async handleSubmit(event) {
         event.preventDefault();
         let user_id = -2;
         const name  = this.state.name.value;
@@ -68,38 +115,23 @@ class DeliveryInfo extends React.Component {
         const city = this.state.city.value;
         const st = this.state.st.value;
         const zipCode = this.state.zipCode.value;
+        const paid  = this.state.paid.value.split('.');
+        console.log(paid[0]);
         
         var addr_info = address.concat(' ', city, ' ', st, ' ', zipCode);
-
-        /********************************************************************************************
-        If the admin is logged in the payment type will always be cash. If a regular customer
-        is logged in the payment type will always be paypal. This will determine what page
-        we will go to. In future we need to store these values so we can use them once order is
-        placed in the payment page or the confirm your order page. Add a check to make sure all fields are submitted. 
-        This will ultimately go on the payment page, once the customer has paid for the products. Payment type 
-        will depend on user type, campaign will depend on the product or the current campaign? Before placing 
-        the order make sure payment went through correctly. So check response from paypal.
-        ********************************************************************************************/
         
-        /*if(this.props.currentUser) {
-            let currentUser = this.props.currentUser;
-            user_id = currentUser.userId;
-            //console.log(user_id);
-        }*/
-            
       
         const orderInfo = {
             address: addr_info,
-            payment_type: 'cash',
+            payment: 'cash',
             phone: phone,
             delivered: false,
             camp: 19,
-            user_id: user_id,
+            userId: user_id,
             name: name,
-            paid: paid,
-            totalCost: totalCost
+            paid: paid[0],
+            totalCost: this.state.totalCost
         };
-        
         localStorage.setItem('cashOrderInfo', JSON.stringify(orderInfo));
         /* Call the createOrder function to create order in database */
         createOrder(orderInfo)
@@ -177,117 +209,143 @@ class DeliveryInfo extends React.Component {
    
 
   render() {
-    return (
-        <div className="delivery-info-container">
-            <h2 className="page-title"> Delivery Information Form </h2>
-            <h5 align="center"> In order to get your items to you, we require some information </h5>
-                <div className="delivery-form-content">
-                    <Form align="center" onSubmit={this.handleSubmit} className="delivery-form"> 
-                        <FormItem
-                            label="Full Name"
-                            validateStatus={this.state.name.validateStatus}
-                            help={this.state.name.errorMsg}>
-                            <Input
-                                size="large"
-                                name="name"
-                                autoComplete="off"
-                                placeholder="Your full name"
-                                value={this.state.name.value}
-                                onChange={(event) => this.handleInputChange(event, this.validateName)}/>
-                        </FormItem>
-
-                        <FormItem
-                            label="Phone"
-                            validateStatus={this.state.phone.validateStatus}
-                            help={this.state.phone.errorMsg}>
-                            <Input
-                                name="phone"
-                                placeholder="##########"
-                                maxLength="10"
-                                value={ this.state.phone.value }
-                                onChange={(event) => this.handleInputChange(event, this.validatePhone) }/>
-                    </FormItem>
-                    <FormItem
-                            label="Address"
-                            validateStatus={this.state.address.validateStatus}
-                            help={this.state.address.errorMsg}>
-                            <Input
-                                size="large"
-                                name="address"
-                                autoComplete="off"
-                                placeholder="1234 Street Name"
-                                maxLength="20"
-                                value={this.state.address.value}
-                                onChange={(event) => this.handleInputChange(event, this.validateAddress)}/>
-                        </FormItem>
-                        <FormItem
-                            label="City"
-                            validateStatus={this.state.city.validateStatus}
-                            help={this.state.city.errorMsg}>
-                            <Input
-                                size="large"
-                                name="city"
-                                autoComplete="off"
-                                placeholder="Your city"
-                                maxLength="20"
-                                value={this.state.city.value}
-                                onChange={(event) => this.handleInputChange(event, this.validateCity)}/>
-                        </FormItem>
-                        
-                        <FormItem
-                            label="State"
-                            validateStatus={this.state.st.validateStatus}
-                            help={this.state.st.errorMsg}>
-                            <Input
-                                size="large"
-                                name="st"
-                                autoComplete="off"
-                                placeholder="Your state"
-                                maxLength="15"
-                                value={this.state.st.value}
-                                onChange={(event) => this.handleInputChange(event, this.validateSt)}/>
-                        </FormItem>
-                        
-                        <FormItem
-                            label="Zip Code"
-                            validateStatus={this.state.zipCode.validateStatus}
-                            help={this.state.zipCode.errorMsg}>
-                            <Input
-                                size="large"
-                                name="zipCode"
-                                autoComplete="off"
-                                placeholder="Zip code"
-                                maxLength="5"
-                                value={this.state.zipCode.value}
-                                onChange={(event) => this.handleInputChange(event, this.validateZipcode)}/>
-                        </FormItem>
-                        
-                        <FormItem
-                            label="Paid Amount"
-                            validateStatus={this.state.paid.validateStatus}
-                            help={this.state.paid.errorMsg}>
-                            <Input
-                                size="large"
-                                name="paid"
-                                type="Integer"
-                                autoComplete="off"
-                                placeholder="0.00"
-                                maxLength="8"
-                                value={this.state.paid.value}
-                                onChange={(event) => this.handleInputChange(event, this.validateZipcode)}/>
-                        </FormItem>
-
-                        <FormItem>
-                            <Button type="primary"
-                            htmlType="submit"
-                            size="large"
-                            className="delivery-form-button"
-                            disabled={this.isFormInvalid()}>Continue</Button>
-                        </FormItem>
-                    </Form>
+      const columns = [
+            {
+                title: 'Product',
+                dataIndex: 'product',
+                key: 'product',
+            },
+            {
+                title: 'Price',
+                dataIndex: 'price',
+                key: 'price',
+            },
+            {
+                title: 'Quantity',
+                dataIndex: 'quantity',
+                key: 'quantity',
+            },    
+        ];
+        return (
+            <div className="delivery-info-container">
+                <h2 className="page-title"> Order Summary </h2>
+                <div className="order-summary">
+                <Table 
+                    dataSource={this.state.products} 
+                    columns={columns} 
+                    pagination={false}
+                    footer={ () => 'Your total is: $' + this.state.totalCost }
+                />
                 </div>
-            </div>
-        );
+                <h2 className="page-title"> Delivery Information Form </h2>
+                <h5 align="center"> In order to get your items to you, we require some information </h5>
+                    <div className="delivery-form-content">
+                        <Form align="center" onSubmit={this.handleSubmit} className="delivery-form"> 
+                            <FormItem
+                                label="Full Name"
+                                validateStatus={this.state.name.validateStatus}
+                                help={this.state.name.errorMsg}>
+                                <Input
+                                    size="large"
+                                    name="name"
+                                    autoComplete="off"
+                                    placeholder="Your full name"
+                                    value={this.state.name.value}
+                                    onChange={(event) => this.handleInputChange(event, this.validateName)}/>
+                            </FormItem>
+
+                            <FormItem
+                                label="Phone"
+                                validateStatus={this.state.phone.validateStatus}
+                                help={this.state.phone.errorMsg}>
+                                <Input
+                                    name="phone"
+                                    placeholder="##########"
+                                    maxLength="10"
+                                    value={ this.state.phone.value }
+                                    onChange={(event) => this.handleInputChange(event, this.validatePhone) }/>
+                        </FormItem>
+                        <FormItem
+                                label="Address"
+                                validateStatus={this.state.address.validateStatus}
+                                help={this.state.address.errorMsg}>
+                                <Input
+                                    size="large"
+                                    name="address"
+                                    autoComplete="off"
+                                    placeholder="1234 Street Name"
+                                    maxLength="20"
+                                    value={this.state.address.value}
+                                    onChange={(event) => this.handleInputChange(event, this.validateAddress)}/>
+                            </FormItem>
+                            <FormItem
+                                label="City"
+                                validateStatus={this.state.city.validateStatus}
+                                help={this.state.city.errorMsg}>
+                                <Input
+                                    size="large"
+                                    name="city"
+                                    autoComplete="off"
+                                    placeholder="Your city"
+                                    maxLength="20"
+                                    value={this.state.city.value}
+                                    onChange={(event) => this.handleInputChange(event, this.validateCity)}/>
+                            </FormItem>
+                            
+                            <FormItem
+                                label="State"
+                                validateStatus={this.state.st.validateStatus}
+                                help={this.state.st.errorMsg}>
+                                <Input
+                                    size="large"
+                                    name="st"
+                                    autoComplete="off"
+                                    placeholder="Your state"
+                                    maxLength="15"
+                                    value={this.state.st.value}
+                                    onChange={(event) => this.handleInputChange(event, this.validateSt)}/>
+                            </FormItem>
+                            
+                            <FormItem
+                                label="Zip Code"
+                                validateStatus={this.state.zipCode.validateStatus}
+                                help={this.state.zipCode.errorMsg}>
+                                <Input
+                                    size="large"
+                                    name="zipCode"
+                                    autoComplete="off"
+                                    placeholder="Zip code"
+                                    maxLength="5"
+                                    value={this.state.zipCode.value}
+                                    onChange={(event) => this.handleInputChange(event, this.validateZipcode)}/>
+                            </FormItem>
+                            
+                            <FormItem
+                                label="Paid Amount"
+                                validateStatus={this.state.paid.validateStatus}
+                                help={this.state.paid.errorMsg}>
+                                <Input
+                                    size="large"
+                                    name="paid"
+                                    type="Integer"
+                                    autoComplete="off"
+                                    placeholder="0.00"
+                                    maxLength="8"
+                                    value={this.state.paid.value}
+                                    onChange={(event) => this.handleInputChange(event, this.validatePaid)}/>
+                            </FormItem>
+
+                            <FormItem>
+                                <Button type="primary"
+                                htmlType="submit"
+                                size="large"
+                                className="delivery-form-button"
+                                disabled={this.isFormInvalid()}>Continue</Button>
+                            </FormItem>
+                        </Form>
+                    </div>
+                </div>
+            );
     }
 
 //VALIDATION FUCNTIONS
@@ -380,6 +438,20 @@ class DeliveryInfo extends React.Component {
  			};
  		}
     }
+
+    validatePaid = ( paid ) => {
+        if( paid.length === 0 || paid.length > 8){
+            return{
+            validateStatus: 'error',
+            errorMsg: 'Not a valid amount'
+            }
+        } else {
+            return{
+                validateStatus: 'success',
+                errorMsg: null,
+                };
+            }
+       }
  		
 }//end of class
 
