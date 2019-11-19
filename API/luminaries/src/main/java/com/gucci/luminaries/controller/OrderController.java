@@ -202,6 +202,20 @@ public class OrderController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end catch
     }//end getPrevious
+
+    @GetMapping( "orders/notPaid" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<List<orders>> getNotDelivered( ){
+        List<orders> list = new ArrayList<>();
+        try{
+            Iterable<orders> o = orderRepository.getNotPaid( );
+            o.forEach( list::add );
+            return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }
  
     //Put mapping updates an order entry in the orders table
     //To create go to /api/orders/{order number}
@@ -241,6 +255,20 @@ public class OrderController {
         if( orderData.isPresent() ){
             orders o = orderData.get();
             o.setDelivered( true );
+            return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
+        }//end if 
+        else{
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end else
+    }//end setDelivered
+
+    @PutMapping( "/orders/paid/{id}/{amount}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<orders> setPaid( @PathVariable( "id" ) long id, @PathVariable( "amount" ) int paid ){
+        Optional<orders> orderData = orderRepository.findById( id );
+        if( orderData.isPresent() ){
+            orders o = orderData.get();
+            o.setPaid( paid );
             return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
         }//end if 
         else{

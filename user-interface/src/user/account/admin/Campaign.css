@@ -3,16 +3,21 @@
 }
 
 .campaign-container {
-    max-width: 420px;
+    max-width: 600px;
     margin: 0 auto;
     margin-top: 80px;    
 
 }
 
-.campaign-form-button {
-    width: 20%;
-    margin-top: 15px;
+.campaign-container2 {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 60px;    
 
+}
+.campaign-form-button {
+    margin-top: 30px;
+    
 }
 
 .campaign-form-button[disabled], .signup-form-button[disabled]:hover, .signup-form-button[disabled]:focus {
@@ -36,7 +41,7 @@
     color: #fff;
     background-color: #1890ff;
     border-color: #1890ff;
-
+    width: 130%;
 }
 
 .campaign-form .row3-button{
@@ -44,10 +49,20 @@
     color: #fff;
     background-color: #1890ff;
     border-color: #1890ff;
-    
+    width: 115%;
 }
+
+.campaign-form .row4-button{
+    opacity: 0.6;
+    color: #fff;
+    background-color: #1890ff;
+    border-color: #1890ff;
+    width: 110%;
+}
+
 .campaign-form input {
     margin-bottom: 3px;
+    min-width: 150px;
     width: 30%;
     text-align: center;
 }

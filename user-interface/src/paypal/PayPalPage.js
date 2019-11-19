@@ -143,15 +143,18 @@ class PayPalPage extends React.Component {
                                 user_id = currentUser.userId;
                                 console.log(user_id);
                             }  
-                            
+                            const phone = localStorage.getItem( 'Phone' );
+                            localStorage.removeItem( 'Phone' );
+                            const camp = localStorage.getItem( 'campaign' );
                             const orderInfo = {
                                 address: address,
-                                payment_type: 'paypal',
-                                phone: 9234373472,
+                                payment: 'paypal',
+                                phone: phone,
                                 delivered: false,
-                                camp: 19,
+                                camp: camp,
                                 userId: user_id,
                                 paid: this.state.total,
+                                totalCost: this.state.total,
                                 name: name
                             };
                             
@@ -161,7 +164,7 @@ class PayPalPage extends React.Component {
                             
                             /* Call the createOrder function to create order in database */
                             createOrder(orderInfo)
-                                .then((order_id) => this.setState({ order_id }))
+                                .then((orderId) => this.setState({ orderId }))
                                 .catch(error => {
                                     order_created = false;
                                     notification.error({
@@ -173,7 +176,7 @@ class PayPalPage extends React.Component {
                                 
                             /*Implementing insertion of multiple products tied to one order number*/
                             setTimeout(function() {
-                                const orderID = this.state.order_id;
+                                const orderID = this.state.orderId;
                             
                                 let cart = JSON.parse(localStorage.getItem('cart'));
                                 let cartSize = Object.keys(cart).length;

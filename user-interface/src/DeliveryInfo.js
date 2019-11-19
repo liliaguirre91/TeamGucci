@@ -21,6 +21,7 @@ class DeliveryInfo extends React.Component {
                    city: 	{ value: '' },
                    st:	 	{ value: '' },
                    zipCode: { value: '' },
+                   paid: 0,
                    order_id: 0
         };
 
@@ -67,6 +68,7 @@ class DeliveryInfo extends React.Component {
         const city = this.state.city.value;
         const st = this.state.st.value;
         const zipCode = this.state.zipCode.value;
+        const paid  = this.state.paid.value;
         
         var addr_info = address.concat(' ', city, ' ', st, ' ', zipCode);
 
@@ -89,14 +91,14 @@ class DeliveryInfo extends React.Component {
       
         const orderInfo = {
             address: addr_info,
-            payment_type: 'cash',
+            payment: 'cash',
             phone: phone,
             delivered: false,
             camp: 19,
-            user_id: user_id,
-            name: name
+            userId: user_id,
+            name: name,
+            paid: paid
         };
-        
         localStorage.setItem('cashOrderInfo', JSON.stringify(orderInfo));
         /* Call the createOrder function to create order in database */
         createOrder(orderInfo)
@@ -259,6 +261,20 @@ class DeliveryInfo extends React.Component {
                                 onChange={(event) => this.handleInputChange(event, this.validateZipcode)}/>
                         </FormItem>
 
+                        <FormItem
+                            label="Amount Paid"
+                            validateStatus={this.state.paid.validateStatus}
+                            help={this.state.paid.errorMsg}>
+                            <Input
+                                size="large"
+                                name="paid"
+                                autoComplete="off"
+                                placeholder="$0"
+                                maxLength="5"
+                                value={this.state.paid.value}
+                                onChange={(event) => this.handleInputChange(event, this.validatePaid)}/>
+                        </FormItem>
+
                         <FormItem>
                             <Button type="primary"
                             htmlType="submit"
@@ -362,6 +378,20 @@ class DeliveryInfo extends React.Component {
  			};
  		}
     }
+
+    validatePaid = ( paid ) => {
+        if( paid.length === 0 || paid.length > 5){
+            return{
+            validateStatus: 'error',
+            errorMsg: 'Not a valid amount'
+            }
+        } else {
+            return{
+                validateStatus: 'success',
+                errorMsg: null,
+                };
+            }
+       }
  		
 }//end of class
 
