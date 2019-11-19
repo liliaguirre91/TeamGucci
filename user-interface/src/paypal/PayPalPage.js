@@ -227,6 +227,8 @@ class PayPalPage extends React.Component {
                                                     description: "Your order has been placed!"
                                                 });
                                     localStorage.removeItem('cart')
+                                    localStorage.setItem('orderNumber', this.state.orderID);
+                                    console.log(localStorage.getItem('orderNumber'));
                                     this.props.history.push("/");
                                 }
                             }.bind(this), 500)
