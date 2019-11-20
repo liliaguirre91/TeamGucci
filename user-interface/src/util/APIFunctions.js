@@ -282,9 +282,9 @@ export function getOrdersDelivered(campaign) {
     );
 }  
 
-export function getOrdersDelivered(campaign) {
+export function getOrders(campaign) {
     return APIRequest({
-        url:'api/orders/delivered/' + campaign ,
+        url:'api/orders/campaign/' + campaign ,
         method: 'GET'
     })
     .then(response =>
