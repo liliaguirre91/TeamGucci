@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { 
     getOrdersNotDelivered, 
     getProductsOrdered, 
+    getOrdersDelivered,
     getProduct, 
     getProducts, 
     setToDelivered } from '../../../util/APIFunctions';
@@ -31,6 +32,7 @@ class DeliveryReport extends Component {
             productName: "",
             items: '',
             orderNumber: 0,
+            toggle: JSON.parse(localStorage.getItem('delivery')) || 1,
             selectedRowKeys: [],
             loading: false,
         }
@@ -38,6 +40,7 @@ class DeliveryReport extends Component {
     
 /*******************************************************************************************/  
     async componentDidMount() {
+        console.log( this.state.toggle );
         var productQuantities= [];
         var product= [];
         const allProducts = [];
@@ -65,6 +68,7 @@ class DeliveryReport extends Component {
         let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
         let campaignYear = setCampaign["year"]
         //console.log("hello" + campaignYear);
+        if( this.state.toggle === 1 ){
         const response = await getOrdersNotDelivered(campaignYear)
             .then (response => {
                 this.setState({
@@ -89,7 +93,33 @@ class DeliveryReport extends Component {
                     description:error.message || 'Sorry! Something went wrong!'
                 });
             })
-        
+        }
+        else if( this.state.toggle === 2 ){
+            const response = await getOrdersDelivered(campaignYear)
+                .then (response => {
+                    this.setState({
+                        orders: response
+                    });
+                    const orders = this.state.orders;
+                    for (var i = 0; i < orders.length; i++) {
+                        //console.log("total cost:" + orders[i].totalCost)
+                        if (orders[i].totalCost != undefined) 
+                            this.state.orders[i].totalCost = "$" + orders[i].totalCost.toString() + ".00";
+                        if (orders[i].paid != undefined)
+                            this.state.orders[i].paid = "$" + orders[i].paid.toString() + ".00";
+                        
+                        //console.log("total cost:" + this.state.orders[i].totalCost);
+                    }
+                    console.log("Orders:" + JSON.stringify(this.state.orders));
+                    //orders = this.state.orders;
+                })
+                .catch(error => {
+                    notification.error({
+                        message: 'LCHS Band Fundraising',
+                        description:error.message || 'Sorry! Something went wrong!'
+                    });
+                })
+            }
         const orders = this.state.orders;
         //console.log(orders[0].orderId);
         for (var i = 0; i < orders.length; i++) {
@@ -114,7 +144,6 @@ class DeliveryReport extends Component {
                     });
                 })
         }
-        
        
         //console.log(data);
         this.setState({items: products});
@@ -163,6 +192,19 @@ class DeliveryReport extends Component {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
     };
+
+    toggle = () => {
+        if( this.state.toggle === 1 ){
+            this.setState( { toggle: 2 } );
+            localStorage.setItem( 'delivery', 2 );
+            window.location.reload();
+        }
+        else if( this.state.toggle === 2 ){
+            this.setState( { toggle: 1 } );
+            localStorage.setItem( 'delivery', 1 );
+            window.location.reload();
+        }
+    }
   
   
 /*******************************************************************************************/  
@@ -237,6 +279,9 @@ class DeliveryReport extends Component {
         return (
             <div className="delivery-report-container">
                 <h1 className="page-title">Delivery Report</h1>
+                <Button type="primary" onClick={this.toggle}>
+                        Change
+                    </Button>
                 <div style={{ marginBottom: 16 }}>
                     <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
                         Set as Delivered 
@@ -244,6 +289,7 @@ class DeliveryReport extends Component {
                     <span style={{ marginLeft: 8 }}>
                         {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                     </span>
+                    
                 </div>
                 <Table 
                     dataSource={this.state.orders} 
