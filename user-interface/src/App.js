@@ -25,11 +25,15 @@ import CreateAdmin from './user/account/admin/CreateAdmin.js';
 import CampaignsPage from './user/account/admin/Campaign.js';
 import DeliveryReport from './user/account/admin/DeliveryReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
-import ProductsOrdered from './user/account/admin/ProductsOrdered.js';
+import CampaignProductsOrdered from './user/account/admin/CampaignProductsOrdered.js';
+//import OrderConfirmation from '/OrderConfirmation';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Layout, notification } from 'antd';
+
+import OrderConfirmation from './OrderConfirmation';
+import FailurePage from './FailurePage';
 
 const { Content } = Layout;
 
@@ -79,6 +83,7 @@ class App extends React.Component {
         .then( response => {
             localStorage.setItem( 'campaign', ( JSON.parse( response ) ) );
         });
+        console.log(localStorage.getItem( 'campaign' ));
     }
   
     componentDidMount() {
@@ -163,7 +168,13 @@ class App extends React.Component {
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/order-lookup" component={ OrderLookup }></Route>
                             <Route path="/products-ordered"
-                                render={(props) => <ProductsOrdered isAuthenticated={this.state.isAuthenticated} 
+                                render={(props) => <CampaignProductsOrdered isAuthenticated={this.state.isAuthenticated} 
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/order-confirmation"
+                                render={(props) => <OrderConfirmation isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/failure-page"
+                                render={(props) => <FailurePage isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                         </Switch>
                     </div>

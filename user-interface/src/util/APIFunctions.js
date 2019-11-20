@@ -82,6 +82,21 @@ export function amountPaid( camp ){
     );
 }
 
+export function getTotalCost( camp ){
+    return APIRequest({
+       url: '/api/orders/totalCost/' + camp,
+       method: 'GET'
+    })
+    .then(response =>
+         response.json().then(json => {
+             if(!response.ok) {
+                 return Promise.reject(json);
+             }
+             return json;
+         })
+     );
+ }
+
 export function login(loginRequest) {
     return APIRequest({
         url: 'api/auth/signin',
@@ -173,9 +188,9 @@ export function lookupOrder(orderNumber) {
     );
 }
 
-export function getProducts() {
+export function getProducts(campaign) {
     return APIRequest({
-        url:'api/products/camp/' + localStorage.getItem( 'campaign' ),
+        url:'api/products/camp/' + campaign,
         method: 'GET'
     })
     .then(response =>
@@ -250,7 +265,22 @@ export function getOrdersNotDelivered(campaign) {
           return result;
       })
     );
-}      
+}   
+
+export function getOrdersDelivered(campaign) {
+    return APIRequest({
+        url:'api/orders/delivered/' + campaign ,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}  
 
 export function getProductsOrdered(orderNumber) {
     return APIRequest({
@@ -323,5 +353,19 @@ export function countProducts(campaign, productID) {
          return result;
       })
    );
+}
 
+export function setToDelivered(orderID) {
+    return APIRequest ({
+      url: 'api/orders/delivered/' + orderID,
+      method: 'PUT'
+   })
+   .then(response =>
+      response.json().then(result => {
+         if(!response.ok) {
+            return Promise.reject(result);
+         }
+         return result;
+      })
+   );
 }

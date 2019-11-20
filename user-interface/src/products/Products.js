@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 //import logo from './luminary.jpg';
 import ProductItem from './ProductItem.js';
 import { getProducts } from '../util/APIFunctions';
-import { message, Form, Input } from 'antd';
+import { message, Form, Input, Button } from 'antd';
 import './Products.css';
 
 const FormItem = Form.Item;
@@ -25,7 +25,9 @@ class Products extends React.Component {
          * Will be removed if persisten cart is implemented*/
         //localStorage.removeItem('cart');
         console.log(localStorage.getItem('cart'));
-        getProducts().then((products) =>this.setState({ products }));
+        let campaign = localStorage.getItem( 'campaign' );
+        console.log(campaign);
+        getProducts(campaign).then((products) =>this.setState({ products }));
     }
 
     handleInputChange(event, validationFun) {
@@ -93,10 +95,10 @@ class Products extends React.Component {
                                 onChange={(event) => this.handleInputChange(event, this.validatePhone) }/>
                         </FormItem>
                     </Form>}
-                 <button className="btn btn-primary float-right"
+                 <Button className="btn btn-primary float-right"
                     style={{  marginRight: "10px" }} 
-                    disabled = {!this.state.submitted}
-                    onClick={(e) => this.handleSubmit(e) }> Next </button><br/><br/>
+                    disabled = {(user_role === 'Role_USER' || this.props.currentUser === null) && !this.state.submitted}
+                    onClick={(e) => this.handleSubmit(e) }> Next </Button><br/><br/>
             </div>
             );
     }

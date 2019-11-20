@@ -81,8 +81,10 @@ class DeliveryInfo extends React.Component {
                             })
                        const price = this.state.productPrice
                         //console.log(product[id]);
+                       
                         productNames.push(this.state.productName);
-                        productPrices.push("$" + price.toString());
+                        if (price != undefined)
+                            productPrices.push("$" + price.toString());
                         productQuantities.push(quantity);
                         tot += (this.state.productPrice * quantity);
             }
@@ -116,16 +118,15 @@ class DeliveryInfo extends React.Component {
         const st = this.state.st.value;
         const zipCode = this.state.zipCode.value;
         const paid  = this.state.paid.value.split('.');
-        console.log(paid[0]);
-        
         var addr_info = address.concat(' ', city, ' ', st, ' ', zipCode);
-        
+        var order_created = true;
+        var products_added = true;
       
         const orderInfo = {
             address: addr_info,
             payment: 'cash',
             phone: phone,
-            delivered: false,
+            delivered: 'x',
             camp: 19,
             userId: user_id,
             name: name,
@@ -137,10 +138,7 @@ class DeliveryInfo extends React.Component {
         createOrder(orderInfo)
             .then((order_id) => this.setState({ order_id }))
             .catch(error => {
-                notification.error({
-                    message: 'LCHS Band Fundraising',
-                    description: error.message || 'Sorry! Something went wrong!'
-                });
+                order_created = false;
             });
         
             
@@ -149,7 +147,6 @@ class DeliveryInfo extends React.Component {
             const orderID = this.state.order_id;
         
             let cart = JSON.parse(localStorage.getItem('cart'));
-            //let productID = Object.keys(cart)[1];
             let cartSize = Object.keys(cart).length;
             let keys = Object.keys(cart); 
             
@@ -161,41 +158,53 @@ class DeliveryInfo extends React.Component {
                     productId: productID,
                     quantity: quantity
                 };
-                    
-                createProductsOrdered(productsOrdered)
-                    .then (response => {
-                        notification.success({
-                            message: 'LCHS Band Fundraising',
-                            description: "Your order has been placed!"
+                if (order_created === true) {    
+                    createProductsOrdered(productsOrdered)
+                        /*.then (response => {
+                            /*notification.success({
+                                message: 'LCHS Band Fundraising',
+                                description: "Your order has been placed!"
+                            });
+                            //this.props.history.push("/order-confirmation");
+                        })*/
+                        .catch(error => {
+                            products_added = false;
+                            notification.error({
+                                message: 'LCHS Band Fundraising',
+                                description:error.message || 'Sorry! Something went wrong!'
+                            });
                         });
-                        this.props.history.push("/"); //for now will redirect to home, later to confirmation
-                    })
-                    .catch(error => {
-                        notification.error({
-                            message: 'LCHS Band Fundraising',
-                            description:error.message || 'Sorry! Something went wrong!'
-                        });
+                }
+                else {
+                    notification.error({
+                        message: 'LCHS Band Fundraising',
+                        description:'Sorry! Something went wrong! Please try creating your order again.'
                     });
+                    products_added = false;
+                    this.props.history.push("/failure-page");
+                }
+                if (products_added === false) {
+                    this.props.history.push("/failure-page");
+                    break;
+                    //remove order and redirect to other page to attempt order again
+                }
+            }//end for
+            
+            console.log(products_added)
+            if (products_added === true) {
+                notification.success({
+                    message: 'LCHS Band Fundraising',
+                    description: "Your order has been placed!"
+                });
+                localStorage.removeItem('cart')
+                localStorage.setItem('orderNumber', this.state.orderID);
+                console.log(localStorage.getItem('orderNumber'));
+                localStorage.removeItem('cart')
+                this.props.history.push("/order-confirmation");
             }
             
-            localStorage.removeItem('cart')
         }.bind(this), 500)
         
-      /*setTimeout(function() {
-        alert(JSON.parse(this.state.order_id));
-      }.bind(this), 500)*/
-          /*response => {
-         notification.success({
-            message: 'LCHS Band Fundraising',
-            description: "Your order has been placed!"
-         });
-         this.props.history.push("/"); //for now will redirect to home, later to confirmation
-      }).catch(error => {
-         notification.error({
-            message: 'LCHS Band Fundraising',
-            description: error.message || 'Sorry! Something went wrong!'
-         });
-      });*/
     }
 
     isFormInvalid() {
@@ -249,7 +258,7 @@ class DeliveryInfo extends React.Component {
                                     size="large"
                                     name="name"
                                     autoComplete="off"
-                                    placeholder="Your full name"
+                                    placeholder="Customer's full name"
                                     value={this.state.name.value}
                                     onChange={(event) => this.handleInputChange(event, this.validateName)}/>
                             </FormItem>

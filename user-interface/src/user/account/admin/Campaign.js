@@ -1,6 +1,12 @@
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { createCampaign, deleteCampaign, orderCount, amountPaid, setCampaign } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
+import { 
+    createCampaign,
+    deleteCampaign, 
+    orderCount, 
+    amountPaid, 
+    setCampaign } from '../../../util/APIFunctions'; 
+    
 import './Campaign.css';
 import { Form, Input, Button, Row, Col, notification, Modal } from 'antd'
 const FormItem= Form.Item;

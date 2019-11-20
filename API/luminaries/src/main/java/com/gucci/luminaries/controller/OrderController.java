@@ -161,6 +161,17 @@ public class OrderController {
         }//end catrch
     }//end getAmountPaid
 
+    @GetMapping( "/orders/totalCost/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<Long> getAmountOwed( @PathVariable( "camp" ) int camp ){
+        try{
+            return new ResponseEntity<>( orderRepository.getTotalCost( camp ), HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catrch
+    }//end getAmountPaid
+
     @GetMapping( "orders/deliver/{camp}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<List<orders>> getToBeDelivered( @PathVariable( "camp" ) int camp ){
@@ -205,7 +216,7 @@ public class OrderController {
 
     @GetMapping( "orders/notPaid" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
-    public ResponseEntity<List<orders>> getNotDelivered( ){
+    public ResponseEntity<List<orders>> getNotPaid( ){
         List<orders> list = new ArrayList<>();
         try{
             Iterable<orders> o = orderRepository.getNotPaid( );
