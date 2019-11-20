@@ -8,7 +8,7 @@ import {
     setCampaign } from '../../../util/APIFunctions'; 
     
 import './Campaign.css';
-import { Form, Input, Button, Row, Col, notification, Modal } from 'antd'
+import { Form, Input, Button, Row, Col, notification, Modal, message } from 'antd'
 const FormItem= Form.Item;
 
 class Campaign extends Component {
@@ -42,9 +42,14 @@ class Campaign extends Component {
     handleClick = param => e => {
         e.preventDefault();
         const setCampaign = { year: this.state.CampaignID };
-        localStorage.setItem('setCampaign', JSON.stringify(setCampaign));
-        console.log(localStorage.getItem('setCampaign'));
-        this.props.history.push(param);
+        if (this.state.CampaignID !== '') {
+            localStorage.setItem('setCampaign', JSON.stringify(setCampaign));
+            console.log(localStorage.getItem('setCampaign'));
+            this.props.history.push(param);
+        }
+        else {
+            message.error('Please enter a campaign number!!', 5);
+        }
     }
    setEarning( b ){
       this.setState( { earnings: b } );
@@ -280,6 +285,15 @@ class Campaign extends Component {
                                     size="large"
                                     className="row4-button"
                                     onClick={this.handleClick("/delivery-report") }>Delivery Report</Button>
+                           </FormItem>
+                        </Col>
+                        <Col span={8}>
+                           <FormItem>
+                              <Button type="primary"
+                                    htmlType="submit"
+                                    size="large"
+                                    className="row4-button"
+                                    onClick={this.handleClick("/delivered-report") }>Delivered Orders</Button>
                            </FormItem>
                         </Col>
                         <Col span={8}>

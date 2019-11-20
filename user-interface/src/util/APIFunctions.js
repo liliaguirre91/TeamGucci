@@ -252,6 +252,21 @@ export function getOrdersNotDelivered(campaign) {
     );
 }      
 
+export function getOrdersDelivered(campaign) {
+    return APIRequest({
+        url:'api/orders/delivered/' + campaign ,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}   
+
 export function getProductsOrdered(orderNumber) {
     return APIRequest({
         url:'api/productOrdered/' + orderNumber ,
