@@ -259,13 +259,13 @@ public class OrderController {
         }//end else
     }//end updateOrder
 
-    @PutMapping( "/orders/delivered/{id}" )
+    @PutMapping( "/orders/delivered/{id}/{bool}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
-    public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id ){
+    public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id, @PathVariable( "bool" ) boolean bool ){
         Optional<orders> orderData = orderRepository.findById( id );
         if( orderData.isPresent() ){
             orders o = orderData.get();
-            o.setDelivered( true );
+            o.setDelivered( bool );
             return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
         }//end if 
         else{
