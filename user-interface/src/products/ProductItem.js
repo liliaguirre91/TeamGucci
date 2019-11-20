@@ -83,7 +83,7 @@ class ProductItem extends React.Component {
                     <h6 className="card-text">{product.description}</h6>
                     <div>
                         <button className="btn btn-sm btn-warning float-right" 
-                            onClick={this.removeFromCart}>Remove product</button>
+                            onClick={this.removeFromCart}>Remove This Product</button>
                         <button className="btn btn-sm btn-warning float-right"
                             onClick={this.addToCart}>Add product</button>
                         

@@ -2,11 +2,9 @@
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import { 
-    getOrdersDelivered, 
-    getProductsOrdered, 
-    getProduct, 
-    getProducts, 
-    setToDelivered } from '../../../util/APIFunctions';
+    getOrders, 
+    getProductsOrdered,
+    getProducts } from '../../../util/APIFunctions';
 
 import {
     Form, 
@@ -65,7 +63,7 @@ class DeliveredReport extends Component {
         let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
         let campaignYear = setCampaign["year"]
         //console.log("hello" + campaignYear);
-        const response = await getOrdersDelivered(campaignYear)
+        const response = await getOrders(campaignYear)
             .then (response => {
                 this.setState({
                     orders: response
