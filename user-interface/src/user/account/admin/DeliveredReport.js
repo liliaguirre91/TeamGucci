@@ -125,14 +125,12 @@ class DeliveredReport extends Component {
 /*******************************************************************************************/  
     getOrderedProducts(x)  {
         console.log(x);
-        //const productQuantities= [];
-        //const productIDs= [];
+        
         const orders = this.state.orders;
         
         const columns = [
         { title: 'Product ID', dataIndex: 'productID', key: 'productID' },
         { title: 'Product Name', dataIndex: 'name', key: 'name' },
-        //{ title: 'Product Name', dataIndex: 'product', key: 'product' },
         { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
         ];
 
@@ -185,7 +183,7 @@ class DeliveredReport extends Component {
     
         return (
             <div className="delivery-report-container">
-                <h1 className="page-title">Delivery Report</h1>
+                <h1 className="page-title">Orders Report</h1>
                 <div style={{ marginBottom: 16 }}>
                     <Table 
                         dataSource={this.state.orders} 

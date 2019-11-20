@@ -13,14 +13,6 @@ const APIRequest = (options) => {
    
    //Will have to change name to json, this inly works for createAccount. 
    return fetch(options.url, options)
-   /*.then(response =>
-      response.json().then(json => {
-         if(!response.ok) {
-            return Promise.reject(json);
-         }
-         return json;
-      })
-    );*/
 };
 
 export function createAccount(signupRequest) {
@@ -282,7 +274,7 @@ export function getOrdersDelivered(campaign) {
     );
 }  
 
-export function getOrdersDelivered(campaign) {
+/*export function getOrdersDelivered(campaign) {
     return APIRequest({
         url:'api/orders/delivered/' + campaign ,
         method: 'GET'
@@ -295,7 +287,7 @@ export function getOrdersDelivered(campaign) {
           return result;
       })
     );
-}   
+}   */
 
 export function getProductsOrdered(orderNumber) {
     return APIRequest({

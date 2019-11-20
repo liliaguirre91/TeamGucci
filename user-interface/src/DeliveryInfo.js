@@ -126,7 +126,7 @@ class DeliveryInfo extends React.Component {
             address: addr_info,
             payment: 'cash',
             phone: phone,
-            delivered: 'x',
+            delivered: false,
             camp: 19,
             userId: user_id,
             name: name,
@@ -160,13 +160,6 @@ class DeliveryInfo extends React.Component {
                 };
                 if (order_created === true) {    
                     createProductsOrdered(productsOrdered)
-                        /*.then (response => {
-                            /*notification.success({
-                                message: 'LCHS Band Fundraising',
-                                description: "Your order has been placed!"
-                            });
-                            //this.props.history.push("/order-confirmation");
-                        })*/
                         .catch(error => {
                             products_added = false;
                             notification.error({

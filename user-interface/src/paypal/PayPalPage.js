@@ -52,13 +52,7 @@ class PayPalPage extends React.Component {
                                 description:error.message || 'Sorry! Something went wrong!'
                             });
                         })
-                    //let id = productID.toString();
-                    //const productInfo = [this.state.productName, this.state.productPrice];
-                // setTimeout(function() {
-                //     console.log(productInfo);
-                    //}.bind(this), 500)
-                    //product[id] = productInfo;
-                    //console.log(product[id]);
+                   
                     productNames.push(this.state.productName);
                     productPrices.push("$" + this.state.productPrice.toString());
                     productQuantities.push(quantity);
@@ -75,10 +69,6 @@ class PayPalPage extends React.Component {
             //console.log(product);
             //console.log(productNames, productPrices, productQuantities, this.state.total);
             
-            /*for (const [index, value] of productNames.entries()) {
-                items.push(<li key={index}>{value}</li>)
-                console.log(items);
-            }*/
         }
     }
     

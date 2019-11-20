@@ -27,7 +27,7 @@ class ProductsOrdered extends Component {
         this.setState({campaignID: campaignNumber});
         
         //get all Products
-        await getProducts() 
+        const response = await getProducts(campaignNumber) 
             .then(response => {
                 this.setState({
                     getProductsResult: response

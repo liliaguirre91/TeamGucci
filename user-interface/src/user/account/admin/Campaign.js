@@ -59,10 +59,6 @@ class Campaign extends Component {
    }
    async handleCreate(event) {
       event.preventDefault();
-      /*const url = '/api/orders/search/'+ this.state.OrderID;
-      fetch(url)
-         .then(response => response.text())
-         .then(result => this.setState({ result }));*/
       
         const campaignNumber = parseInt( this.state.CampaignID );
         const campaign = {
@@ -86,10 +82,6 @@ class Campaign extends Component {
    }
    async handleDelete(event) {
       event.preventDefault();
-      /*const url = '/api/orders/search/'+ this.state.OrderID;
-      fetch(url)
-         .then(response => response.text())
-         .then(result => this.setState({ result }));*/
       
       const campaignNumber = parseInt( this.state.CampaignID );
       if( this.state.submitted === false ){

@@ -1,6 +1,7 @@
 //import React from 'react';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
+import './DeliveryReport.css';
 import { 
     getOrdersNotDelivered, 
     getProductsOrdered, 
@@ -64,7 +65,7 @@ class DeliveryReport extends Component {
                 });
             })
         const idk = this.state.productTmp;
-        console.log( idk );
+        //console.log( idk );
         for( var i = 0; i < idk.length; i++ ){
             allProducts[ idk[i].productId ] = idk[i].product
         }
@@ -88,7 +89,6 @@ class DeliveryReport extends Component {
                     //console.log("total cost:" + this.state.orders[i].totalCost);
                 }
                 //console.log("Orders:" + JSON.stringify(this.state.orders));
-                //orders = this.state.orders;
             })
             .catch(error => {
                 notification.error({
@@ -113,8 +113,7 @@ class DeliveryReport extends Component {
                         
                         //console.log("total cost:" + this.state.orders[i].totalCost);
                     }
-                    console.log("Orders:" + JSON.stringify(this.state.orders));
-                    //orders = this.state.orders;
+                    //console.log("Orders:" + JSON.stringify(this.state.orders));
                 })
                 .catch(error => {
                     notification.error({
@@ -132,7 +131,7 @@ class DeliveryReport extends Component {
                     for (var i = 0; i < length; i++) {
                         //do the api call to get product with productid
                         const item = { productID: productResponse[i].productId, name: allProducts[productResponse[i].productId], quantity: productResponse[i].quantity };
-                        console.log(orders[i].orderId, item);
+                        //console.log(orders[i].orderId, item);
                         data.push(item);
                         console.log(data);
 
@@ -150,7 +149,7 @@ class DeliveryReport extends Component {
        
         //console.log(data);
         this.setState({items: products});
-        console.log(this.state.items);
+        //console.log(this.state.items);
     }
 
 /*******************************************************************************************/    
@@ -237,14 +236,11 @@ class DeliveryReport extends Component {
 /*******************************************************************************************/  
     getOrderedProducts(x)  {
         console.log(x);
-        //const productQuantities= [];
-        //const productIDs= [];
         const orders = this.state.orders;
         
         const columns = [
         { title: 'Product ID', dataIndex: 'productID', key: 'productID' },
         { title: 'Product Name', dataIndex: 'name', key: 'name' },
-        //{ title: 'Product Name', dataIndex: 'product', key: 'product' },
         { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
         ];
 
@@ -304,35 +300,38 @@ class DeliveryReport extends Component {
         const hasSelected = selectedRowKeys.length > 0;
         var subheading 
         if( this.state.toggle === 1 ){
-            subheading = "Orders Delivered";
+            subheading = "Orders NOT Delivered";
         }
         else if( this.state.toggle === 2 ){
-            subheading = "Orders NOT Delivered";
+            subheading = "Orders Delivered";
         }
         const newline = "";
         
         return (
             <div className="delivery-report-container">
-                <h1 className="page-title">Delivery Report</h1>
-                <div>
-                    <h3 className="sub-heading" align="center"> {subheading} </h3>
-                </div>
-                <Row gutter={[655]} type = 'flex'>
-                    <Col>
+                <h2 className="page-title">Delivery Report</h2>
+                
+                <Row gutter={[110]} type = 'flex'>
+                    <Col span={7}>
                         <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
-                            Change Delivery Status 
+                            Update Delivery Status 
                         </Button>
-                        <span style={{ marginLeft: 8 }}>
-                            {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+                        <div>
+                        <span style={{ marginRigth: 8 }}>
+                            {hasSelected ? ` Selected ${selectedRowKeys.length} items` : ''}
                         </span>
+                        </div>
                     </Col>
-                    <Col>
+                    <Col span={10}>
+                    <h3 className="sub-heading" align="center"> {subheading} </h3>
+                    </Col>
+                    <Col span={7}>
                         <Button type="primary" onClick={this.toggle}>
-                                Change
+                                Toggle Delivery Report
                         </Button>
                     </Col>
                 </Row>
-                <div className="table" style={{ margin: 10 }}>
+                <div className="table">
                     <Table 
                         dataSource={this.state.orders} 
                         columns={columns} 
@@ -343,7 +342,7 @@ class DeliveryReport extends Component {
                             
                         bordered
                         pagination={false}
-                        scroll={{ y: 600 }}
+                        scroll={{ y: 500 }}
                     />
                 </div>
             </div>
