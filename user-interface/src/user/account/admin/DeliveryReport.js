@@ -18,7 +18,9 @@ import {
     Badge, 
     Menu, 
     Dropdown, 
-    Icon } from 'antd';
+    Icon,
+    Row,
+    Col } from 'antd';
 
 
 class DeliveryReport extends Component {
@@ -46,8 +48,10 @@ class DeliveryReport extends Component {
         const allProducts = [];
         var data = [];
         const products = []
+        let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
+        let campaignYear = setCampaign["year"]
         //var orders = [];
-        await getProducts( )
+        const response = await getProducts(campaignYear)
             .then( response => {
                 this.setState( {
                     productTmp: response
@@ -56,7 +60,7 @@ class DeliveryReport extends Component {
             .catch(error => {
                 notification.error({
                     message: 'LCHS Band Fundraising',
-                    description:error.message || 'Sorry! Something went wrong!'
+                    description: 'Hello Sorry! Something went wrong!'
                 });
             })
         const idk = this.state.productTmp;
@@ -65,8 +69,7 @@ class DeliveryReport extends Component {
             allProducts[ idk[i].productId ] = idk[i].product
         }
         console.log( allProducts );
-        let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
-        let campaignYear = setCampaign["year"]
+        
         //console.log("hello" + campaignYear);
         if( this.state.toggle === 1 ){
         const response = await getOrdersNotDelivered(campaignYear)
@@ -84,7 +87,7 @@ class DeliveryReport extends Component {
                     
                     //console.log("total cost:" + this.state.orders[i].totalCost);
                 }
-                console.log("Orders:" + JSON.stringify(this.state.orders));
+                //console.log("Orders:" + JSON.stringify(this.state.orders));
                 //orders = this.state.orders;
             })
             .catch(error => {
@@ -158,25 +161,49 @@ class DeliveryReport extends Component {
         
         const selectedRowKeys = this.state.selectedRowKeys;
         console.log(this.state.selectedRowKeys);
-        for (var i = 0; i < selectedRowKeys.length; i++) {
-            setToDelivered(selectedRowKeys[i]) 
-                .catch(error => {
-                    notification.error({
-                        message: 'LCHS Band Fundraising',
-                        description:error.message || 'Sorry! Something went wrong!'
+        if( this.state.toggle === 1 ){
+            for (var i = 0; i < selectedRowKeys.length; i++) {
+                setToDelivered(selectedRowKeys[i], true) 
+                    .catch(error => {
+                        notification.error({
+                            message: 'LCHS Band Fundraising',
+                            description:error.message || 'Sorry! Something went wrong!'
+                        });
+                        success = false;
                     });
-                    success = false;
+                if (!success)
+                    break;
+            }//End for
+            if (success) {
+                window.location.reload();
+                notification.success({
+                    message: 'LCHS Band Fundraising',
+                    description:'Order(s): ' + selectedRowKeys + " have been set to 'Delivered'"
                 });
-            if (!success)
-                break;
+            }
+        }//end if
+        else if( this.state.toggle === 2 ){
+            for (var i = 0; i < selectedRowKeys.length; i++) {
+                setToDelivered(selectedRowKeys[i], false) 
+                    .catch(error => {
+                        notification.error({
+                            message: 'LCHS Band Fundraising',
+                            description:error.message || 'Sorry! Something went wrong!'
+                        });
+                        success = false;
+                    });
+                if (!success)
+                    break;
+            }//End for
+            if (success) {
+                window.location.reload();
+                notification.success({
+                    message: 'LCHS Band Fundraising',
+                    description:'Order(s): ' + selectedRowKeys + " have been set to 'NOT Delivered'"
+                });
+            }
         }
-        if (success) {
-            window.location.reload();
-            notification.success({
-                message: 'LCHS Band Fundraising',
-                description:'Order(s): ' + selectedRowKeys + " have been set to 'Delivered'"
-            });
-        }
+        
         
         setTimeout(() => {
         this.setState({
@@ -275,35 +302,50 @@ class DeliveryReport extends Component {
         };
         console.log(selectedRowKeys);
         const hasSelected = selectedRowKeys.length > 0;
-    
+        var subheading 
+        if( this.state.toggle === 1 ){
+            subheading = "Orders Delivered";
+        }
+        else if( this.state.toggle === 2 ){
+            subheading = "Orders NOT Delivered";
+        }
+        const newline = "";
+        
         return (
             <div className="delivery-report-container">
                 <h1 className="page-title">Delivery Report</h1>
-                <Button type="primary" onClick={this.toggle}>
-                        Change
-                    </Button>
-                <div style={{ marginBottom: 16 }}>
-                    <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
-                        Set as Delivered 
-                    </Button>
-                    <span style={{ marginLeft: 8 }}>
-                        {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-                    </span>
-                    
+                <div>
+                    <h3 className="sub-heading" align="center"> {subheading} </h3>
                 </div>
-                <Table 
-                    dataSource={this.state.orders} 
-                    columns={columns} 
-                    rowKey={(record) => record.orderId}
-                    rowSelection={rowSelection}
-                    expandedRowRender={(record, i) =>
-                        this.getOrderedProducts(i)}
-                        
-                    bordered
-                    pagination={false}
-                    scroll={{ y: 600 }}
-                    
-                />
+                <Row gutter={[655]} type = 'flex'>
+                    <Col>
+                        <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
+                            Change Delivery Status 
+                        </Button>
+                        <span style={{ marginLeft: 8 }}>
+                            {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+                        </span>
+                    </Col>
+                    <Col>
+                        <Button type="primary" onClick={this.toggle}>
+                                Change
+                        </Button>
+                    </Col>
+                </Row>
+                <div className="table" style={{ margin: 10 }}>
+                    <Table 
+                        dataSource={this.state.orders} 
+                        columns={columns} 
+                        rowKey={(record) => record.orderId}
+                        rowSelection={rowSelection}
+                        expandedRowRender={(record, i) =>
+                            this.getOrderedProducts(i)}
+                            
+                        bordered
+                        pagination={false}
+                        scroll={{ y: 600 }}
+                    />
+                </div>
             </div>
         );
     }

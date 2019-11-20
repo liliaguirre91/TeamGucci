@@ -340,9 +340,9 @@ export function countProducts(campaign, productID) {
    );
 }
 
-export function setToDelivered(orderID) {
+export function setToDelivered(orderID, status) {
     return APIRequest ({
-      url: 'api/orders/delivered/' + orderID,
+      url: 'api/orders/delivered/' + orderID + '/' + status,
       method: 'PUT'
    })
    .then(response =>
