@@ -282,6 +282,21 @@ export function getOrdersDelivered(campaign) {
     );
 }  
 
+export function getOrders(campaign) {
+    return APIRequest({
+        url:'api/orders/campaign/' + campaign ,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}   
+
 export function getProductsOrdered(orderNumber) {
     return APIRequest({
         url:'api/productOrdered/' + orderNumber ,
@@ -355,9 +370,9 @@ export function countProducts(campaign, productID) {
    );
 }
 
-export function setToDelivered(orderID) {
+export function setToDelivered(orderID, status) {
     return APIRequest ({
-      url: 'api/orders/delivered/' + orderID,
+      url: 'api/orders/delivered/' + orderID + '/' + status,
       method: 'PUT'
    })
    .then(response =>

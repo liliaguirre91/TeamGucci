@@ -24,6 +24,7 @@ import CustomerAccountPage from './user/account/customer/CustomerAccountPage.js'
 import CreateAdmin from './user/account/admin/CreateAdmin.js';
 import CampaignsPage from './user/account/admin/Campaign.js';
 import DeliveryReport from './user/account/admin/DeliveryReport.js';
+import DeliveredReport from './user/account/admin/DeliveredReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
 //import CampaignProductsOrdered from './user/account/admin/CampaignProductsOrdered.js';
 import ProductsOrdered from './user/account/admin/ProductsOrdered.js';
@@ -163,6 +164,9 @@ class App extends React.Component {
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/delivery-report"
                                 render={(props) => <DeliveryReport isAuthenticated={this.state.isAuthenticated} 
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/delivered-report"
+                                render={(props) => <DeliveredReport isAuthenticated={this.state.isAuthenticated} 
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/add-product"
                                 render={(props) => <AddProduct isAuthenticated={this.state.isAuthenticated} 
