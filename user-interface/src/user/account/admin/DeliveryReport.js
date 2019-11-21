@@ -50,7 +50,7 @@ class DeliveryReport extends Component {
         var data = [];
         const products = []
         let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
-        let campaignYear = setCampaign["year"]
+        let campaignYear = setCampaign["year"];
         //var orders = [];
         const response = await getProducts(campaignYear)
             .then( response => {
@@ -61,7 +61,7 @@ class DeliveryReport extends Component {
             .catch(error => {
                 notification.error({
                     message: 'LCHS Band Fundraising',
-                    description: 'Hello Sorry! Something went wrong!'
+                    description: error.message || 'Sorry! Something went wrong!'
                 });
             })
         const idk = this.state.productTmp;

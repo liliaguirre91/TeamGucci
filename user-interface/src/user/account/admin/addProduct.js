@@ -53,14 +53,15 @@ class addProduct extends React.Component {
         console.log('Received values of form: ', values);
       }
     });
-    console.log( this.state.image );
-    const camp = localStorage.getItem( 'setCampaign' );
+    //console.log( this.state.image );
+    const camp = JSON.parse(localStorage.getItem( 'setCampaign' ));
+    console.log (camp.year);
     const newProduct = {
       product: this.state.product.value,
       price: this.state.price.value,
       description: this.state.description.value,
       image: this.state.image,
-      yearRan: camp
+      yearRan: camp.year
   };
       
   createProduct(newProduct)
