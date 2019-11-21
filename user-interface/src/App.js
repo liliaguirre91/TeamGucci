@@ -26,17 +26,15 @@ import CampaignsPage from './user/account/admin/Campaign.js';
 import DeliveryReport from './user/account/admin/DeliveryReport.js';
 import OrdersReport from './user/account/admin/OrdersReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
+import ModifyProduct from './user/account/admin/ModifyProduct.js';
 import ResetPassword from './user/account/admin/ResetPassword.js';
-//import CampaignProductsOrdered from './user/account/admin/CampaignProductsOrdered.js';
 import ProductsOrdered from './user/account/admin/ProductsOrdered.js';
-//import OrderConfirmation from '/OrderConfirmation';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { Layout, notification } from 'antd';
-
 import OrderConfirmation from './OrderConfirmation';
 import FailurePage from './FailurePage';
+import { Layout, notification } from 'antd';
+
+
 
 const { Content } = Layout;
 
@@ -174,6 +172,9 @@ class App extends React.Component {
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/add-product"
                                 render={(props) => <AddProduct isAuthenticated={this.state.isAuthenticated} 
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/modify-product"
+                                render={(props) => <ModifyProduct isAuthenticated={this.state.isAuthenticated} 
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/order-lookup" component={ OrderLookup }></Route>
                             <Route path="/products-ordered"

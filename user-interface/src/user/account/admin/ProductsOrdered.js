@@ -36,7 +36,7 @@ class ProductsOrdered extends Component {
 
         //get the product IDs from the product table, store in productIDs[]
         for (var i = 0; i < this.state.getProductsResult.length; i++) {
-            productIDs.push(this.state.getProductsResult[i].product_id);
+            productIDs.push(this.state.getProductsResult[i].productId);
         }
 
         for (var i = 0; i < productIDs.length; i++) {

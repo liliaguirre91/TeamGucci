@@ -376,3 +376,18 @@ export function setToDelivered(orderID, status) {
       })
    );
 }
+
+export function deleteProduct(productID) {
+    return APIRequest ({
+      url: 'api/products/' + productID,
+      method: 'DELETE'
+   })
+   .then(response =>
+      response.json().then(result => {
+         if(!response.ok) {
+            return Promise.reject(result);
+         }
+         return result;
+      })
+   );
+}
