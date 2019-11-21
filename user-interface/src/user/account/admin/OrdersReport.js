@@ -18,7 +18,7 @@ import {
     Icon } from 'antd';
 
 
-class DeliveredReport extends Component {
+class OrdersReport extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,8 +41,10 @@ class DeliveredReport extends Component {
         const allProducts = [];
         var data = [];
         const products = []
-        //var orders = [];
-        await getProducts( )
+        let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
+        let campaignYear = setCampaign["year"]
+        console.log("hello " + campaignYear);
+        await getProducts(campaignYear)
             .then( response => {
                 this.setState( {
                     productTmp: response
@@ -60,9 +62,7 @@ class DeliveredReport extends Component {
             allProducts[ idk[i].productId ] = idk[i].product
         }
         console.log( allProducts );
-        let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
-        let campaignYear = setCampaign["year"]
-        //console.log("hello" + campaignYear);
+        console.log("hello 2 " + campaignYear);
         const response = await getOrders(campaignYear)
             .then (response => {
                 this.setState({
@@ -180,9 +180,9 @@ class DeliveredReport extends Component {
         
     
         return (
-            <div className="delivery-report-container">
+            <div className="delivery-report-container" style={{ marginTop: 16 }}>
                 <h1 className="page-title">Orders Report</h1>
-                <div style={{ marginBottom: 16 }}>
+                <div style={{ marginBottom: 20 }}>
                     <Table 
                         dataSource={this.state.orders} 
                         columns={columns} 
@@ -192,7 +192,7 @@ class DeliveredReport extends Component {
                             
                         bordered
                         pagination={false}
-                        scroll={{ y: 600 }}
+                        scroll={{ y: 570 }}
                     />
                 </div>
             </div>
@@ -202,4 +202,4 @@ class DeliveredReport extends Component {
 
 
 
-export default DeliveredReport;
+export default OrdersReport;

@@ -274,7 +274,6 @@ export function getOrdersDelivered(campaign) {
     );
 }  
 
-
 export function getOrders(campaign) {
     return APIRequest({
         url:'api/orders/campaign/' + campaign ,
