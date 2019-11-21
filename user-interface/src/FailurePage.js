@@ -39,7 +39,7 @@ class FailurePage extends React.Component {
                         title="Submission Failed"
                         subTitle="Please return to the home page and try again."
                             extra={[
-                                <Button type="primary" key="console" onClick={ this.handleClick("/") }>
+                                <Button type="primary" onClick={ this.handleClick("/") }>
                                  Home
                                 </Button>,
                                     ]}

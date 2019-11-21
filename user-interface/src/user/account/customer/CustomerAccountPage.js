@@ -9,8 +9,10 @@ import logo from './customer_logo.jpg';
 
 //import CreateAdmin from './CreateAdmin';
 
-import '../admin/AdminAccountPage.css';
-import { Form, Input, Button } from 'antd' 
+import './customer.css';
+import { Form, Input, Button, Row, Col } from 'antd' 
+const FormItem= Form.Item;
+
 
 
 class CustomerAccountPage extends React.Component {
@@ -65,8 +67,8 @@ class CustomerAccountPage extends React.Component {
           name = currentUser.name;
           console.log(name);
       }
-      return (    
-         <Form onSubmit={this.handleSubmit}> 
+      return (  
+         <Form className="customerPage" onSubmit={this.handleSubmit}> 
          {/* WELCOME TITLE */}
             <h1 class="title" align="center"> CUSTOMER ACCOUNT </h1> 
             <div>
@@ -77,15 +79,32 @@ class CustomerAccountPage extends React.Component {
                   <br/><br/>
             </div>
 
-<h2>{name}</h2>
+            <h2 align="center">Welcome {name}</h2>
 
-            <div> 
-                  {/* BUTTONS ON HOME PAGE*/}
-               <button class="center"> Add a product </button> <br/>
-               <button class="center"onClick={ this.handleClick("/campaigns") }> Campaign Configuration </button> <br/>
-               <button class="center"> View orders </button> <br/>
-               <button class="center" onClick={ this.handleClick("/admin-create-admin") }> Create an Admin</button> <br/>
+            <div align="center" className="customer-container2">
+               <Col>
+                  <FormItem>
+                  <Button  
+                     type="primary"
+                     htmlType="submit"
+                     size="large"
+                     className="edit"
+                     onClick={this.handleClick("/edit-info")}>Edit My Info</Button>
+                  </FormItem>
+               </Col>
+               <Col> 
+                  <FormItem>
+                  <Button 
+                     type="primary"
+                     htmlType="submit"
+                     size="large"
+                     className="edit"
+                     onClick={this.handleClick("/all-orders")}>See All Orders</Button>
+                  </FormItem>
+               </Col>
+             
             </div>
+            
          </Form>
       );
    }

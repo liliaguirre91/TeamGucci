@@ -29,16 +29,25 @@ class OrderConfirmation extends React.Component {
         this.props.history.push("/");
     }
 
-    render() {     
+    render() {
+        const ohLord = localStorage.getItem('orderNumber');
+        const yesLord = localStorage.getItem('campaign');
+        console.log(localStorage.getItem('orderNumber'));
+        const amen ='20' + yesLord + '-' + ohLord;
+
         return (
             <div className="order-review-conainer">
                 <Form align="center" onSubmit={this.handleSubmit}> 
                     <h1 class="title">Thank you for your purchase!</h1>
                     <h5><Text type="danger">PLEASE </Text>write down your confirmation number. Once this page is refreshed you will not be able to return.</h5>
+                   
              <Result
                 status="success"
-                //title="PLEASE write down your confirmation number. Once this page is refreshed you will not be able to return."
-                subTitle="Your order confirmation number is:"
+                subTitle="Above is your order confirmation number."
+                //{localStorage.getItem('orderNumber')}
+                title={amen}
+
+               // console.log(localStorage.getItem('orderNumber'));
                     extra={[
                      <Button type="primary" onClick={this.handleClick("/")}>
                         Home

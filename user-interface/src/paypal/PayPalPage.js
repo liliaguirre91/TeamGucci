@@ -172,7 +172,8 @@ class PayPalPage extends React.Component {
                                         description: error.message || 'Sorry! Something went wrong!'
                                     });
                                 });
-                            
+                                console.log(this.state.orderId);
+
                                 
                             /*Implementing insertion of multiple products tied to one order number*/
                             setTimeout(function() {
@@ -227,9 +228,9 @@ class PayPalPage extends React.Component {
                                                     description: "Your order has been placed!"
                                                 });
                                     localStorage.removeItem('cart')
-                                    localStorage.setItem('orderNumber', this.state.orderID);
+                                    localStorage.setItem('orderNumber', this.state.orderId);
                                     console.log(localStorage.getItem('orderNumber'));
-                                    this.props.history.push("/");
+                                    this.props.history.push("/order-confirmation");
                                 }
                             }.bind(this), 500)
                         }}

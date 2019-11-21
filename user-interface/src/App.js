@@ -27,13 +27,17 @@ import DeliveryReport from './user/account/admin/DeliveryReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
 import CampaignProductsOrdered from './user/account/admin/CampaignProductsOrdered.js';
 //import OrderConfirmation from '/OrderConfirmation';
+import OrderConfirmation from './OrderConfirmation';
+import FailurePage from './FailurePage';
+import CustomerInfo from './user/account/customer/CustomerInfo.js';
+import CustomerOrders from './user/account/customer/CustomerOrders.js';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Layout, notification } from 'antd';
 
-import OrderConfirmation from './OrderConfirmation';
-import FailurePage from './FailurePage';
+
 
 const { Content } = Layout;
 
@@ -175,6 +179,12 @@ class App extends React.Component {
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/failure-page"
                                 render={(props) => <FailurePage isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/edit-info"
+                                render={(props) => <CustomerInfo isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/all-orders"
+                                render={(props) => <CustomerOrders isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                         </Switch>
                     </div>
