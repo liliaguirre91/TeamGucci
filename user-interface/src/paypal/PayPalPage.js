@@ -52,13 +52,7 @@ class PayPalPage extends React.Component {
                                 description:error.message || 'Sorry! Something went wrong!'
                             });
                         })
-                    //let id = productID.toString();
-                    //const productInfo = [this.state.productName, this.state.productPrice];
-                // setTimeout(function() {
-                //     console.log(productInfo);
-                    //}.bind(this), 500)
-                    //product[id] = productInfo;
-                    //console.log(product[id]);
+                   
                     productNames.push(this.state.productName);
                     productPrices.push("$" + this.state.productPrice.toString());
                     productQuantities.push(quantity);
@@ -75,10 +69,6 @@ class PayPalPage extends React.Component {
             //console.log(product);
             //console.log(productNames, productPrices, productQuantities, this.state.total);
             
-            /*for (const [index, value] of productNames.entries()) {
-                items.push(<li key={index}>{value}</li>)
-                console.log(items);
-            }*/
         }
     }
     
@@ -167,10 +157,6 @@ class PayPalPage extends React.Component {
                                 .then((orderId) => this.setState({ orderId }))
                                 .catch(error => {
                                     order_created = false;
-                                    notification.error({
-                                        message: 'LCHS Band Fundraising',
-                                        description: error.message || 'Sorry! Something went wrong!'
-                                    });
                                 });
                                 console.log(this.state.orderId);
 
@@ -212,9 +198,10 @@ class PayPalPage extends React.Component {
                                     }
                                     else {
                                         notification.error({
-                                                    message: 'LCHS Band Fundraising',
-                                                    description:'Sorry! Something went wrong! Please try creating your order again.'
+                                            message: 'LCHS Band Fundraising',
+                                            description:'Sorry! Something went wrong! Please try creating your order again.'
                                         });
+                                        products_added = false;
                                         //redirect to other page
                                     }
                                     if (products_added === false) {

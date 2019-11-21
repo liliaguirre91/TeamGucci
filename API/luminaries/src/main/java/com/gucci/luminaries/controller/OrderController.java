@@ -161,6 +161,31 @@ public class OrderController {
         }//end catrch
     }//end getAmountPaid
 
+    @GetMapping( "/orders/totalCost/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<Long> getAmountOwed( @PathVariable( "camp" ) int camp ){
+        try{
+            return new ResponseEntity<>( orderRepository.getTotalCost( camp ), HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catrch
+    }//end getAmountPaid
+
+    @GetMapping( "orders/campaign/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<List<orders>> getCamp( @PathVariable( "camp" ) int camp ){
+        List<orders> list = new ArrayList<>();
+        try{
+            Iterable<orders> o = orderRepository.getCampaign( camp );
+            o.forEach( list::add );
+            return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }//end getCamp
+
     @GetMapping( "orders/deliver/{camp}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<List<orders>> getToBeDelivered( @PathVariable( "camp" ) int camp ){
@@ -205,7 +230,7 @@ public class OrderController {
 
     @GetMapping( "orders/notPaid" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
-    public ResponseEntity<List<orders>> getNotDelivered( ){
+    public ResponseEntity<List<orders>> getNotPaid( ){
         List<orders> list = new ArrayList<>();
         try{
             Iterable<orders> o = orderRepository.getNotPaid( );
@@ -248,13 +273,13 @@ public class OrderController {
         }//end else
     }//end updateOrder
 
-    @PutMapping( "/orders/delivered/{id}" )
+    @PutMapping( "/orders/delivered/{id}/{bool}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
-    public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id ){
+    public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id, @PathVariable( "bool" ) boolean bool ){
         Optional<orders> orderData = orderRepository.findById( id );
         if( orderData.isPresent() ){
             orders o = orderData.get();
-            o.setDelivered( true );
+            o.setDelivered( bool );
             return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
         }//end if 
         else{

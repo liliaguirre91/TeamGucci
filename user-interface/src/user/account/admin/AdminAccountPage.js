@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import logo from './admin_logo.png';
 import './AdminAccountPage.css';
+import { Button } from 'antd'
 
 
 //import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
 
 {/* Button class for all attributes of buttons*/}
-class Button extends React.Component{
+/*class Button extends React.Component{
 
    render(){
       const{
@@ -20,7 +21,7 @@ class Button extends React.Component{
       </button>
       )
    }
-}
+}*/
 
 
 
@@ -96,11 +97,9 @@ class AdminAccountPage extends React.Component {
                   <br/><br/>
             </div>
             <div> 
-                  {/* BUTTONS ON HOME PAGE*/}
-               <button class="center"> Add a product </button> <br/>
-               <button class="center"onClick={ this.handleClick("/campaigns") }> Campaign Configuration </button> <br/>
-               <button class="center"> View orders </button> <br/>
-               <button class="center" onClick={ this.handleClick("/admin-create-admin") }> Create an Admin</button> <br/>
+               <Button className="center" onClick={ this.handleClick("/campaigns") }> Campaign Configuration </Button> <br/>
+               <Button className="center" onClick={ this.handleClick("/reset-password") }> Reset Customer Password </Button> <br/>
+               <Button className="center" onClick={ this.handleClick("/admin-create-admin") }> Create an Administrator</Button> <br/>
             </div>
          </form>
       );

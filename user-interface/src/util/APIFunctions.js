@@ -13,14 +13,6 @@ const APIRequest = (options) => {
    
    //Will have to change name to json, this inly works for createAccount. 
    return fetch(options.url, options)
-   /*.then(response =>
-      response.json().then(json => {
-         if(!response.ok) {
-            return Promise.reject(json);
-         }
-         return json;
-      })
-    );*/
 };
 
 export function createAccount(signupRequest) {
@@ -81,6 +73,21 @@ export function amountPaid( camp ){
         })
     );
 }
+
+export function getTotalCost( camp ){
+    return APIRequest({
+       url: '/api/orders/totalCost/' + camp,
+       method: 'GET'
+    })
+    .then(response =>
+         response.json().then(json => {
+             if(!response.ok) {
+                 return Promise.reject(json);
+             }
+             return json;
+         })
+     );
+ }
 
 export function login(loginRequest) {
     return APIRequest({
@@ -250,7 +257,37 @@ export function getOrdersNotDelivered(campaign) {
           return result;
       })
     );
-}      
+}   
+
+export function getOrdersDelivered(campaign) {
+    return APIRequest({
+        url:'api/orders/delivered/' + campaign ,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}  
+
+export function getOrders(campaign) {
+    return APIRequest({
+        url:'api/orders/campaign/' + campaign ,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}   
 
 export function getProductsOrdered(orderNumber) {
     return APIRequest({
@@ -351,4 +388,65 @@ export function getAllProducts() {
          return data;
       })
     );
+
+export function setToDelivered(orderID, status) {
+    return APIRequest ({
+      url: 'api/orders/delivered/' + orderID + '/' + status,
+      method: 'PUT'
+   })
+   .then(response =>
+      response.json().then(result => {
+         if(!response.ok) {
+            return Promise.reject(result);
+         }
+         return result;
+      })
+   );
 }
+
+
+export function deleteProduct(productID) {
+    return APIRequest ({
+      url: 'api/products/' + productID,
+      method: 'DELETE'
+   })
+   .then(response =>
+      response.json().then(result => {
+         if(!response.ok) {
+            return Promise.reject(result);
+         }
+         return result;
+      })
+   );
+}
+
+export function findUser( email ) {
+    return APIRequest({
+        url:'api/users/find/' + email,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}
+
+export function setPassword( user, password ) {
+    return APIRequest({
+        url:'api/users/password/' + user + '?password=' + password ,
+        method: 'PUT'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}
+

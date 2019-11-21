@@ -1,8 +1,14 @@
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { createCampaign, deleteCampaign, orderCount, amountPaid, setCampaign } from '../../../util/APIFunctions'; //NEW NAME OF API FUNCTION
+import { 
+    createCampaign,
+    deleteCampaign, 
+    orderCount, 
+    amountPaid, 
+    setCampaign } from '../../../util/APIFunctions'; 
+    
 import './Campaign.css';
-import { Form, Input, Button, Row, Col, notification, Modal } from 'antd'
+import { Form, Input, Button, Row, Col, notification, Modal, message } from 'antd'
 const FormItem= Form.Item;
 
 class Campaign extends Component {
@@ -36,9 +42,14 @@ class Campaign extends Component {
     handleClick = param => e => {
         e.preventDefault();
         const setCampaign = { year: this.state.CampaignID };
-        localStorage.setItem('setCampaign', JSON.stringify(setCampaign));
-        console.log(localStorage.getItem('setCampaign'));
-        this.props.history.push(param);
+        if (this.state.CampaignID !== '') {
+            localStorage.setItem('setCampaign', JSON.stringify(setCampaign));
+            console.log(localStorage.getItem('setCampaign'));
+            this.props.history.push(param);
+        }
+        else {
+            message.error('Please enter a campaign number!!', 5);
+        }
     }
    setEarning( b ){
       this.setState( { earnings: b } );
@@ -48,10 +59,6 @@ class Campaign extends Component {
    }
    async handleCreate(event) {
       event.preventDefault();
-      /*const url = '/api/orders/search/'+ this.state.OrderID;
-      fetch(url)
-         .then(response => response.text())
-         .then(result => this.setState({ result }));*/
       
         const campaignNumber = parseInt( this.state.CampaignID );
         const campaign = {
@@ -75,10 +82,6 @@ class Campaign extends Component {
    }
    async handleDelete(event) {
       event.preventDefault();
-      /*const url = '/api/orders/search/'+ this.state.OrderID;
-      fetch(url)
-         .then(response => response.text())
-         .then(result => this.setState({ result }));*/
       
       const campaignNumber = parseInt( this.state.CampaignID );
       if( this.state.submitted === false ){
@@ -246,7 +249,7 @@ class Campaign extends Component {
                                     htmlType="submit"
                                     size="large"
                                     className="campaign-form-delProduct-button"
-                                    onClick={this.handleClick("/delete-product")}>Delete a product</Button>
+                                    onClick={this.handleClick("/modify-product")}>Modify a product</Button>
                            </FormItem>
                         </Col>
                         <Col span={8}>
@@ -274,6 +277,15 @@ class Campaign extends Component {
                                     size="large"
                                     className="row4-button"
                                     onClick={this.handleClick("/delivery-report") }>Delivery Report</Button>
+                           </FormItem>
+                        </Col>
+                        <Col span={8}>
+                           <FormItem>
+                              <Button type="primary"
+                                    htmlType="submit"
+                                    size="large"
+                                    className="row4-button"
+                                    onClick={this.handleClick("/orders-report") }>Orders Report</Button>
                            </FormItem>
                         </Col>
                         <Col span={8}>
