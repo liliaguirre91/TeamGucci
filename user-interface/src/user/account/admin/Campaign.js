@@ -249,7 +249,7 @@ class Campaign extends Component {
                                     htmlType="submit"
                                     size="large"
                                     className="campaign-form-delProduct-button"
-                                    onClick={this.handleClick("/delete-product")}>Delete a product</Button>
+                                    onClick={this.handleClick("/modify-product")}>Modify a product</Button>
                            </FormItem>
                         </Col>
                         <Col span={8}>
@@ -285,7 +285,7 @@ class Campaign extends Component {
                                     htmlType="submit"
                                     size="large"
                                     className="row4-button"
-                                    onClick={this.handleClick("/delivered-report") }>Delivered Orders</Button>
+                                    onClick={this.handleClick("/orders-report") }>Orders Report</Button>
                            </FormItem>
                         </Col>
                         <Col span={8}>
