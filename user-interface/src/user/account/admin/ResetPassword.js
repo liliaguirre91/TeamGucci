@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { lookupOrder, getProductsOrdered, getProduct } from '../../../util/APIFunctions';
+import { findUser, setPassword } from '../../../util/APIFunctions';
 //import './OrderLookup.css';
 import { Form, Input, Button, message, Table, notification } from 'antd'
 const FormItem= Form.Item;
@@ -9,158 +9,88 @@ class ResetPassword extends Component {
    constructor(props) {
       super(props);
       this.state = { 
-         OrderID: '',
-         result: '',
-         deliveryInfo:'',
-         submitted: false,
-         productsOrdered: [],
-         temp: ''
+         email: '',
+         password: '',
+         customer: '',
+         submitted: false
       };
-      this.handleIDChange = this.handleIDChange.bind(this);    
+      this.handleEmailChange = this.handleEmailChange.bind(this); 
+      this.handlePasswordChange = this.handlePasswordChange.bind(this);   
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.findEmail = this.findEmail.bind( this );
+      this.setPass = this.setPass.bind( this );
    //this.loadUser = this.saveUser.bind(this);
   }
 
-   handleIDChange(event) {
-      this.setState({OrderID: event.target.value});
+   handleEmailChange(event) {
+      this.setState( {  email: event.target.value} );
    }
 
+   handlePasswordChange(event) {
+      this.setState( {  password: event.target.value} );
+   }
+
+   async findEmail( event ) {
+      await findUser( this.state.email )
+      .then( response => {
+         this.setState( { customer: response } )
+      } )
+      .catch(error => {
+         notification.error({
+             message: 'LCHS Band Fundraising',
+             description:error.message || 'Sorry! Something went wrong!'
+         });
+     });
+     console.log( this.state.customer );
+   }
+
+   async setPass( event ){
+      await setPassword( this.state.customer.userId, this.state.password )
+      .then( response => {
+         this.setState( { customer: response } )
+      } )
+      .catch(error => {
+         notification.error({
+             message: 'LCHS Band Fundraising',
+             description:error.message || 'Sorry! Something went wrong!'
+         });
+     });
+     console.log( this.state.customer );
+   }
     
    async handleSubmit(event) {
-      items.length =0;
-      event.preventDefault();
-      /*const url = '/api/orders/search/'+ this.state.OrderID;
-      fetch(url)
-         .then(response => response.text())
-         .then(result => this.setState({ result }));*/
-      
-      const orderNumber = this.state.OrderID;
-      const productNames = [];
-      const productQuantities = [];
-      
-      //lookup order number and return if delivered or not
-      await lookupOrder(orderNumber) 
-      .then(result => 
-         this.setState({ result })
-       );
-      
-       //get the products ordered attached to the order number
-       await getProductsOrdered(orderNumber)
-       .then (response => {
-          this.setState({
-            productsOrdered: response
-          })
-       })
-       .catch(error => {
-         notification.error({
-             message: '',
-             description: error.message
-         });
-     })
-     for (var i = 0; i < this.state.productsOrdered.length; i++) {
-        await getProduct( this.state.productsOrdered[ i ].productId )
-        .then( response => {
-           this.setState( { temp: response });
-        })
-        .catch(error => {
-         notification.error({
-             message: 'Error error Will Robinson',
-             description: error.message
-         });
-      } )
-        const name = this.state.temp.product
-        console.log( name );
-      productNames.push( name );
-      productQuantities.push( this.state.productsOrdered[ i ].quantity );
-         /*const item = { productId: getProduct( this.state.productOrdered[i].productId ), quantity: this.state.productOrdered[i].quantity, orderId: this.state.productOrdered[i].orderId }
-         console.log(item);
-         items.push(item);*/
-      }
-      for (var i = 0; i < this.state.productsOrdered.length; i++) {
-            const item = { productId: productNames[ i ] , quantity: productQuantities[  i ] }
-            console.log(item);
-            items.push(item);
-         }
-      /*setTimeout(function() {
-         if (this.state.result == 'false')
-            alert('Your product has not been delivered!!');
-         else if (this.state.result == 'true')
-             alert('Your product has been delivered!!');
-         else
-            alert("Hello");
-         this.setState({ submitted: true });
-      }.bind(this), 200)
-      */
-         //check if order has been delivered or not, give a message saying yes or no
-         if (this.state.result === 'false') {
-            
-            message.error('Order number ' + orderNumber + ' has not been delivered yet.');
-            this.setState({deliveryInfo:"Your Order has not been delivered yet."});
-            
-         }
-         else if (this.state.result === 'true') {
-            
-            message.success('Order number ' + orderNumber + ' has been delivered!')
-            this.setState({deliveryInfo: "Your order has been delivered!!"});
-           
-         }
-
-         //order could not be found
-         //never triggers because of the await on line 38
-        else {
-         
-         alert('Could not find order');
-         this.setState({deliveryInfo:"There is no order with that order number!!"});
-         
-        }
-      
-         this.setState({ submitted: true});
-      }  
+   }
    
    render() {
-      //table columns
-      const columns = [
-         {
-            title:'Products',
-            dataIndex: 'productId',
-            key: 'productId'
-         },
-         {
-            title: 'Quantity',
-            dataIndex: 'quantity',
-            key: 'quantity'
-         }
-      ];
       
       return (
          <div className="order-search-container">
             <h1 className="page-title">Reset Password</h1>
-            <h2 align="center"> Enter your order ID number: </h2>
-            <h3 align="center"> (It is the number from your confirmation page) </h3>
-                <Form className="search-form" align="center" onSubmit={this.handleSubmit}> 
+            <h2 align="center"> Enter the customer's email </h2>
+                <Form className="search-form" align="center"> 
                     <FormItem
-                        label="Order Number">
+                        label="Customer Email">
                         <Input 
                             size="large"
                             type="text" 
                             autocomplete="off"
-                            placeholder="Order #"
-                            OrderID={this.state.OrderID} 
-                            onChange={this.handleIDChange} maxLength="9"/>
+                            value={this.state.email}
+                            placeholder="Customer Email" 
+                            onChange={(event) => this.handleEmailChange( event )} />
+                     </FormItem>
+                     <button onClick={ (event) =>this.findEmail( event) } >Find User</button> 
+                         <FormItem
+                        label="New Password">
+                        <Input 
+                            size="large"
+                            type="text" 
+                            autocomplete="off"
+                            value={this.state.password}
+                            placeholder="New Password" 
+                            onChange={(event) => this.handlePasswordChange( event )} />
                     </FormItem>
-                    <FormItem>
-                         <Button type="primary"
-                                htmlType="submit"
-                                size="large"
-                               className="search-form-button">Search</Button>
-                    </FormItem>
+                    <button onClick={ (event) =>this.setPass( event) } >Set Password</button> 
                 </Form>
-                {this.state.submitted &&
-                    <div>
-                    <h3 align="center">{this.state.deliveryInfo}</h3><br/>
-                    <Table columns = {columns} dataSource = {items} pagination = {false} size = 'middle'/>
-                    </div>
-                }
          </div>
       );
    }

@@ -377,6 +377,7 @@ export function setToDelivered(orderID, status) {
    );
 }
 
+
 export function deleteProduct(productID) {
     return APIRequest ({
       url: 'api/products/' + productID,
@@ -391,3 +392,34 @@ export function deleteProduct(productID) {
       })
    );
 }
+
+export function findUser( email ) {
+    return APIRequest({
+        url:'api/users/find/' + email,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}
+
+export function setPassword( user, password ) {
+    return APIRequest({
+        url:'api/users/password/' + user + '?password=' + password ,
+        method: 'PUT'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}
+
