@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import logo from './admin_logo.png';
 import './AdminAccountPage.css';
-import { Button } from 'antd'
+import { Button, Modal, Form, Input, notification } from 'antd';
+import { setComments } from '../../../util/APIFunctions.js';
 
 
 //import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
@@ -24,30 +25,33 @@ import { Button } from 'antd'
 }*/
 
 
-
+const FormItem= Form.Item;
 class AdminAccountPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {name: '',
-                  email: '',
-                  id:'',
-                  page: ''
+    this.state = {email: '',
+                  comment: '',
+                  visable: false,
     };
 
-    this.handleNameChange = this.handleNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleCommentChange = this.handleCommentChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.setVisable = this.setVisable.bind(this);
     //this.handleSubmit = this.handleSubmit.bind(this);
     //this.loadUser = this.saveUser.bind(this);
-  }
-  
-  handleNameChange(event) {
-    this.setState({name: event.target.value});
   }
   
   handleEmailChange(event) {
     this.setState({email: event.target.value});
   }
+  handleCommentChange(event) {
+   this.setState({comment: event.target.value});
+ }
+ setVisable( b ){
+   this.setState( { visable: b } );
+}
+   
 
  /* handleSubmit(event) {
 //    
@@ -83,6 +87,27 @@ class AdminAccountPage extends React.Component {
    clicked(){
       console.log("button was clicked");
    }
+  
+   setVisable( b ){
+       this.setState( { visable: b } );
+   }
+ 
+   async setComment( b ){
+      await setComments( this.state.email, this.state.comment )
+      .then( response => {
+         notification.success({
+            message: 'LCHS Band Fundraising',
+            description: "You have added a comment"
+        })
+       } )
+      .catch(error => {
+          notification.error({
+              message: 'LCHS Band Fundraising',
+              description:error.message || 'Sorry! Something went wrong!'
+          });
+      });
+      this.setState( { visable: b } );
+   }
 
    render() {
       return (
@@ -96,10 +121,43 @@ class AdminAccountPage extends React.Component {
                   width={150}/><br/>
                   <br/><br/>
             </div>
+                <Modal
+                  title="Previous Products"
+                  centered
+                  destroyOnClose={true}
+                  visible={ this.state.visable }
+                  onOk={ () => this.setComment( false ) }
+                  onCancel={ () => this.setVisable( false ) }>
+                 <Form>
+                    <FormItem
+                        label="Email of User">
+                        <Input 
+                            name="Email"
+                            size="large"
+                            type="text" 
+                            autocomplete="off"
+                            placeholder="User email"
+                            value={this.state.email}
+                            onChange={(event) => this.handleEmailChange(event) } maxLength="255"/>
+                    </FormItem>
+                    <FormItem
+                        label="Comment">
+                        <Input 
+                            name="comment"
+                            size="large"
+                            type="text" 
+                            autocomplete="off"
+                            placeholder="comments"
+                            value={this.state.comment}
+                            onChange={(event) => this.handleCommentChange(event) } maxLength="255"/>
+                    </FormItem>
+                  </Form>
+               </Modal>
             <div> 
                <Button className="center" onClick={ this.handleClick("/campaigns") }> Campaign Configuration </Button> <br/>
                <Button className="center" onClick={ this.handleClick("/reset-password") }> Reset Customer Password </Button> <br/>
                <Button className="center" onClick={ this.handleClick("/admin-create-admin") }> Create an Administrator</Button> <br/>
+               <Button className="center" onClick={ ( ) => this.setVisable( true ) }> Add Comment to User</Button> <br/>
             </div>
          </form>
       );

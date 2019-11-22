@@ -388,7 +388,7 @@ export function getAllProducts() {
          return data;
       })
     );
-
+    }
 export function setToDelivered(orderID, status) {
     return APIRequest ({
       url: 'api/orders/delivered/' + orderID + '/' + status,
@@ -418,6 +418,21 @@ export function deleteProduct(productID) {
          return result;
       })
    );
+}
+
+export function setComments( user, comments ) {
+    return APIRequest({
+        url:'api/users/comments/' + user + '?comments=' + comments,
+        method: 'PUT'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
 }
 
 export function findUser( email ) {
