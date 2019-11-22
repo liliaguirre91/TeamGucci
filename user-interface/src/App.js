@@ -70,7 +70,7 @@ class App extends React.Component {
         notification.config({
             placement: 'topLeft',
             top: 70,
-            duration: 3,
+            duration: 5,
         });
   }
   

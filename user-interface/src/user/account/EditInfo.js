@@ -94,7 +94,7 @@ class EditInfo extends React.Component {
           let currentUser = this.props.currentUser;
           chickenStrips = currentUser.userId;
       }
-      console.log(name, email);
+      console.log(chickenStrips, name, email);
       
       changeUserInfo(chickenStrips, name, email)
       .then(response => {

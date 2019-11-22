@@ -98,7 +98,7 @@ class Products extends React.Component {
                  <Button className="btn btn-primary float-right"
                     style={{  marginRight: "10px" }} 
                     disabled = {(user_role === 'Role_USER' || this.props.currentUser === null) && !this.state.submitted}
-                    onClick={(e) => this.handleSubmit(e) }> Next </Button><br/><br/>
+                    onClick={(e) => this.handleSubmit(e)}> Next </Button><br/><br/>
             </div>
             );
     }
