@@ -18,7 +18,7 @@ public interface UserRepository extends CrudRepository<users, Long> {
 	@Query( value = "select * from users u where u.name = :name and u.email = :email", nativeQuery = true )
 	Optional<users> selectUser( @Param( "name" ) String name, @Param( "email" ) String email );
 	//Querying method called selectAll this method returns all entries in the users table
-	@Query( value = "select * from users;", nativeQuery = true )
+	@Query( value = "select * from users order by user_id;", nativeQuery = true )
 	Iterable<users> selectAll( );
 	//Querying method called selectName this method takes a name and querries the database for an entry
 	//in the users tablewith that component
