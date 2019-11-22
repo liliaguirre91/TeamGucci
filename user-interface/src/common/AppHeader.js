@@ -52,7 +52,13 @@ class AppHeader extends Component {
                 <Header className="app-header">
                     <div className="container">
                         <div className="app-title" >
-                            <Link to="/">LCHS Band</Link>
+                            <Link to="/" style={{
+                                paddingRight: '50px',
+                                }}>LCHS Band</Link>
+                            <Link to="/products" style={{
+                                paddingRight: '50px',
+                                }}>Products</Link>
+                            <Link to="/order-lookup">Order Lookup</Link>
                         </div>
                         <Menu
                             className="app-menu"

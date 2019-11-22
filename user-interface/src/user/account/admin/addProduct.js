@@ -6,13 +6,16 @@ import {
   Form,
   Input,
   Button,
+  Modal,
+  Table,
+  Popconfirm,
   Upload,
   Icon,
   Rate,
   Checkbox,
   notification,
 } from 'antd';
-import { createProduct } from '../../../util/APIFunctions.js';
+import { createProduct, getAllProducts, getProduct } from '../../../util/APIFunctions.js';
 
 const FormItem= Form.Item;
 
@@ -26,9 +29,12 @@ class addProduct extends React.Component {
             description:    { value: '' },
             price:          { value: '' },
             image: [],
+            products: [],
+            visable: false,
         };
       this.handleUpload = this.handleUpload.bind( this );
       this.handleInputChange = this.handleInputChange.bind(this);
+      this.setVisable = this.setVisable.bind( this );
   }
 
   handleInputChange(event) {
@@ -41,6 +47,21 @@ class addProduct extends React.Component {
           value: inputValue
        }
     });
+ }
+ async setVisable( b ) {
+   await getAllProducts( )
+   .then( response => {
+       this.setState( {
+           products: response
+       });
+    } )
+   .catch(error => {
+       notification.error({
+           message: 'LCHS Band Fundraising',
+           description:error.message || 'Sorry! Something went wrong!'
+       });
+   })
+   this.setState( { visable: b } );
  }
  
   handleSubmit = e => {
@@ -62,7 +83,7 @@ class addProduct extends React.Component {
       description: this.state.description.value,
       image: this.state.image,
       yearRan: camp.year
-  };
+  }
       
   createProduct(newProduct)
       .then (response => {
@@ -78,10 +99,41 @@ class addProduct extends React.Component {
               description:error.message || 'Sorry! Something went wrong!'
           });
       });
-  };
+  }
 
   fileChangedHandler = (event) => {
     this.setState({ selectedFile: event.target.files[0] });
+  }
+  async usePrevious( productId ){
+    let newProduct = '';
+    await getProduct( productId )
+    .then (response => {
+      newProduct = response;
+    })
+  .catch(error => {
+      notification.error({
+          message: 'LCHS Band Fundraising',
+          description:error.message || 'Sorry! Something went wrong!'
+      });
+  });
+  const camp = JSON.parse(localStorage.getItem( 'setCampaign' ));
+  newProduct.yearRan = parseInt( camp.year );
+      
+  await createProduct(newProduct)
+      .then (response => {
+          notification.success({
+              message: 'LCHS Band Fundraising',
+              description: "Your product has been created!"
+          });
+          this.props.history.push("/admin-account"); //for now will redirect to home, later to confirmation
+      })
+      .catch(error => {
+          notification.error({
+              message: 'LCHS Band Fundraising',
+              description:error.message || 'Sorry! Something went wrong!'
+          });
+      });
+  this.setState( { visable: false } );
   }
 
     async handleUpload( event ){
@@ -101,9 +153,61 @@ class addProduct extends React.Component {
     }
 
   render() {
+    const columns = [
+      {
+          title: 'Product Number',
+          dataIndex: 'productId',
+          key: 'productId',
+      },
+      {
+          title: 'Product Name',
+          dataIndex: 'product',
+          key: 'product',
+      },
+      {
+          title: 'Price',
+          dataIndex: 'price',
+          key: 'price',
+      },
+      {
+          title: 'Description',
+          dataIndex: 'description',
+          key: 'description',
+      },
+      {
+        title: '',
+        //dataIndex: 'action',
+        key: 'action',
+        render: (text, record) =>
+            this.state.products.length >= 1 ? (
+              <button onClick={ () => this.usePrevious( record.productId ) }>Reuse This Product</button>
+            ) : null,
+    },
+];
     return (
     <div className="product-container">
         <h2 className="page-title"> Add a Product </h2>
+        <Modal
+                  title="Previous Products"
+                  centered
+                  destroyOnClose={true}
+                  visible={ this.state.visable }
+                  onOk={ () => this.setVisable( false ) }
+                  onCancel={ () => this.setVisable( false ) }>
+                    
+                <div className="table">
+                    <Table 
+                        dataSource={this.state.products} 
+                        columns={columns} 
+                        rowKey={(record) => record.productId}
+                        bordered
+                        pagination={false}
+                        scroll={{ y: 500 }}
+                    />
+                </div>
+               </Modal>
+          
+              <button onClick={ () => this.setVisable( true ) }>Use Previous Product</button>
           <Form>
             <FormItem
                 label="Product">
