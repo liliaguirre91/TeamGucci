@@ -157,13 +157,13 @@ class Campaign extends Component {
       });
    }
 
-   renderCampaignInfo() {
-      return <Campaign CampaignID={this.state.CampaignID}/>
-   }
-
-   handleSubmit( event ){
-      alert( "Please Press a Button")
-   }
+    renderCampaignInfo() {
+        return <Campaign CampaignID={this.state.CampaignID}/>
+    }
+   
+    handleSubmit( event ){
+        alert( "Please Press a Button")
+    }
    
    render() {
       return (
