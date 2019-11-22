@@ -1,6 +1,7 @@
 //import React from 'react';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
+import {CSVLink, CSVDownload} from 'react-csv';
 import './DeliveryReport.css';
 import { 
     getOrdersNotDelivered, 
@@ -345,6 +346,10 @@ class DeliveryReport extends Component {
                         scroll={{ y: 500 }}
                     />
                 </div>
+                
+            <CSVLink data={this.state.orders} >Download me</CSVLink>
+            // or
+            <CSVDownload data={this.state.orders} target="_blank" />
             </div>
         );
     }
