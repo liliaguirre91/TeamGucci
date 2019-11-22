@@ -365,9 +365,23 @@ export function getCampaign() {
       })
     );
 }
-export function countProducts(campaign, productID) {
+export function countProductsLeft(campaign, productID) {
+    return APIRequest ({
+       url: 'api/orders/products/' + campaign + '/' + productID,
+       method: 'GET'
+    })
+    .then(response =>
+       response.json().then(result => {
+          if(!response.ok) {
+             return Promise.reject(result);
+          }
+          return result;
+       })
+    );
+ }
+export function countProducts( productID ) {
    return APIRequest ({
-      url: 'api/orders/products/' + campaign + '/' + productID,
+      url: 'api/productOrdered/sum/' + productID,
       method: 'GET'
    })
    .then(response =>

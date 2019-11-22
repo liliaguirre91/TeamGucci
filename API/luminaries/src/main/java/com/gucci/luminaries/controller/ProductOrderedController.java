@@ -62,6 +62,17 @@ public class ProductOrderedController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end catch
     }//enc getProductOrdered
+
+    @GetMapping( "/productOrdered/sum/{id}" )
+    public ResponseEntity<Long> getQuantity( @PathVariable( "id" ) long id ){
+        try{
+            long count = productOrderedRepository.getSumQuantity( id );
+            return new ResponseEntity<>( count, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }//enc getQuantity
     
     //Create productordered function is used to create a new productOrdered
     //Send a post request to /api/productOrdereds/create

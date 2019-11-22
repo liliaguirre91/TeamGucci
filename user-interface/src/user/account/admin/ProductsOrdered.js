@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 //import './ProductsOrdered.css';
-import {countProducts, getProducts, getProduct} from '../../../util/APIFunctions';
+import { countProducts, getProducts, getProduct, countProductsLeft } from '../../../util/APIFunctions';
 import { notification, Table } from 'antd';
 
 const productIDs = [];
 const productCounts = [];
+const productLeft = [];
 const productNames = [];
 const tableResults =[];
 class ProductsOrdered extends Component {
@@ -14,6 +15,7 @@ class ProductsOrdered extends Component {
            CampaignID: '',
            submitted: false,
            productsOrderedQuantity: '',
+           productsOrderedLeftQuantity: '',
            getProductsResult: '',
            positiveMatch: '',
            fillTable: []
@@ -42,7 +44,7 @@ class ProductsOrdered extends Component {
         for (var i = 0; i < productIDs.length; i++) {
 
             //send campaign # and the product ID # through API and get the count
-            await countProducts(campaignNumber, productIDs[i])
+            await countProducts( productIDs[i] )
                 .then(response => {
                     this.setState({
                         productsOrderedQuantity: response
@@ -54,7 +56,22 @@ class ProductsOrdered extends Component {
                         description: error.message
                     });
                 });
-        
+                
+                await countProductsLeft( campaignNumber, productIDs[i] )
+                .then(response => {
+                    this.setState({
+                        productsOrderedLeftQuantity: response
+                    })
+                })
+                .catch(error => {
+                    notification.error({
+                        message: 'LCHS Band Fundraising',
+                        description: error.message
+                    });
+                });
+                if (this.state.productsOrderedLeftQuantity > 0) {
+                    productLeft.push(this.state.productsOrderedLeftQuantity);
+                }
             //true if the product has been ordered on this campaign, store counts in productCounts[]
             if (this.state.productsOrderedQuantity > 0) {
                 productCounts.push(this.state.productsOrderedQuantity);
@@ -73,7 +90,7 @@ class ProductsOrdered extends Component {
         
         //push all data to tableResults[]
         for (var i = 0; i < productNames.length; i++) {
-            const item = { productID: productIDs[i], productName: productNames[i], quantity: productCounts[i]}
+            const item = { productID: productIDs[i], productName: productNames[i], quantity: productCounts[i], left: productLeft[ i ]}
             tableResults.push(item);
         }
         this.setState({fillTable: tableResults});
@@ -97,9 +114,14 @@ class ProductsOrdered extends Component {
                 key: 'productName'
             },
             {
-                title: 'Quantity',
+                title: 'Total Ordered',
                 dataIndex: 'quantity',
                 key: 'quantity'
+            },
+            {
+                title: 'Not Delivered',
+                dataIndex: 'left',
+                key: 'left'
             }
         ]
              return(
