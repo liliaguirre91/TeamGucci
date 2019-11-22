@@ -33,8 +33,9 @@ class OrderLookup extends Component {
       fetch(url)
          .then(response => response.text())
          .then(result => this.setState({ result }));*/
-      
-      const orderNumber = this.state.OrderID;
+      const orderNumber  = this.state.OrderID.split('-')[1];
+      //console.log(paid[1]);
+      //const orderNumber = this.state.OrderID;
       const productNames = [];
       const productQuantities = [];
       
@@ -144,7 +145,7 @@ class OrderLookup extends Component {
                             size="large"
                             type="text" 
                             autocomplete="off"
-                            placeholder="Order #"
+                            placeholder="year-order#"
                             OrderID={this.state.OrderID} 
                             onChange={this.handleIDChange} maxLength="9"/>
                     </FormItem>

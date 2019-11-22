@@ -104,8 +104,8 @@ class ProductsOrdered extends Component {
         ]
              return(
                 <div classname = 'ProductsOrderedContainer'>
-                    <h1 classname = 'Space Filler'>Count the Products Ordered </h1>
-                    <h2 classname = 'Page Title'>Count the Products Ordered</h2>
+                    <h1 classname='Space Filler' >Count the Products Ordered </h1>
+                    <h2 classname = 'Page Title' align="center">Count the Products Ordered</h2>
                     <Table columns = {columns} dataSource = {this.state.fillTable} bordered pagination = {false} size = 'middle' />
                    
                 </div>
