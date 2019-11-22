@@ -498,3 +498,17 @@ export function setPassword( user, password ) {
     );
 }
 
+export function changeUserInfo( user, name, email ) {
+    return APIRequest({
+        url:'api/users/change/' + user + '?email=' + email + '&name=' + name,
+        method: 'PUT'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}

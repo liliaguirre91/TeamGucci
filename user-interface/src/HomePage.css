@@ -23,6 +23,12 @@ img {
 	height: auto;
 }
 
+.aboutUs{
+  font-size: 150%;
+  font-style: oblique;
+
+}
+
 
 /*@keyframes App-logo-spin {
   from { transform: rotate(0deg); }

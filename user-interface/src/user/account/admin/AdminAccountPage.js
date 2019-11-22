@@ -213,7 +213,7 @@ async setVisable2( b ){
                <Button className="center" onClick={ this.handleClick("/reset-password") }> Reset Customer Password </Button> <br/>
                <Button className="center" onClick={ this.handleClick("/admin-create-admin") }> Create an Administrator</Button> <br/>
                <Button className="center" onClick={ ( ) => this.setVisable2( true ) }> See All Users</Button> <br/>
-
+               <Button className="center" onClick={ this.handleClick("/edit-info") }> Edit My Info</Button> <br/>
             </div>
          </form>
       );
