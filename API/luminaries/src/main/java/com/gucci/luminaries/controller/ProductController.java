@@ -160,7 +160,7 @@ public class ProductController {
             products o = productData.get();
             o.setProduct( product.getProduct() );
             o.setPrice( product.getPrice() );
-            o.setYearRan( product.getYearRan() );
+            o.setDescription( product.getDescription() );
     
             products update = productRepository.save( o );
             return new ResponseEntity<>( update, HttpStatus.OK );

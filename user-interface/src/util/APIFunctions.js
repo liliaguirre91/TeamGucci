@@ -319,6 +319,24 @@ export function createProduct( newProduct ){
     })
   );
 }  
+
+export function updateProduct( productID, product ){
+   return APIRequest({
+      url:'api/products/' + productID,
+      method: 'PUT',
+      body: JSON.stringify( product )
+  })
+  .then(response =>
+    response.json().then(result => {
+        if(!response.ok) {
+            return Promise.reject(result);
+        }
+        return result;
+    })
+  );
+}  
+
+
 export function setCampaign(campNumber) {
     return APIRequest({
         url:'api/campaigns/current/' + campNumber ,
@@ -419,6 +437,21 @@ export function deleteProduct(productID) {
          return result;
       })
    );
+}
+
+export function setComments( user, comments ) {
+    return APIRequest({
+        url:'api/users/comments/' + user + '?comments=' + comments,
+        method: 'PUT'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
 }
 
 export function findUser( email ) {

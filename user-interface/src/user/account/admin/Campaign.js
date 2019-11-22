@@ -5,7 +5,8 @@ import {
     deleteCampaign, 
     orderCount, 
     amountPaid, 
-    setCampaign } from '../../../util/APIFunctions'; 
+    setCampaign,
+    getTotalCost } from '../../../util/APIFunctions'; 
     
 import './Campaign.css';
 import { Form, Input, Button, Row, Col, notification, Modal, message } from 'antd'
@@ -17,22 +18,20 @@ class Campaign extends Component {
       this.state = { 
          CampaignID: '',
          result: '',
-         count: false,
          earnings: false,
          deliveryInfo:'',
          submitted: false,
          amount: 0,
+         owed: 0,
          orders: 0
       };
       this.handleIDChange = this.handleIDChange.bind(this);    
       this.handleCreate = this.handleCreate.bind(this);  
       this.handleDelete = this.handleDelete.bind(this);
       this.handleClick = this.handleClick.bind(this);
-      this.handleCount = this.handleCount.bind(this);
       this.handleEarnings = this.handleEarnings.bind(this);
       this.handleCurrent = this.handleCurrent.bind(this);
       this.setEarning = this.setEarning.bind(this);
-      this.setCount = this.setCount.bind(this);
   }
 
     handleIDChange(event) {
@@ -53,9 +52,6 @@ class Campaign extends Component {
     }
    setEarning( b ){
       this.setState( { earnings: b } );
-   }
-   setCount( b ){
-      this.setState( { count: b } );
    }
    async handleCreate(event) {
       event.preventDefault();
@@ -110,12 +106,11 @@ class Campaign extends Component {
       }
    }
 
-   async handleCount( event ){
+   async handleEarnings( event ){
       const campaignNumber = parseInt( this.state.CampaignID );
-      await orderCount(campaignNumber)
+      await getTotalCost(campaignNumber)
       .then(result => 
-         this.setState( { orders: result } ),
-         this.setState( { count: true } )
+         this.setState( { owed: result } )
       )
       .catch(error => {
          notification.error({
@@ -123,13 +118,19 @@ class Campaign extends Component {
             description:error.message || 'Sorry! Something went wrong!'
          });
       });
-   }
-
-   async handleEarnings( event ){
-      const campaignNumber = parseInt( this.state.CampaignID );
       await amountPaid(campaignNumber)
       .then(result => 
-         this.setState( { amount: result } ),
+         this.setState( { amount: result } )
+      )
+      .catch(error => {
+         notification.error({
+            message: 'LCHS Band Fundraising',
+            description:error.message || 'Sorry! Something went wrong!'
+         });
+      });
+      await orderCount(campaignNumber)
+      .then(result => 
+         this.setState( { orders: result } ),
          this.setState( { earnings: true } )
       )
       .catch(error => {
@@ -156,13 +157,13 @@ class Campaign extends Component {
       });
    }
 
-   renderCampaignInfo() {
-      return <Campaign CampaignID={this.state.CampaignID}/>
-   }
-
-   handleSubmit( event ){
-      alert( "Please Press a Button")
-   }
+    renderCampaignInfo() {
+        return <Campaign CampaignID={this.state.CampaignID}/>
+    }
+   
+    handleSubmit( event ){
+        alert( "Please Press a Button")
+    }
    
    render() {
       return (
@@ -178,19 +179,11 @@ class Campaign extends Component {
                   onCancel={ () => this.setEarning( false ) }
                >
                   <p>The amount of money earned in this campaign is ${this.state.amount}</p>
+                  <p>The amount of money owed in this campaign is ${this.state.owed}</p>
+                  <p>The amount of orders made in this campaign is {this.state.orders}</p>
                </Modal>
                <br />
                <br />
-               <Modal
-                  title="Number of orders"
-                  centered
-                  destroyOnClose={true}
-                  visible={ this.state.count }
-                  onOk={ () => this.setCount( false ) }
-                  onCancel={ () => this.setCount( false ) }
-               >
-                  <p>The number of orders made in this campaign is {this.state.orders}</p>
-               </Modal>
                <Form className="campaign-form" align="center" layout = 'inline'> 
                   <FormItem
                            label="">
@@ -250,15 +243,6 @@ class Campaign extends Component {
                                     size="large"
                                     className="campaign-form-delProduct-button"
                                     onClick={this.handleClick("/modify-product")}>Modify a product</Button>
-                           </FormItem>
-                        </Col>
-                        <Col span={8}>
-                           <FormItem>
-                              <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="row2-button"
-                                    onClick={(e) => this.handleCount(e) }>Count all orders</Button>
                            </FormItem>
                         </Col>
                         <Col span={8}> 
