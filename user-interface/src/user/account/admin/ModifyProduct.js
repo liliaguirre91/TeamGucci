@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { getProducts,
          deleteProduct, 
-         updateProduct } from '../../../util/APIFunctions';
+         updateProduct,
+         getProduct } from '../../../util/APIFunctions';
 import { Form, 
          notification, 
          Table, 
@@ -20,9 +21,10 @@ class ModifyProduct extends Component {
            CampaignID: '',
            submitted: false,
            products: '',
+           product: '',
            visible: false,
            productID: 0,
-           product: { value: '' },
+           productName: { value: '' },
            description: { value: '' },
            price:       { value: '' },
         };
@@ -58,6 +60,7 @@ class ModifyProduct extends Component {
                 });
             });
             
+                
             //console.log(JSON.stringify(this.state.products));
     }
 
@@ -75,13 +78,20 @@ class ModifyProduct extends Component {
     }
 
 /*---------------------------------------------------------------------------------------------------------------*/
-    showModal = (product) => {
-        this.setState({ productID: product });
-        /*getProduct(this.state.productID)
+    async showModal(product) {
+        await this.setState({ productID: product });
+        const response = await getProduct(this.state.productID)
             .then( response => {
                 this.setState( {
-                    products: response
-                });*/
+                    product: response
+                });
+            })
+            .catch(error => {
+                notification.error({
+                    message: 'LCHS Band Fundraising',
+                    description:error.message || 'Sorry! Something went wrong!'
+                });
+            });
         
         this.setState({ visible: true });
     };
@@ -110,21 +120,35 @@ class ModifyProduct extends Component {
     }
 
 /*---------------------------------------------------------------------------------------------------------------*/    
-        async handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
-        /*this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });*/
         //console.log( this.state.image );
         //const camp = JSON.parse(localStorage.getItem( 'setCampaign' ));
         //console.log (this.state.product.value);
-        const price  = this.state.price.value.split('.');
+        var price, product, description;
+        
+        if (this.state.productName.value === '') {
+            product = this.state.product.product;
+        } else {
+            product = this.state.productName.value;
+        }
+            
+        if (this.state.price.value === '') {
+            price = this.state.product.price;
+        } else {
+            price  = (this.state.price.value.split('.'))[0];
+        }
+        
+        if (this.state.description.value === '') {
+            description = this.state.product.description;
+        } else {
+            description = this.state.description.value;
+        }
+        
         const updatedProduct = {
-            product: this.state.product.value,
-            price: price[0],
-            description: this.state.description.value,
+            product: product,
+            price: price,
+            description: description,
         };
       
         updateProduct(this.state.productID, updatedProduct)
@@ -133,7 +157,7 @@ class ModifyProduct extends Component {
                     message: 'LCHS Band Fundraising',
                     description: "Your product has been modified!"
                 });
-                //this.props.history.push("/admin-account"); //for now will redirect to home, later to confirmation
+                window.location.reload();
             })
             .catch(error => {
                 notification.error({
@@ -210,12 +234,12 @@ class ModifyProduct extends Component {
                         <FormItem
                             label="Product">
                             <Input 
-                                name="product"
+                                name="productName"
                                 size="large"
                                 type="text" 
                                 autocomplete="off"
                                 placeholder="product name"
-                                value={this.state.product.value}
+                                value={this.state.productName.value}
                                 onChange={(event) => this.handleInputChange(event) } maxLength="20"/>
                         </FormItem>
                         <FormItem
