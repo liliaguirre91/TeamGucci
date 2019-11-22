@@ -28,11 +28,12 @@ import OrdersReport from './user/account/admin/OrdersReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
 import CampaignProductsOrdered from './user/account/admin/CampaignProductsOrdered.js';
 
-import CustomerInfo from './user/account/customer/CustomerInfo.js';
+import EditInfo from './user/account/EditInfo.js';
 import CustomerOrders from './user/account/customer/CustomerOrders.js';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import logo from './footer_logo.png';
 
 import ModifyProduct from './user/account/admin/ModifyProduct.js';
 import ResetPassword from './user/account/admin/ResetPassword.js';
@@ -40,7 +41,10 @@ import ProductsOrdered from './user/account/admin/ProductsOrdered.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import OrderConfirmation from './OrderConfirmation';
 import FailurePage from './FailurePage';
-import { Layout, notification } from 'antd';
+import { Layout, notification, Icon } from 'antd';
+const Footer = Layout.Footer;
+
+
 
 
 
@@ -64,7 +68,7 @@ class App extends React.Component {
         this.loadCurrentCampaign = this.loadCurrentCampaign.bind(this);
         
         notification.config({
-            placement: 'topRight',
+            placement: 'topLeft',
             top: 70,
             duration: 3,
         });
@@ -195,7 +199,7 @@ class App extends React.Component {
                                 render={(props) => <FailurePage isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/edit-info"
-                                render={(props) => <CustomerInfo isAuthenticated={this.state.isAuthenticated}
+                                render={(props) => <EditInfo isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/all-orders"
                                 render={(props) => <CustomerOrders isAuthenticated={this.state.isAuthenticated}
@@ -203,10 +207,16 @@ class App extends React.Component {
                         </Switch>
                     </div>
                 </Content>
+                <Footer style={{position:"sticky", bottom:"0"}}>
+                <div style={{ background: "#020e19" }}>.</div>
+                <div style={{ background: "#020e19" }}>.</div>
+
+                 
+                </Footer>
             </Layout>
         );
     }
 }
-
+//<Icon component={() => (<img src="./footer-logo.png"/>)}/>
 
 export default withRouter(App); //I COMMENTED THESE OUT TO MAKE IT RUN IN THE WEB BROWSER

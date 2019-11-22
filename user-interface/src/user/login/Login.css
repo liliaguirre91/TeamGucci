@@ -10,7 +10,7 @@
     margin-top: 15px;
 }
 
-.login-form input {
+.login-form .input {
     margin-bottom: 3px;
     width: 60%;
     text-align: center;
