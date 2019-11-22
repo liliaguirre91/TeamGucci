@@ -64,13 +64,14 @@ public class ProductController {
     @GetMapping( "/products/camp/{year_ran}" )
     public ResponseEntity<List<products>> getCurrentProducts( @PathVariable int year_ran ) {
         List<products> list = new ArrayList<>();
-        Iterable<products> p = productRepository.selectProductFor(year_ran);
-
-        p.forEach( list::add );
-        if( list.isEmpty() ){
+        try {
+            Iterable<products> p = productRepository.selectProductFor(year_ran);
+             p.forEach( list::add );
+             return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
-        }//end if
-        return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end catch
     }//end getCurrentProducts
 
     // Create product function is used to create a new product
@@ -170,7 +171,7 @@ public class ProductController {
     }//end update Product
     
     @DeleteMapping( "/products/{id}" )
-    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    @PreAuthorize( "hasAuthority('Role_ROOT')" )
     public ResponseEntity<String> deleteProduct( @PathVariable( "id" ) long id ) {
         System.out.println( "Delete Product with ID = " + id + "..." );
     

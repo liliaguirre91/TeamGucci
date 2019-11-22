@@ -26,6 +26,14 @@ import CampaignsPage from './user/account/admin/Campaign.js';
 import DeliveryReport from './user/account/admin/DeliveryReport.js';
 import OrdersReport from './user/account/admin/OrdersReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
+import CampaignProductsOrdered from './user/account/admin/CampaignProductsOrdered.js';
+
+import CustomerInfo from './user/account/customer/CustomerInfo.js';
+import CustomerOrders from './user/account/customer/CustomerOrders.js';
+
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import ModifyProduct from './user/account/admin/ModifyProduct.js';
 import ResetPassword from './user/account/admin/ResetPassword.js';
 import ProductsOrdered from './user/account/admin/ProductsOrdered.js';
@@ -185,6 +193,12 @@ class App extends React.Component {
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/failure-page"
                                 render={(props) => <FailurePage isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/edit-info"
+                                render={(props) => <CustomerInfo isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
+                            <Route path="/all-orders"
+                                render={(props) => <CustomerOrders isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                         </Switch>
                     </div>

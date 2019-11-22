@@ -379,6 +379,34 @@ export function countProducts(campaign, productID) {
       })
    );
 }
+   export function getPreviousOrders(user) {
+    return APIRequest({
+        url:'api/orders/previous/' + user ,
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+} 
+export function getAllProducts() {
+    return APIRequest({
+        url:'api/products',
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(data => {
+         if(!response.ok) {
+            return Promise.reject(data);
+         }
+         return data;
+      })
+    );
+}
 
 export function setToDelivered(orderID, status) {
     return APIRequest ({

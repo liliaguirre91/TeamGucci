@@ -218,6 +218,47 @@ public class UserController {
 
 	}//end setPassword
 
+	@PutMapping( "/users/comments/{email}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+	public ResponseEntity<Long> setComments( @PathVariable( "email" ) String email, @Valid @RequestParam( value = "comments" ) String comments ){
+		//Check the database for the user
+		Optional<users> userData = userRepository.checkEmail( email );
+		//if the user exists set the new comment
+		if ( userData.isPresent() ) {
+			users u = userData.get();
+			u.setComments( comments );
+			userRepository.save( u );
+		    return new ResponseEntity<>( u.getUserId(),  HttpStatus.OK );
+		}//end try
+        else {
+		    return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+		}//end else
+
+	}//end setComments
+
+	
+	@PutMapping( "/users/change/{id}" )
+	public ResponseEntity<users> changeUser( @PathVariable( "id" ) Long id, 
+		@RequestParam( value = "email" ) String email, @RequestParam( value = "name" ) String name ) {
+		//Print to system out to log the start of method
+		System.out.println( "Update User with ID = " + id + "..." );
+		//Try to find the user
+		Optional<users> userData = userRepository.findById( id );
+		//If the user exists change their informatin to the new information
+		if ( userData.isPresent() ) {
+            users u = userData.get();
+            u.setEmail( email );
+            u.setName( name );
+        
+		    //save the new information
+		    users update = userRepository.save( u );
+		    return new ResponseEntity<>( update, HttpStatus.OK );
+        }//end try
+        else {
+		    return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+		}//end else
+	}//end changeInfo
+
 	//Works on PostMan send put code to localhost:portnumber/api/users/id
 	//choose body, chose raw and change type to json
 	//enter new data inclosed in '{}' in format
