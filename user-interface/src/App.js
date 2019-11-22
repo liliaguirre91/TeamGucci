@@ -28,7 +28,7 @@ import OrdersReport from './user/account/admin/OrdersReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
 import CampaignProductsOrdered from './user/account/admin/CampaignProductsOrdered.js';
 
-import CustomerInfo from './user/account/customer/CustomerInfo.js';
+import EditInfo from './user/account/EditInfo.js';
 import CustomerOrders from './user/account/customer/CustomerOrders.js';
 
 
@@ -64,7 +64,7 @@ class App extends React.Component {
         this.loadCurrentCampaign = this.loadCurrentCampaign.bind(this);
         
         notification.config({
-            placement: 'topRight',
+            placement: 'topLeft',
             top: 70,
             duration: 5,
         });
@@ -195,7 +195,7 @@ class App extends React.Component {
                                 render={(props) => <FailurePage isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/edit-info"
-                                render={(props) => <CustomerInfo isAuthenticated={this.state.isAuthenticated}
+                                render={(props) => <EditInfo isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/all-orders"
                                 render={(props) => <CustomerOrders isAuthenticated={this.state.isAuthenticated}

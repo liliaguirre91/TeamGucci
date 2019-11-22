@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createAccount , checkEmail } from '../../../util/APIFunctions';
+import { createAccount , checkEmail, changeUserInfo, setPassword } from '../../util/APIFunctions';
 //import './CreateAccount.css';
 import { 
     NAME_MIN_LENGTH,
@@ -8,12 +8,12 @@ import {
     EMAIL_MAX_LENGTH,
     PASSWORD_MIN_LENGTH,
     PASSWORD_MAX_LENGTH
-} from '../../../constants';
+} from '../../constants';
 
 import {Form, Input, Button, notification } from 'antd';
 const FormItem= Form.Item;
 
-class CustomerInfo extends React.Component {
+class EditInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -73,25 +73,34 @@ class CustomerInfo extends React.Component {
    * into the database.
    ********************************************************************************************/
    handleSubmit(event) {
-      event.preventDefault();
-      const name  = this.state.name.value;
-      const email = this.state.email.value;
-      const password = this.state.password.value;
-
+        event.preventDefault();
+        var name  = this.state.name.value;
+        var email = this.state.email.value;
+        const password = this.state.password.value;
+    
+        if (this.props.currentUser) {
+            let currentUser = this.props.currentUser;
+            if (email === '') {
+                 email = currentUser.email;
+            }
+            if (name === '') {
+                name = currentUser.name;
+           }
+        }
+   
+      //user id
+      let chickenStrips = '';
+      if (this.props.currentUser) {
+          let currentUser = this.props.currentUser;
+          chickenStrips = currentUser.userId;
+      }
+      console.log(name, email);
       
-      //Create a constant containing all the information necessary to create a user account in database
-      const signupRequest = {
-         name: name,
-         email: email,
-         password: password
-      };
-      
-      //Call the createAccount function to insert user into database
-      createAccount(signupRequest)
+      changeUserInfo(chickenStrips, name, email)
       .then(response => {
          notification.success({
             message: 'LCHS Band Fundraising',
-            description: "Congratulations! You have succesfully created an account. Please Login to continue!",
+            description: "Congratulations! You have succesfully updated your information. Please Login to continue!",
          });
          this.props.history.push("/login");
       }).catch(error => {
@@ -100,29 +109,41 @@ class CustomerInfo extends React.Component {
             description: error.message || 'Sorry! Something went wrong. Please try again!'
          });
       });
-   }
 
+     
+    if(password !== ''){
+        setPassword( chickenStrips, password )
+            .then( response => {
+             this.setState( { customer: response } )
+             } )
+             .catch(error => {
+             notification.error({
+             message: 'LCHS Band Fundraising',
+             description:error.message || 'Sorry! Something went wrong!'
+         });
+     });
+    }
+
+   }
    isFormInvalid() {
    		return !(this.state.name.validateStatus === 'success' &&
    				 this.state.email.validateStatus === 'success' &&
    				 this.state.password.validateStatus === 'success'
    		);
    }
+
+
    handleClick = param => e => {
     e.preventDefault();
     this.props.history.push(param);
  }
-
+   
     render() {
         let name = '';
-        if (this.props.currentUser) {
-            let currentUser = this.props.currentUser;
-            name = currentUser.name;
-            //console.log(name);
-        }
         let email = '';
         if (this.props.currentUser) {
             let currentUser = this.props.currentUser;
+            name = currentUser.name;
             email = currentUser.email;
             //console.log(name);
         }
@@ -178,7 +199,7 @@ class CustomerInfo extends React.Component {
                             <Button type="primary"
                                 htmlType="submit"
                                 size="large"
-                                className="signup-form-button">Sign Up</Button>
+                                className="signup-form-button">Submit</Button>
                         </FormItem>
                         <FormItem>
                             <Button type="primary"
@@ -318,8 +339,8 @@ class CustomerInfo extends React.Component {
 }//end class
 
 ReactDOM.render(
-  <CustomerInfo />,
+  <EditInfo />,
   document.getElementById('root')
 );
 
-export default CustomerInfo;
+export default EditInfo;

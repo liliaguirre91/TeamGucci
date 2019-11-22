@@ -100,6 +100,7 @@ class AdminAccountPage extends React.Component {
                <Button className="center" onClick={ this.handleClick("/campaigns") }> Campaign Configuration </Button> <br/>
                <Button className="center" onClick={ this.handleClick("/reset-password") }> Reset Customer Password </Button> <br/>
                <Button className="center" onClick={ this.handleClick("/admin-create-admin") }> Create an Administrator</Button> <br/>
+               <Button className="center" onClick={ this.handleClick("/edit-info") }> Edit My Info</Button> <br/>
             </div>
          </form>
       );
