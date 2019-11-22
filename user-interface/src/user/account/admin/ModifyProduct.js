@@ -186,7 +186,6 @@ class ModifyProduct extends Component {
                     ) : null,
             },
         ];
-        //const { getFieldDecorator } = Form.create({ name: 'edit_form' });
         return (
             <div className="modify-product-container">
                 <h2 className="page-title">Products</h2>
