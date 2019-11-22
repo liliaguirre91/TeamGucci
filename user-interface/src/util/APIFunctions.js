@@ -319,6 +319,24 @@ export function createProduct( newProduct ){
     })
   );
 }  
+
+export function updateProduct( productID, product ){
+   return APIRequest({
+      url:'api/products/' + productID,
+      method: 'PUT',
+      body: JSON.stringify( product )
+  })
+  .then(response =>
+    response.json().then(result => {
+        if(!response.ok) {
+            return Promise.reject(result);
+        }
+        return result;
+    })
+  );
+}  
+
+
 export function setCampaign(campNumber) {
     return APIRequest({
         url:'api/campaigns/current/' + campNumber ,

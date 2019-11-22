@@ -18,71 +18,72 @@ const FormItem= Form.Item;
 
 class addProduct extends React.Component {
 
-  constructor(props) {
-      super(props);
-        this.state = { 
-            selectedFile: null,
-            product:        { value: '' },
-            description:    { value: '' },
-            price:          { value: '' },
-            image: [],
-        };
-      this.handleUpload = this.handleUpload.bind( this );
-      this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const inputName = target.name;
-    const inputValue = target.value;
-    
-    this.setState ({
-       [inputName] : {
-          value: inputValue
-       }
-    });
- }
- 
-  handleSubmit = e => {
-    e.preventDefault();
-    if( this.state.image === [] ){
-      return;
+    constructor(props) {
+        super(props);
+            this.state = { 
+                selectedFile: null,
+                product:        { value: '' },
+                description:    { value: '' },
+                price:          { value: '' },
+                image: [],
+            };
+        this.handleUpload = this.handleUpload.bind( this );
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-    //console.log( this.state.image );
-    const camp = JSON.parse(localStorage.getItem( 'setCampaign' ));
-    console.log (camp.year);
-    const newProduct = {
-      product: this.state.product.value,
-      price: this.state.price.value,
-      description: this.state.description.value,
-      image: this.state.image,
-      yearRan: camp.year
-  };
-      
-  createProduct(newProduct)
-      .then (response => {
-          notification.success({
-              message: 'LCHS Band Fundraising',
-              description: "Your product has been created!"
-          });
-          this.props.history.push("/admin-account"); //for now will redirect to home, later to confirmation
-      })
-      .catch(error => {
-          notification.error({
-              message: 'LCHS Band Fundraising',
-              description:error.message || 'Sorry! Something went wrong!'
-          });
-      });
-  };
 
-  fileChangedHandler = (event) => {
-    this.setState({ selectedFile: event.target.files[0] });
-  }
+    handleInputChange(event) {
+        const target = event.target;
+        const inputName = target.name;
+        const inputValue = target.value;
+    
+        this.setState ({
+            [inputName] : {
+            value: inputValue
+            }
+        });
+    }
+ 
+    handleSubmit = e => {
+        e.preventDefault();
+        if( this.state.image === [] ){
+            return;
+        }
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+            }
+        });
+        //console.log( this.state.image );
+        const camp = JSON.parse(localStorage.getItem( 'setCampaign' ));
+        console.log (camp.year);
+        const price  = this.state.price.value.split('.');
+        const newProduct = {
+            product: this.state.product.value,
+            price: price[0],
+            description: this.state.description.value,
+            image: this.state.image,
+            yearRan: camp.year
+        };
+      
+        createProduct(newProduct)
+            .then (response => {
+                notification.success({
+                    message: 'LCHS Band Fundraising',
+                    description: "Your product has been created!"
+                });
+                this.props.history.push("/admin-account"); //for now will redirect to home, later to confirmation
+            })
+            .catch(error => {
+                notification.error({
+                    message: 'LCHS Band Fundraising',
+                    description:error.message || 'Sorry! Something went wrong!'
+                });
+            });
+};
+
+    fileChangedHandler = (event) => {
+        this.setState({ selectedFile: event.target.files[0] });
+    }
 
     async handleUpload( event ){
         const reader = new FileReader();
