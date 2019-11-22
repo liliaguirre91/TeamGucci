@@ -33,6 +33,7 @@ import CustomerOrders from './user/account/customer/CustomerOrders.js';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import logo from './footer_logo.png';
 
 import ModifyProduct from './user/account/admin/ModifyProduct.js';
 import ResetPassword from './user/account/admin/ResetPassword.js';
@@ -40,7 +41,10 @@ import ProductsOrdered from './user/account/admin/ProductsOrdered.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import OrderConfirmation from './OrderConfirmation';
 import FailurePage from './FailurePage';
-import { Layout, notification } from 'antd';
+import { Layout, notification, Icon } from 'antd';
+const Footer = Layout.Footer;
+
+
 
 
 
@@ -203,10 +207,16 @@ class App extends React.Component {
                         </Switch>
                     </div>
                 </Content>
+                <Footer style={{position:"sticky", bottom:"0"}}>
+                <div style={{ background: "#020e19" }}>.</div>
+                <div style={{ background: "#020e19" }}>.</div>
+
+                 
+                </Footer>
             </Layout>
         );
     }
 }
-
+//<Icon component={() => (<img src="./footer-logo.png"/>)}/>
 
 export default withRouter(App); //I COMMENTED THESE OUT TO MAKE IT RUN IN THE WEB BROWSER

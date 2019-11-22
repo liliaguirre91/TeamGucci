@@ -62,6 +62,7 @@ class LoginForm extends React.Component {
                         rules: [{ required: true, message: 'Please input your email!' }],
                     })(
                     <Input
+                        className="input"
                         prefix={<Icon type="user" />}
                         size="large"
                         name="email" 
@@ -73,6 +74,7 @@ class LoginForm extends React.Component {
                         rules: [{ required: true, message: 'Please input your Password!' }],
                     })(
                     <Input
+                        className="input"
                         prefix={<Icon type="lock" />}
                         size="large"
                         name="password" 
