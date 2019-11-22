@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import logo from './admin_logo.png';
 import './AdminAccountPage.css';
-import { Button, Modal, Form, Input, notification } from 'antd';
-import { setComments } from '../../../util/APIFunctions.js';
+import { Button, Modal, Form, Input, notification, Table } from 'antd';
+import { setComments, getAllUsers } from '../../../util/APIFunctions.js';
 
 
 //import Button from 'react-bootstrap/Button'; {/* imports button styles and functions */}
@@ -31,25 +31,44 @@ class AdminAccountPage extends React.Component {
     super(props);
     this.state = {email: '',
                   comment: '',
+                  user: [],
                   visable: false,
+                  visable2: false,
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleCommentChange = this.handleCommentChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.setVisable = this.setVisable.bind(this);
+    this.setVisable2 = this.setVisable2.bind(this);
     //this.handleSubmit = this.handleSubmit.bind(this);
     //this.loadUser = this.saveUser.bind(this);
   }
   
-  handleEmailChange(event) {
-    this.setState({email: event.target.value});
+  handleEmailChange(email2) {
+    this.setState({email: email2});
+    this.setVisable( true );
   }
   handleCommentChange(event) {
    this.setState({comment: event.target.value});
  }
  setVisable( b ){
    this.setState( { visable: b } );
+}
+async setVisable2( b ){
+   await getAllUsers( )
+   .then( response => {
+       this.setState( {
+           users: response
+       });
+    } )
+   .catch(error => {
+       notification.error({
+           message: 'LCHS Band Fundraising',
+           description:error.message || 'Sorry! Something went wrong!'
+       });
+   })
+  this.setState( { visable2: b } );
 }
    
 
@@ -87,10 +106,6 @@ class AdminAccountPage extends React.Component {
    clicked(){
       console.log("button was clicked");
    }
-  
-   setVisable( b ){
-       this.setState( { visable: b } );
-   }
  
    async setComment( b ){
       await setComments( this.state.email, this.state.comment )
@@ -107,9 +122,41 @@ class AdminAccountPage extends React.Component {
           });
       });
       this.setState( { visable: b } );
+      this.setState( { comment: '' } );
    }
 
    render() {
+      const columns = [
+        {
+            title: 'User Id',
+            dataIndex: 'userId',
+            key: 'userId',
+        },
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Comments',
+            dataIndex: 'comments',
+            key: 'comments',
+        },
+        {
+          title: 'Add comment',
+          //dataIndex: 'action',
+          key: 'action',
+          render: (text, record) =>
+              this.state.users.length >= 1 ? (
+                <button onClick={ () => this.handleEmailChange( record.email ) }>Add Comment</button>
+              ) : null,
+      },
+  ];
       return (
          <form onSubmit={this.handleSubmit}> 
          {/* WELCOME TITLE */}
@@ -122,24 +169,13 @@ class AdminAccountPage extends React.Component {
                   <br/><br/>
             </div>
                 <Modal
-                  title="Previous Products"
+                  title="Add Comment"
                   centered
                   destroyOnClose={true}
                   visible={ this.state.visable }
                   onOk={ () => this.setComment( false ) }
                   onCancel={ () => this.setVisable( false ) }>
                  <Form>
-                    <FormItem
-                        label="Email of User">
-                        <Input 
-                            name="Email"
-                            size="large"
-                            type="text" 
-                            autocomplete="off"
-                            placeholder="User email"
-                            value={this.state.email}
-                            onChange={(event) => this.handleEmailChange(event) } maxLength="255"/>
-                    </FormItem>
                     <FormItem
                         label="Comment">
                         <Input 
@@ -153,12 +189,31 @@ class AdminAccountPage extends React.Component {
                     </FormItem>
                   </Form>
                </Modal>
+        <Modal
+                  title="All Users"
+                  centered
+                  destroyOnClose={true}
+                  visible={ this.state.visable2 }
+                  onOk={ () => this.setVisable2( false ) }
+                  onCancel={ () => this.setVisable2( false ) }>
+                    
+                <div className="table">
+                    <Table 
+                        dataSource={this.state.users} 
+                        columns={columns} 
+                        rowKey={(record) => record.userId}
+                        bordered
+                        pagination={false}
+                        scroll={{ y: 500 }}
+                    />
+                </div>
+               </Modal>
             <div> 
                <Button className="center" onClick={ this.handleClick("/campaigns") }> Campaign Configuration </Button> <br/>
                <Button className="center" onClick={ this.handleClick("/reset-password") }> Reset Customer Password </Button> <br/>
                <Button className="center" onClick={ this.handleClick("/admin-create-admin") }> Create an Administrator</Button> <br/>
+               <Button className="center" onClick={ ( ) => this.setVisable2( true ) }> See All Users</Button> <br/>
                <Button className="center" onClick={ this.handleClick("/edit-info") }> Edit My Info</Button> <br/>
-               <Button className="center" onClick={ ( ) => this.setVisable( true ) }> Add Comment to User</Button> <br/>
             </div>
          </form>
       );

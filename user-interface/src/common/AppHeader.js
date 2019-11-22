@@ -12,12 +12,16 @@ class AppHeader extends Component {
     constructor(props) {
         super(props);   
         this.handleMenuClick = this.handleMenuClick.bind(this);   
+        this.clearCart= this.clearCart.bind(this); 
     }
 
     handleMenuClick({ key }) {
       if(key === "logout") {
         this.props.onLogout();
       }
+    }
+    clearCart( ){
+        localStorage.removeItem( 'cart' );
     }
 
     render() {
@@ -57,7 +61,7 @@ class AppHeader extends Component {
                                 }}>LCHS Band</Link>
                             <Link to="/products" style={{
                                 paddingRight: '50px',
-                                }}>Products</Link>
+                                }}><span onClick = { ( ) => this.clearCart() }>Products</span></Link>
                             <Link to="/order-lookup">Order Lookup</Link>
                         </div>
                         <Menu

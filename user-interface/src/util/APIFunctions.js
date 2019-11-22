@@ -406,6 +406,20 @@ export function getAllProducts() {
          return data;
       })
     );
+} 
+export function getAllUsers( ) {
+    return APIRequest({
+        url:'api/users',
+        method: 'GET'
+    })
+    .then(response =>
+      response.json().then(data => {
+         if(!response.ok) {
+            return Promise.reject(data);
+         }
+         return data;
+      })
+    );
 }
 
 export function setToDelivered(orderID, status) {
