@@ -25,7 +25,7 @@ class ProductItem extends React.Component {
         }*/
 
         //Prevent negative numbers from adding to cart
-        if (parseInt(this.state.quantity) >= 0) {
+        if (parseInt(this.state.quantity) > 0) {
 
             cart[id] = qty
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -40,7 +40,7 @@ class ProductItem extends React.Component {
         else {
             notification.error({
                 message: 'Error inputting product',
-                description: 'Please only enter positive numbers.'
+                description: 'Please only enter positive numbers greater than 0.'
             });
         }
     }
