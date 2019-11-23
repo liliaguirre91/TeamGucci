@@ -63,7 +63,7 @@ export function createAdmin(adminInfo) {
       body: JSON.stringify(adminInfo)
    })
    .then(response =>
-        response.json().then(json => {
+        response.text().then(json => {
             if(!response.ok) {
                 return Promise.reject(json);
             }
@@ -203,7 +203,7 @@ export function deleteCampaign(campaignInfo) {
       method: 'DELETE'
    })
    .then(response =>
-      response.json().then(json => {
+      response.text().then(json => {
          if(!response.ok) {
             return Promise.reject(json);
          }

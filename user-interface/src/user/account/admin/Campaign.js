@@ -146,7 +146,7 @@ class Campaign extends Component {
       .then(result => 
          notification.success({
             message: 'LCHS Band Fundraising',
-            description: "The current Campaign is" + result
+            description: "The current Campaign is " + result
         })
       )
       .catch(error => {
