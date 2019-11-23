@@ -40,7 +40,7 @@ export function createAccount(signupRequest) {
       body: JSON.stringify(signupRequest)
    })
    .then(response =>
-        response.json().then(json => {
+        response.text().then(json => {
             if(!response.ok) {
                 return Promise.reject(json);
             }
