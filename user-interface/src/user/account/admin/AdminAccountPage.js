@@ -45,8 +45,9 @@ class AdminAccountPage extends React.Component {
     //this.loadUser = this.saveUser.bind(this);
   }
   
-  handleEmailChange(email2) {
+  async handleEmailChange( email2, comment2) {
     this.setState({email: email2});
+    await this.setState({comment: comment2});
     this.setVisable( true );
   }
   handleCommentChange(event) {
@@ -153,7 +154,7 @@ async setVisable2( b ){
           key: 'action',
           render: (text, record) =>
               this.state.users.length >= 1 ? (
-                <button onClick={ () => this.handleEmailChange( record.email ) }>Add Comment</button>
+                <button onClick={ () => this.handleEmailChange( record.email, record.comments ) }>Add Comment</button>
               ) : null,
       },
   ];
