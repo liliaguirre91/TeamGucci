@@ -50,11 +50,8 @@ class DeliveryInfo extends React.Component {
    }
    
     async componentDidMount() {
-       let cart = JSON.parse(localStorage.getItem('cart'));
-        if (localStorage.getItem('cart') === null) {
-            message.error('Your cart is empty!! Cannot continue!!', 5);
-        }
-        else {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        if (localStorage.getItem('cart') !== null) { 
             let cartSize = Object.keys(cart).length;
             let keys = Object.keys(cart);
             var tot = 0;
