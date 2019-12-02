@@ -4,27 +4,33 @@ import React, { Component } from 'react';
 import { 
     getOrders, 
     getProductsOrdered,
-    getProducts } from '../../../util/APIFunctions';
+    getProducts,
+    setPaid } from '../../../util/APIFunctions';
 
 import {
     Form, 
     Input, 
     Button, 
     notification, 
-    Table, 
+    Table,
+    Modal, 
     Badge, 
     Menu, 
     Dropdown, 
     Icon } from 'antd';
 
 
+const FormItem= Form.Item;
 class OrdersReport extends Component {
     constructor(props) {
         super(props);
         this.state = {
             productQuantity: 0,
             productID: 0,
+            orderId: 0,
+            amount: 0,
             orders: '',
+            visable: false,
             productTmp: '',
             productName: "",
             items: '',
@@ -136,6 +142,28 @@ class OrdersReport extends Component {
         const data = products[x];
         return <Table rowKey="productID" columns={columns} dataSource={data} pagination={false} />
     }
+
+    setVisable( vis, orderId ){
+        this.setState( { visable: vis } );
+        this.setState( { orderId: orderId } );
+    }
+
+    async handlePaid( vis ){
+        const o = this.state.orderId;
+        const p = this.state.amount;
+        await setPaid( o, p )
+            .catch(error => {
+                notification.error({
+                    message: 'LCHS Band Fundraising',
+                    description:error.message || 'Sorry! Something went wrong!'
+                });
+            });
+        this.setState( { visable: vis } );
+    }
+    
+  handlePaidChange(event) {
+    this.setState({ amount: event.target.value});
+  }
     
     
 /*******************************************************************************************/      
@@ -176,6 +204,14 @@ class OrdersReport extends Component {
                 dataIndex: 'totalCost',
                 key: 'totalCost',
             },
+            {
+              title: 'Change Amount Paid',
+              key: 'action',
+              render: (text, record) =>
+                  this.state.orders.length >= 1 ? (
+                    <button onClick={ () => this.setVisable( true, record.orderId ) }>Add Amount Paid</button>
+                  ) : null,
+            },
         ];
         
     
@@ -183,6 +219,28 @@ class OrdersReport extends Component {
             <div className="delivery-report-container" style={{ marginTop: 16 }}>
                 <h1 className="page-title">Orders Report</h1>
                 <div style={{ marginBottom: 20 }}>
+                    
+                <Modal
+                  title="Update amount Paid"
+                  centered
+                  destroyOnClose={true}
+                  visible={ this.state.visable }
+                  onOk={ () => this.handlePaid( false ) }
+                  onCancel={ () => this.setVisable( false, 0 ) }>
+                 <Form>
+                    <FormItem
+                        label="Paid">
+                        <Input 
+                            name="paid"
+                            size="large"
+                            type="number" 
+                            autocomplete="off"
+                            placeholder="$0.00"
+                            value={this.state.amount}
+                            onChange={(event) => this.handlePaidChange(event) } maxLength="8"/>
+                    </FormItem>
+                  </Form>
+               </Modal>
                     <Table 
                         dataSource={this.state.orders} 
                         columns={columns} 
