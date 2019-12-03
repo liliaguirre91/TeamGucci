@@ -22,10 +22,8 @@ class PayPalPage extends React.Component {
         
         let cart = JSON.parse(localStorage.getItem('cart'));
         console.log(cart);
-        if (localStorage.getItem('cart') === null) {
-            message.error('Your cart is empty!! Cannot continue!!', 7);
-        }
-        else {
+        
+       if (localStorage.getItem('cart') !== null) {
             let cartSize = Object.keys(cart).length;
             let keys = Object.keys(cart);
             var tot = 0;

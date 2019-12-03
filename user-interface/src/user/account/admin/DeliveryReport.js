@@ -348,8 +348,6 @@ class DeliveryReport extends Component {
                 </div>
                 
             <CSVLink data={this.state.orders} >Download me</CSVLink>
-            // or
-            <CSVDownload data={this.state.orders} target="_blank" />
             </div>
         );
     }

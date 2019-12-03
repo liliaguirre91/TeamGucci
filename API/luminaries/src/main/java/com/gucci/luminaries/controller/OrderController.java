@@ -293,7 +293,7 @@ public class OrderController {
         Optional<orders> orderData = orderRepository.findById( id );
         if( orderData.isPresent() ){
             orders o = orderData.get();
-            o.setPaid( paid );
+            o.setPaid( o.getPaid( ) + paid );
             return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
         }//end if 
         else{
