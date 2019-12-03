@@ -123,8 +123,6 @@ class CreateAdmin extends React.Component {
 
       };
 
-      
-
       //Call the createAccount function to insert user into database
 
       createAdmin(adminInfo)
@@ -154,7 +152,10 @@ class CreateAdmin extends React.Component {
 
    }
 
-  
+   handleClick = param => e => {
+    e.preventDefault();
+    this.props.history.push(param);
+ }
 
    isFormInvalid() {
 
@@ -227,6 +228,13 @@ class CreateAdmin extends React.Component {
                                 size="large"
                                 className="signup-form-button"
                                 disabled={this.isFormInvalid()}> Create </Button>
+                        </FormItem>
+                        <FormItem>
+                            <Button type="danger" ghost
+                                htmlType="submit"
+                                size="large"
+                                className="back-button"
+                                onClick={ this.handleClick("/admin-account")}> Cancel </Button>
                         </FormItem>
                     </Form>
                 </div>
