@@ -50,6 +50,13 @@ class Campaign extends Component {
             message.error('Please enter a campaign number!!', 5);
         }
     }
+
+    handleBackClick = param => e => {
+      e.preventDefault();
+      this.props.history.push(param);
+   }
+
+
    setEarning( b ){
       this.setState( { earnings: b } );
    }
@@ -280,6 +287,15 @@ class Campaign extends Component {
                                     className="campaign-form-setCampaign-button"
                                     onClick={(e) => this.handleCurrent( e ) }>Set Current Campaign</Button>
                            </FormItem>
+                        </Col>
+                        <Col span={24}>
+                        <FormItem>
+                            <Button
+                                htmlType="button"
+                                size="large"
+                                className="back-button"
+                                onClick={ this.handleBackClick("/admin-account")}> Back </Button>
+                        </FormItem>
                         </Col>
                      </Row>
                      </div>

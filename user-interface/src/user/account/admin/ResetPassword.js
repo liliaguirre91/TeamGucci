@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { findUser, setPassword } from '../../../util/APIFunctions';
 //import './OrderLookup.css';
+import './ResetPassword.css';
 import { Form, Input, Button, message, Table, notification } from 'antd'
 const FormItem= Form.Item;
 
@@ -60,6 +61,11 @@ class ResetPassword extends Component {
     
    async handleSubmit(event) {
    }
+
+   handleClick = param => e => {
+      e.preventDefault();
+      this.props.history.push(param);
+   }
    
    render() {
       
@@ -78,7 +84,13 @@ class ResetPassword extends Component {
                             placeholder="Customer Email" 
                             onChange={(event) => this.handleEmailChange( event )} />
                      </FormItem>
-                     <button onClick={ (event) =>this.findEmail( event) } >Find User</button> 
+                     <FormItem>
+                       <Button 
+                               htmlType="submit"
+                               size="large"
+                               className="set-password"
+                               onClick={ (event) =>this.findEmail( event) } >Find User</Button>
+                    </FormItem>
                          <FormItem
                         label="New Password">
                         <Input 
@@ -89,7 +101,20 @@ class ResetPassword extends Component {
                             placeholder="New Password" 
                             onChange={(event) => this.handlePasswordChange( event )} />
                     </FormItem>
-                    <button onClick={ (event) =>this.setPass( event) } >Set Password</button> 
+                    <FormItem>
+                       <Button
+                               htmlType="submit"
+                               size="large"
+                               className="set-password"
+                               onClick={ (event) =>this.setPass( event) } >Set Password</Button>
+                    </FormItem>
+                    <FormItem>
+                            <Button type="danger" ghost
+                                htmlType="submit"
+                                size="large"
+                                className="back-button"
+                                onClick={ this.handleClick("/admin-account")}> Cancel </Button>
+                    </FormItem>
                 </Form>
          </div>
       );

@@ -135,7 +135,13 @@ class EditInfo extends React.Component {
 
    handleClick = param => e => {
     e.preventDefault();
-    this.props.history.push(param);
+    if (this.props.currentUser) {
+        let currentUser = this.props.currentUser;
+        if(currentUser.role === "Role_USER")
+            this.props.history.push("/user-account");
+        else
+            this.props.history.push("/admin-account")    
+    }
  }
    
     render() {
@@ -196,17 +202,17 @@ class EditInfo extends React.Component {
                         </FormItem>	 
 
                         <FormItem>
-                            <Button type="primary"
+                            <Button 
                                 htmlType="submit"
                                 size="large"
                                 className="signup-form-button">Submit</Button>
                         </FormItem>
                         <FormItem>
-                            <Button type="primary"
+                            <Button type="danger" ghost
                                 htmlType="submit"
                                 size="large"
                                 className="customer-back-button"
-                                onClick={this.handleClick("/user-account")}>Back</Button>
+                                onClick={this.handleClick()}> Cancel </Button>
                         </FormItem>
                     </Form>
                 </div>
