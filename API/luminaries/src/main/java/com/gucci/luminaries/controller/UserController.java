@@ -121,10 +121,9 @@ public class UserController {
 		//Try to get the current users information if their isn't a current user it throws an
 		//error which is caught and handled
 		try{
-		
-		Optional<users> user = userRepository.findById( currentUser.getId() );
-		users u = user.get();
-		return new ResponseEntity<>( u, HttpStatus.OK );
+			Optional<users> user = userRepository.findById( currentUser.getId() );
+			users u = user.get();
+			return new ResponseEntity<>( u, HttpStatus.OK );
 		}//end try
 		catch( Exception e ){
 		    return new ResponseEntity<>( HttpStatus.NOT_FOUND );
@@ -218,6 +217,9 @@ public class UserController {
 
 	}//end setPassword
 
+	//setComments is used to change the comments assosated with a user
+	//it is expecting the email of the user to be modified and a paramater with the string
+	//to be placed in the comment of the user it returns the user id to show it works
 	@PutMapping( "/users/comments/{email}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
 	public ResponseEntity<Long> setComments( @PathVariable( "email" ) String email, @Valid @RequestParam( value = "comments" ) String comments ){
@@ -236,7 +238,9 @@ public class UserController {
 
 	}//end setComments
 
-	
+	//changeUser is used to change the email and name associated with a user account
+	//it is expecting the user id and parameters with the name and email in them it returns
+	//the user with the updated information
 	@PutMapping( "/users/change/{id}" )
 	public ResponseEntity<users> changeUser( @PathVariable( "id" ) Long id, 
 		@RequestParam( value = "email" ) String email, @RequestParam( value = "name" ) String name ) {
@@ -244,7 +248,7 @@ public class UserController {
 		System.out.println( "Update User with ID = " + id + "..." );
 		//Try to find the user
 		Optional<users> userData = userRepository.findById( id );
-		//If the user exists change their informatin to the new information
+		//If the user exists change their information to the new information
 		if ( userData.isPresent() ) {
             users u = userData.get();
             u.setEmail( email );

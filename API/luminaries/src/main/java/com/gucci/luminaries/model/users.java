@@ -29,9 +29,6 @@ public class users {
     private String comments;
     @Column( name = "createdAt" )
     private Timestamp createdAt;
-  
-    /*@OneToMany( mappedBy="user_id" )
-    private Collection<orders> order;*/
 
     //Added for authentication
     @Column ( name = "password" )
@@ -126,9 +123,4 @@ public class users {
     public void setPassword(String p) {
         password = p;
     }
-
-    //To String for user
-    public String toString( ){
-        return "email is " + email + " name is " + name;
-    }//end toString
 }
