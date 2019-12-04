@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import './ProductsOrdered.css';
 import { countProducts, getProducts, getProduct, countProductsLeft } from '../../../util/APIFunctions';
 import { notification, Table } from 'antd';
 
@@ -70,7 +69,7 @@ class ProductsOrdered extends Component {
                 });
                 if (this.state.productsOrderedLeftQuantity > 0) {
                     productLeft.push(this.state.productsOrderedLeftQuantity);
-                }
+                }//end if
                 
             //true if the product has been ordered on this campaign, store counts in productCounts[]
             if (this.state.productsOrderedQuantity > 0) {
@@ -85,6 +84,7 @@ class ProductsOrdered extends Component {
                     });
 
                 productNames.push(this.state.positiveMatch.product);
+
             }//end if
         }//end for 
         
@@ -92,12 +92,14 @@ class ProductsOrdered extends Component {
         for (var i = 0; i < productNames.length; i++) {
             const item = { productID: productIDs[i], productName: productNames[i], quantity: productCounts[i], left: productLeft[ i ]}
             tableResults.push(item);
-        }
+        }//end for
+
         this.setState({fillTable: tableResults});
         productCounts.length = 0;
         productNames.length = 0;
         productIDs.length = 0;
         tableResults.length = 0;
+
     }//end componentDidMount
 
     render() {
