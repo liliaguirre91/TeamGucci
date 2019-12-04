@@ -27,8 +27,7 @@ class ProductsOrdered extends Component {
         let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
         let campaignNumber = setCampaign["year"];
         
-        //get all Products
-        
+        //get all Products from the campaign specified
         const response = await getProducts(campaignNumber) 
             .then(response => {
                 this.setState({
@@ -72,6 +71,7 @@ class ProductsOrdered extends Component {
                 if (this.state.productsOrderedLeftQuantity > 0) {
                     productLeft.push(this.state.productsOrderedLeftQuantity);
                 }
+                
             //true if the product has been ordered on this campaign, store counts in productCounts[]
             if (this.state.productsOrderedQuantity > 0) {
                 productCounts.push(this.state.productsOrderedQuantity);

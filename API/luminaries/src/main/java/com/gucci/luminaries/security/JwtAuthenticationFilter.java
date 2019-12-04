@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/*  Class JwtAuthenticationFilter
+    -Specifies our JWT token as the data required and processed
+    -by the authentication.
+*/
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
