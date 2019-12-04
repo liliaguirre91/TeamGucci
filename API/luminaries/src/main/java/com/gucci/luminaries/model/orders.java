@@ -34,18 +34,10 @@ public class orders {
     @Column( name = "total_cost" )
     private Integer totalCost;
     @Column( name = "user_id" )
-    //@ManyToOne( targetEntity = users.class )
-    //@PrimaryKeyJoinColumn( name = "user_id", referencedColumnName = "user_id" )
-    //@JoinColumn( name = "user_id", referencedColumnName="user_id", nullable=true )
     private Long user_id;
 
     //default constructor
     public orders() {
-        /*address = "idk";
-        product_id = (long) 1;
-        payment_type = "PayPal";
-        delivered = true;
-        camp = 19;*/
     }//end constructor
 
     //Constuctor address payment
@@ -168,9 +160,4 @@ public class orders {
     public Integer getTotalCost( ){
         return totalCost;
     }//getter for totalCost
-
-    //To String for Orders
-    public String toString( ){
-        return "Order number is " + order_id + " address is " + address;
-    }
 }//end class
