@@ -230,7 +230,7 @@ class addProduct extends React.Component {
         }; 
     }
 
-    /*---------------------------------------------------------------------------------------------------------------------
+   /*---------------------------------------------------------------------------------------------------------------------
     * Function: render takes care of rendering all component elements to the screen. Here we define the modal table's
     * columns and handle any actions that will be included in the columns. Then the return includes all JSX/HTML components
     * and their formatting. In this portion we define the table, modal, and form that will be used in the page. 
