@@ -41,6 +41,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import OrderConfirmation from './OrderConfirmation';
 import FailurePage from './FailurePage';
 import { Layout, notification, Icon } from 'antd';
+import 'antd/dist/antd.css';
+
 const Footer = Layout.Footer;
 
 
