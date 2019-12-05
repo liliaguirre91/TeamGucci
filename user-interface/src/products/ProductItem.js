@@ -47,7 +47,6 @@ class ProductItem extends React.Component {
                  ? JSON.parse(localStorage.getItem('cart')) : {};
         let id = this.props.product.productId.toString();
         cart[id] = (cart[id] ? cart[id]: 0);
-        //console.log(cart[id]);
         let qty = cart[id] + parseInt(this.state.quantity);
 
         //Prevent negative numbers from adding to cart
@@ -59,7 +58,6 @@ class ProductItem extends React.Component {
                 message: 'LCHS Band Fundraising',
                 description: "Your cart contains " + qty + " of product " + this.props.product.product.toString()
             });
-         //console.log(cart);
         }
 
         else {
@@ -104,10 +102,10 @@ class ProductItem extends React.Component {
         const { product } = this.props;
         return (
             <Card className="card" style={{ marginBottom: "10px"}}>
-                <div className="card-body">
+                <div >
                     <h4 className="card-title" align="center">{product.product}</h4><br/>
                     <div align="center">
-                    <img height="300" width="300" src={`data:image/jpg;base64, ${product.image}`}/><br/>
+                    <img height="500" width="500" src={`data:image/jpg;base64, ${product.image}`}/><br/>
                     </div>
                     <div>
                     <h5 className="card-text"><small>price: </small>${product.price}</h5>

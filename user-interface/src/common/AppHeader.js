@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom';
 import './AppHeader.css';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
-import music from '../Cow_Moo-Mike_Koenig-42670858.wav';
 import 'antd/dist/antd.css';
 const Header = Layout.Header;
 
@@ -17,15 +16,12 @@ class AppHeader extends Component {
     }
 
     handleMenuClick({ key }) {
-      if(key === "logout") {
-        this.props.onLogout();
-      }
+        if(key === "logout") {
+            this.props.onLogout();
+        }
     }
-    handleFun( ){  
-     // let audio = new Audio(music)
-      //audio.play()
-    }
-    clearCart( ){
+    
+    clearCart( ) {
         localStorage.removeItem( 'cart' );
     }
 
@@ -35,7 +31,9 @@ class AppHeader extends Component {
             menuItems = [
                 <Menu.Item key="/">
                     <Link to="/">
-                        <Icon type="home" className="nav-icon" />
+                        <Icon 
+                            type="home" 
+                            className="nav-icon" />
                     </Link>
                 </Menu.Item>,
                 <Menu.Item key="/account" className="account-menu">
@@ -61,7 +59,7 @@ class AppHeader extends Component {
                 <Header className="app-header">
                     <div className="container">
                         <div className="app-title" >
-                            <Link tabIndex='0' to="/" onClick = { this.handleFun( ) }><Icon component={() => (<img src={require('../LCHS_logo.png')} />)} /></Link>
+                            <Link to="/"><Icon component={() => (<img src={require('../LCHS_logo.png')} />)} /></Link>
                             <Link to="/products" style={{
                                 paddingRight: '50px',
                                 }}><span onClick = { ( ) => this.clearCart() }>Products</span></Link>
@@ -143,11 +141,6 @@ function AccountDropdownMenu(props) {
         </Dropdown>
   );
 }
-
-/*ReactDOM.render(
-    <AppHeader/>,
-    document.getElementById('root')
-);*/
 
 export default withRouter(AppHeader);
 

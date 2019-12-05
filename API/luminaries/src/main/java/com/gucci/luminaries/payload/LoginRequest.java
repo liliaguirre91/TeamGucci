@@ -2,9 +2,11 @@ package com.gucci.luminaries.payload;
 
 import javax.validation.constraints.NotBlank;
 
-//Used during authentication when logging in. Creates a LoginRequest object
-//that gets passed to AuthController
-//Allows log in with either username or email
+/*  Class LoginRequest
+    -Used during authentication when logging in. 
+    -Creates a LoginRequest object that gets passed to AuthController
+    -Holds information for the user's Email and password
+*/
 public class LoginRequest {
     @NotBlank
     private String email;

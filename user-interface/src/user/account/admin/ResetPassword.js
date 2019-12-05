@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { findUser, setPassword } from '../../../util/APIFunctions';
+import { findUser, setPasswordAdmin } from '../../../util/APIFunctions';
 //import './OrderLookup.css';
 import './ResetPassword.css';
 import { Form, Input, Button, message, Table, notification } from 'antd'
@@ -46,7 +46,7 @@ class ResetPassword extends Component {
    }
 
    async setPass( event ){
-      await setPassword( this.state.customer.userId, this.state.password )
+      await setPasswordAdmin( this.state.customer.userId, this.state.password )
       .then( response => {
          this.setState( { customer: response } )
       } )

@@ -4,6 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
+
+/*  Class ResourceNotFoundException
+    -Specifies a specific ResourceNotFoundException that can be 
+    -returned by the API.
+    -Maps to a NOT_FOUND Http response
+*/
 public class ResourceNotFoundException extends RuntimeException {
     
     //Prevents a warning
