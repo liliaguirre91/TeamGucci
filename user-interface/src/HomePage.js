@@ -1,7 +1,7 @@
 import React from 'react';
 import './HomePage.css';
 import { withRouter } from 'react-router-dom'
-import logo from './LCHS_logo.png';
+import logo from './LCHS_band_logo.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class HomePage extends React.Component {
@@ -15,8 +15,8 @@ class HomePage extends React.Component {
             <h1 class="title" align="center"> Welcome to the Las Cruces High School Band Luminary Fundraiser  </h1> 
             <div>
                   <img src={logo} class="center" alt="logo" 
-                  height={150}
-                  width={150}/><br/>
+                  height={250}
+                  width={250}/><br/>
                   <br/>
             </div>
             <div>

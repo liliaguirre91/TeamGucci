@@ -14,7 +14,7 @@
  *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import { notification, message, Button, Input, Card, Row, Col } from 'antd';
-import './ProductItem.css';
+//import './ProductItem.css';
 
 
 class ProductItem extends React.Component {
@@ -101,22 +101,29 @@ class ProductItem extends React.Component {
     render() {
         const { product } = this.props;
         return (
-            <Card className="card" style={{ marginBottom: "10px"}}>
-                <div >
-                    <h4 className="card-title" align="center">{product.product}</h4><br/>
-                    <div align="center">
-                    <img height="500" width="500" src={`data:image/jpg;base64, ${product.image}`}/><br/>
-                    </div>
+            <Row gutter ={2}>
+                <Col span={10}>
+            <Card 
+            align="center"
+            title={product.product}
+            marginBottom="10px"
+            style={{ width: "500"}} 
+            cover={<img src={`data:image/jpg;base64, ${product.image}`} />} >
+                <div>
+                   {/* <h4 align="center">{product.product}</h4><br/> */}
+                {/*    <div align="center"> */}
+                   {/*<img src={`data:image/jpg;base64, ${product.image}`} height={500} width={500} /><br/> */}
+                {/*    </div> */}
                     <div>
-                    <h5 className="card-text"><small>price: </small>${product.price}</h5>
-                    <h6 className="card-text">{product.description}</h6><br/>
+                    <h5><small>price: </small>${product.price}</h5>
+                    <h6>{product.description}</h6><br/>
                     </div>
                     <div align="right">
                          <Row gutter={[10, 24]}>
                             <Col span={16}>
                                 <Input type="number" value={this.state.quantity} min="1" name="quantity" 
                                     onChange={this.handleInputChange} align="left" className="quantity-input" 
-                                    style={{ width: "60px", marginRight: "10px", borderRadius: "3px"}}/>
+                                    style={{ width: "60px", marginRight: "10px", borderRadius: "1px"}}/>
                             </Col>
                         </Row>
                         <Row gutter={[4, 20]}>
@@ -136,6 +143,8 @@ class ProductItem extends React.Component {
                     </div>
                 </div>
             </Card>
+            </Col>
+            </Row>
         )
     }
 }

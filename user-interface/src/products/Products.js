@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import ProductItem from './ProductItem.js';
 import { getProducts } from '../util/APIFunctions';
 import { message, Form, Input, Button } from 'antd';
-import './Products.css';
+//import './Products.css';
 
 const FormItem = Form.Item;
 class Products extends React.Component {
@@ -59,7 +59,7 @@ class Products extends React.Component {
                 this.props.history.push("/paypal");
             }
         }
-    }
+    } 
 
     render() {
         let user_role = '';

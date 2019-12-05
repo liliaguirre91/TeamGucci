@@ -34,6 +34,7 @@ import ProductsOrdered from './user/account/admin/ProductsOrdered.js';
 import OrderConfirmation from './OrderConfirmation';
 import FailurePage from './FailurePage';
 import { Layout, notification } from 'antd';
+import 'antd/dist/antd.css';
 const Footer = Layout.Footer;
 
 const { Content } = Layout;

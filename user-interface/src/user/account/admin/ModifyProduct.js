@@ -1,3 +1,18 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created:
+ * Description: The ModifyProduct class components renders a table containing all products included in the selected 
+ * campaign and allows the admin to either modify or delete (only root) the product. Note that the admin can only
+ * modify the description, price, and name of the product, not the image. The main handlers/function s in this component
+ * are:
+ *      - componentDidMount
+ *      - handleInputChange
+ *      - showModal
+ *      - handleCancel
+ *      - handleDelete
+ *      - handleBackClick
+ *      - handleSubmit
+ *      - render
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { getProducts, deleteProduct, 
@@ -27,12 +42,17 @@ class ModifyProduct extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }//end constructor
  
- /*---------------------------------------------------------------------------------------------------------------
-  * Function:
-  * Parameters:
-  * Preconditions:
-  * Postconditions:
-  *---------------------------------------------------------------------------------------------------------------*/   
+   /*---------------------------------------------------------------------------------------------------------------
+    * Function: componentDidMount is executed as soon as the component is mounted; when the application or the page itself
+    * is accessed. This function takes care of retrieving all the products in the given campaign. It sends an HTTP GET 
+    * request to the API and stores the result in a state.
+    * in the order. 
+    * Parameters: None
+    * Preconditions:
+    *      - A campaign must have been previously selected and stored in local Storage.
+    * Postconditions: 
+    *      - All products in the campaign will have retrieved, formatted and stored in the products state.
+    *---------------------------------------------------------------------------------------------------------------*/   
     async componentDidMount() {
         let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
         let campaignYear = setCampaign["year"];
@@ -57,12 +77,10 @@ class ModifyProduct extends Component {
             });
     }
 
-   /*---------------------------------------------------------------------------------------------------------------
-    * Function:
-    * Parameters:
-    * Preconditions:
-    * Postconditions:
-    *---------------------------------------------------------------------------------------------------------------*/
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleInputChange handles the change of state of the every one of the user's input quantity. The handler
+    * takes an event, which is the user's and assigns the input value to the specified state.
+    *---------------------------------------------------------------------------------------------------------------------*/
     handleInputChange(event) {
         const target = event.target;
         const inputName = target.name;
@@ -76,14 +94,17 @@ class ModifyProduct extends Component {
     }
 
     /*---------------------------------------------------------------------------------------------------------------
-    * Function:
+    * Function: showModal sets the visible state for the modal, and retrieves all the given product
     * Parameters:
-    * Preconditions:
+    *       - Integer product represents the product ID of the product that will be modified.
+    * Preconditions: 
+    *       - The product ID must exist, i.e. not undefined or null.
     * Postconditions:
+    *       - The product with id product will have been retrieved and stored in the product state.
     *---------------------------------------------------------------------------------------------------------------*/
     async showModal(product) {
         await this.setState({ productID: product });
-        const response = await getProduct(this.state.productID)
+        await getProduct(this.state.productID)
             .then( response => {
                 this.setState( {
                     product: response
@@ -99,21 +120,23 @@ class ModifyProduct extends Component {
     };
     
     
-    /*---------------------------------------------------------------------------------------------------------------
-    * Function:
-    * Parameters:
-    * Preconditions:
-    * Postconditions:
+   /*---------------------------------------------------------------------------------------------------------------
+    * Handler: handleCancel sets the visible state ot false makes the modal disappear when cancel is clicked.
     *---------------------------------------------------------------------------------------------------------------*/
     handleCancel = () => {
         this.setState({ visible: false });
     };
 
-    /*---------------------------------------------------------------------------------------------------------------
-    * Function:
+   /*---------------------------------------------------------------------------------------------------------------
+    * Handler: handleDelete handles the deletion of the selected product from the database. This action is only
+    * allowed for the God or root admin. An HTTP request is sent to the API to remove the product.
     * Parameters:
+    *       - Integer productID contains the ID of the product that will be deleted
     * Preconditions:
+    *       - The current user must be the root admin
+    *       - The product with productID must exist. 
     * Postconditions:
+    *       - The product with product ID number will no longer exist in the database.
     *---------------------------------------------------------------------------------------------------------------*/
     async handleDelete(productID) {
         let user_role = '';
@@ -123,7 +146,7 @@ class ModifyProduct extends Component {
         }
         
         if (user_role === 'Role_ROOT') {
-            const response = await deleteProduct(productID)
+            await deleteProduct(productID)
             .then (response => {
                 notification.success({
                     message: 'LCHS Band Fundraising',
@@ -150,9 +173,10 @@ class ModifyProduct extends Component {
     }
 
     
-   /*---------------------------------------------------------------------------------------------------------------
-    * Handler
-    *---------------------------------------------------------------------------------------------------------------*/
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleBackClick will handle the action of the back button. If the back button is clicked, the user will be
+    * redirected to the previous page. In this case the campaign configuration page.
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     handleBackClick = param => e => {
         e.preventDefault();
         this.props.history.push(param);
@@ -160,12 +184,18 @@ class ModifyProduct extends Component {
 
      
    /*---------------------------------------------------------------------------------------------------------------
-    * Handler:
+    * Handler: handleSubmit takes the submit event from the editing modal and updates the product information for the 
+    * selected product with the user's input. This handlers sends and HTTP request to modify the product.
+    * Preconditions: None
+    * Postconditions:
+    *       - The product selected will have been updated with the information entered by the user. If no value was 
+    *         entered, the product keeps the same information. 
     *---------------------------------------------------------------------------------------------------------------*/
     async handleSubmit(event) {
         event.preventDefault();
         var price, product, description;
         
+        /* If no input is entered keep the previous value */
         if (this.state.productName.value === '') {
             product = this.state.product.product;
         } else {
@@ -184,12 +214,14 @@ class ModifyProduct extends Component {
             description = this.state.description.value;
         }
         
+        /* Define the new product info */
         const updatedProduct = {
             product: product,
             price: price,
             description: description,
         };
       
+        /* Send HTTP request */
         updateProduct(this.state.productID, updatedProduct)
             .then (response => {
                 notification.success({

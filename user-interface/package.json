@@ -24,7 +24,8 @@
     "react-shopping-cart": "^1.8.32",
     "react-table": "^6.10.3",
     "reactstrap": "6.5.0",
-    "rimraf": "^3.0.0"
+    "rimraf": "^3.0.0",
+    "styles": "^0.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

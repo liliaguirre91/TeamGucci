@@ -1,3 +1,14 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created:
+ * Description: The addProduct class components allows an admin to add a product to the selected campaign. This page
+ * includes a form where the admin can enter the product's name, price, description, and upload an image. The admin also
+ * has the choice to select from a set of products from previous campaigns to add to the current campaign.
+ * The main handlers/function s in this component are:
+ *      - handleInputChange
+ *      - addToCart
+ *      - removeFromCart
+ *      - render
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React, { Component } from 'react';
 import {CSVLink, CSVDownload} from 'react-csv';
 import './DeliveryReport.css';
@@ -323,13 +334,24 @@ class DeliveryReport extends Component {
                             this.getOrderedProducts(i)}
                         bordered
                         pagination={false}
-                        scroll={{ y: 500 }}
-                    />
+                        scroll={{ y: 500 }} />
                 </div>
-                <CSVLink data={this.state.orders} >Download me</CSVLink>
+                <Row gutter={[150]} type="flex">
+                    <Col span={7}>    
+                        <CSVLink data={this.state.orders} > Download Delivery Report </CSVLink>
+                    </Col>
+                    <Col span={10}></Col>
+                    <Col span={7}>
+                        <Button
+                            style={{ borderColor:"#f5222d"}}
+                            htmlType="button"
+                            size="large"
+                            className="back-button"
+                            onClick={ this.handleBackClick("/campaigns")}> Back </Button>
+                    </Col>
+                </Row>
             </div>
         );
     }
 }
-
 export default DeliveryReport;
