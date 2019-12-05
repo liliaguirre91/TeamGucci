@@ -676,6 +676,24 @@ export function setPassword( user, password ) {
       })
     );
 }
+//setPasswordAdmin is used to change a user's password it is expecting the user's
+//id and the password to be set the password is given to the API as a parameter
+//it sends a put http request to the url specified by proxy followed by the url
+//set in this function and the previously defined headers
+export function setPasswordAdmin( user, password ) {
+    return APIRequest({
+        url:'api/users/passwordAdmin/' + user + '?password=' + password ,
+        method: 'PUT'
+    })
+    .then(response =>
+      response.json().then(result => {
+          if(!response.ok) {
+              return Promise.reject(result);
+          }
+          return result;
+      })
+    );
+}
 //changeUserInfo is used to change a users name or email it is expecting 
 //the users id and the name and email that the user wants saved in the database
 //it sends a put http request to the url specified by proxy followed by the url
