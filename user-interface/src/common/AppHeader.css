@@ -16,14 +16,6 @@
     text-decoration: none;
   }
   
-  /*.fixed {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #FFF;
-      z-index: 99;
-  }*/
   .app-header {
     position: fixed;
     top: 0;

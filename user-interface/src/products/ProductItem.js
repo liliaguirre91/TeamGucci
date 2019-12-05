@@ -47,7 +47,6 @@ class ProductItem extends React.Component {
                  ? JSON.parse(localStorage.getItem('cart')) : {};
         let id = this.props.product.productId.toString();
         cart[id] = (cart[id] ? cart[id]: 0);
-        //console.log(cart[id]);
         let qty = cart[id] + parseInt(this.state.quantity);
 
         //Prevent negative numbers from adding to cart
@@ -59,7 +58,6 @@ class ProductItem extends React.Component {
                 message: 'LCHS Band Fundraising',
                 description: "Your cart contains " + qty + " of product " + this.props.product.product.toString()
             });
-         //console.log(cart);
         }
 
         else {

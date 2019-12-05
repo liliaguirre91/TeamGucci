@@ -21,12 +21,7 @@ class Products extends React.Component {
 
     
     componentDidMount() {
-        /* This removes the cart every time the user accesses the products page to prevent corrupted cart.
-         * Will be removed if persisten cart is implemented*/
-        //localStorage.removeItem('cart');
-        console.log(localStorage.getItem('cart'));
         let campaign = localStorage.getItem( 'campaign' );
-        console.log(campaign);
         getProducts(campaign).then((products) =>this.setState({ products }));
     }
 
@@ -42,7 +37,7 @@ class Products extends React.Component {
            }
         });
         this.setState( { submitted: true } );
-     }
+    }
     
     handleSubmit(event) {
         event.preventDefault();
@@ -54,7 +49,6 @@ class Products extends React.Component {
             if (this.props.currentUser) {
                 let currentUser = this.props.currentUser;
                 user_role = currentUser.role;
-                console.log(user_role);
             }
             
             if (user_role === 'Role_ADMIN' || user_role === 'Role_ROOT') {
@@ -72,10 +66,9 @@ class Products extends React.Component {
         if (this.props.currentUser) {
             let currentUser = this.props.currentUser;
             user_role = currentUser.role;
-            console.log(user_role);
         }
-        //localStorage.removeItem('cart');
         const{ products } = this.state;
+        
         return (
             <div className="product-container">
                 <h3 className="page-title"> List of Products </h3><hr/>
