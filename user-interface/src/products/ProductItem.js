@@ -102,10 +102,10 @@ class ProductItem extends React.Component {
         const { product } = this.props;
         return (
             <Card className="card" style={{ marginBottom: "10px"}}>
-                <div className="card-body">
+                <div >
                     <h4 className="card-title" align="center">{product.product}</h4><br/>
                     <div align="center">
-                    <img height="300" width="300" src={`data:image/jpg;base64, ${product.image}`}/><br/>
+                    <img height="500" width="500" src={`data:image/jpg;base64, ${product.image}`}/><br/>
                     </div>
                     <div>
                     <h5 className="card-text"><small>price: </small>${product.price}</h5>

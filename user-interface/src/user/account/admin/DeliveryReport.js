@@ -5,7 +5,6 @@ import {
     getOrdersNotDelivered, getProductsOrdered, 
     getOrdersDelivered,getProducts, 
     setToDelivered } from '../../../util/APIFunctions';
-
 import { Button, notification, Table, Row, Col } from 'antd';
 
 
@@ -217,6 +216,16 @@ class DeliveryReport extends Component {
         const data = products[x];
         return <Table rowKey="productID" columns={columns} dataSource={data} pagination={false} />
     }
+
+
+
+
+
+
+    handleBackClick = param => e => {
+        e.preventDefault();
+        this.props.history.push(param);
+     }
     
     
 /*******************************************************************************************/      
@@ -278,6 +287,12 @@ class DeliveryReport extends Component {
         return (
             <div className="delivery-report-container">
                 <h2 className="page-title">Delivery Report</h2>
+                <Button
+                    style={{ borderColor:"#f5222d"}}
+                    htmlType="button"
+                    size="large"
+                    className="back-button"
+                    onClick={ this.handleBackClick("/campaigns")}> Back </Button>
                 <Row gutter={[110]} type = 'flex'>
                     <Col span={7}>
                         <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
@@ -290,7 +305,7 @@ class DeliveryReport extends Component {
                         </div>
                     </Col>
                     <Col span={10}>
-                    <h3 className="sub-heading" align="center"> {subheading} </h3>
+                        <h3 className="sub-heading" align="center"> {subheading} </h3>
                     </Col>
                     <Col span={7}>
                         <Button type="primary" onClick={this.toggle}>

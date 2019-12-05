@@ -599,7 +599,7 @@ export function deleteProduct(productID) {
       method: 'DELETE'
    })
    .then(response =>
-      response.json().then(result => {
+      response.text().then(result => {
          if(!response.ok) {
             return Promise.reject(result);
          }

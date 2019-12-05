@@ -1,21 +1,24 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created:
+ * Description: The addProduct class components allows an admin to add a product to the selected campaign. This page
+ * includes a form where the admin can enter the product's name, price, description, and upload an image. The admin also
+ * has the choice to select from a set of products from previous campaigns to add to the current campaign.
+ * The main handlers/function s in this component are:
+ *      - handleInputChange
+ *      - addToCart
+ *      - removeFromCart
+ *      - render
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './addProduct.css';
-import {
-  Form,
-  Input,
-  Button,
-  Modal,
-  Table,
-  notification,
-} from 'antd';
+import {Form, Input, Button, Modal, Table, notification, Row, Col } from 'antd';
 import { createProduct, getAllProducts, getProduct } from '../../../util/APIFunctions.js';
 
 const FormItem= Form.Item;
 
 class addProduct extends React.Component {
-
     constructor(props) {
         super(props);
             this.state = { 
@@ -32,6 +35,10 @@ class addProduct extends React.Component {
         this.setVisable = this.setVisable.bind( this );
     }
 
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleInputChange handles the change of state of the every one of the user's input quantity. The handler
+    * takes an event, which is the user's and assigns the input value to the specified state.
+    *---------------------------------------------------------------------------------------------------------------------*/
     handleInputChange(event) {
         const target = event.target;
         const inputName = target.name;
@@ -44,21 +51,34 @@ class addProduct extends React.Component {
         });
     }
  
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleSubmit takes a submit event, defines the new product object and then sends it through a POST
+    * HTTP request to the products table with the campaign year stored in local storage.
+    * Preconditions:
+    *       - A campaign must have been previously selected.
+    *       - All input fields must have been defined
+    * Postconditions:
+    *       - A new product will have been created and added to the database with the information entered by the admin and
+    *         the formerly selected campaign year.
+    *---------------------------------------------------------------------------------------------------------------------*/
     handleSubmit = e => {
         e.preventDefault();
         if( this.state.image === [] ){
             return;
         }
         
+        /* Fields validation */
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
             }
         });
 
+        /* Retrieve the campaign enetered in previous page and store it. Retrieve and format the price */
         const camp = JSON.parse(localStorage.getItem( 'setCampaign' ));
-        console.log (camp.year);
         const price  = this.state.price.value.split('.');
+        
+        /* Define a new product object using inputted values */
         const newProduct = {
             product: this.state.product.value,
             price: price[0],
@@ -67,6 +87,7 @@ class addProduct extends React.Component {
             yearRan: camp.year
         };
       
+        /* Send HTTP POST request to create the product */
         createProduct(newProduct)
             .then (response => {
                 notification.success({
@@ -82,30 +103,64 @@ class addProduct extends React.Component {
                 });
             });
     };
-
+    
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleBackClick will handle the action of the cancel button. If the back button is clicked, the user will be
+    * redirected to the previous page. In this case the campaign configuration page.
+    *---------------------------------------------------------------------------------------------------------------------*/
+    handleBackClick = param => e => {
+        e.preventDefault();
+        this.props.history.push(param);
+    }
+    
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: fileChangedHandler sets the selected by state to the selected file that will be uploaded.
+    *---------------------------------------------------------------------------------------------------------------------*/
     fileChangedHandler = (event) => {
         this.setState({ selectedFile: event.target.files[0] });
     }
 
-    
-    async setVisable( b ) {
-        await getAllProducts( )
-            .then( response => {
-                this.setState( {
-                    products: response
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: setVisable sets the visible state for the modal, and retrieves all products
+    * Parameters:
+    *       - Boolean vis determines if the modal will become visible
+    * Preconditions: None
+    * Postconditions:
+    *       - After this function is executed the modal will either become visible, or it will dissapear, based on the
+    *          value of vis.
+    *       - If vis is true the products will have been retrieved.
+    *---------------------------------------------------------------------------------------------------------------------*/ 
+    async setVisable( vis ) {
+        if (vis === true) {
+            await getAllProducts( )
+                .then( response => {
+                    this.setState( {
+                        products: response
+                    });
+                } )
+            .catch(error => {
+                notification.error({
+                    message: 'LCHS Band Fundraising',
+                    description:error.message || 'Sorry! Something went wrong!'
                 });
-            } )
-        .catch(error => {
-            notification.error({
-                message: 'LCHS Band Fundraising',
-                description:error.message || 'Sorry! Something went wrong!'
-            });
-        })
-        this.setState( { visable: b } );
+            })
+        }
+        this.setState( { visable: vis } );
     }
  
-
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: usePrevious allows the admin to select a product from a previous campaign.
+    * Parameters:
+    *       - Integer productId represents the product ID of the product selected to be reused.
+    * Preconditions: None
+    * Postconditions:
+    *       - After this function is executed a copy of the selected product will be created, but it will have the selected
+    *         campaign year and a new product ID.
+    *       - If the admin selects a product that already exists in the campaign, then the products page will contain a
+    *         duplicate, which must be deleted manually.
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     async usePrevious( productId ){
+        /* Retrieve all product information for the selected product by sending an HTTP GET request */
         let newProduct = '';
         await getProduct( productId )
             .then (response => {
@@ -117,11 +172,22 @@ class addProduct extends React.Component {
                     description:error.message || 'Sorry! Something went wrong!'
                 });
             });
-            
+        
+        /* Retrieve campaign year entered in previous page */
         const camp = JSON.parse(localStorage.getItem( 'setCampaign' ));
         newProduct.yearRan = parseInt( camp.year );
-            
-        await createProduct(newProduct)
+        
+        /* Define a new product with the retrieved information and send it through an HTTP POST request to create
+         * the new product */
+        const product = {
+            product: newProduct.product,
+            price: newProduct.price,
+            description: newProduct.description,
+            image: newProduct.image,
+            yearRan: newProduct.yearRan
+        };
+        
+        await createProduct(product)
             .then (response => {
                 notification.success({
                     message: 'LCHS Band Fundraising',
@@ -138,6 +204,14 @@ class addProduct extends React.Component {
         this.setState( { visable: false } );
     }
 
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleUpload takes the upload event and 
+    * Parameters:
+    *       -
+    * Preconditions: None
+    * Postconditions:
+    *       - 
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     async handleUpload( event ){
         const reader = new FileReader();
         var r;
@@ -156,6 +230,11 @@ class addProduct extends React.Component {
         }; 
     }
 
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render takes care of rendering all component elements to the screen. Here we define the modal table's
+    * columns and handle any actions that will be included in the columns. Then the return includes all JSX/HTML components
+    * and their formatting. In this portion we define the table, modal, and form that will be used in the page. 
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     render() {
         const columns = [
             {
@@ -210,7 +289,8 @@ class addProduct extends React.Component {
                         />
                     </div>
                 </Modal>
-                    <Button onClick={ () => this.setVisable( true ) }>Use Previous Product</Button>
+                    <Button 
+                        onClick={ () => this.setVisable( true ) }>Use Previous Product</Button>
                 <Form>
                     <FormItem
                         label="Product">
@@ -232,7 +312,7 @@ class addProduct extends React.Component {
                             autocomplete="off"
                             placeholder="description"
                             value={this.state.description.value}
-                            onChange={(event) => this.handleInputChange(event) } maxLength="50"/>
+                            onChange={(event) => this.handleInputChange(event) } maxLength="255"/>
                     </FormItem>
                     <FormItem
                         label="Price">
@@ -245,15 +325,24 @@ class addProduct extends React.Component {
                             value={this.state.price.value}
                             onChange={(event) => this.handleInputChange(event) } maxLength="5"/>
                     </FormItem>
-
                     <FormItem label="Upload">
                         <input type="file" onChange={ this.fileChangedHandler }></input>
                         <button onClick={ this.handleUpload }>Upload!</button>
                     </FormItem>
                     <FormItem >
-                        <Button type="primary" htmlType="submit" onClick = { this.handleSubmit}>
-                            Add
-                        </Button>
+                        <Button 
+                            type="primary" 
+                            htmlType="submit" 
+                            onClick = { this.handleSubmit}> Add </Button>
+                    </FormItem>
+                    <br/>
+                    <FormItem>
+                        <Button
+                            type="danger" ghost
+                            htmlType="button"
+                            size="large"
+                            className="back-button"
+                            onClick={ this.handleBackClick("/campaigns")}> Cancel </Button>
                     </FormItem>
                 </Form>
             </div>

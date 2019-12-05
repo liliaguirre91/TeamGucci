@@ -71,25 +71,7 @@ async setVisable2( b ){
    })
   this.setState( { visable2: b } );
 }
-   
 
- /* handleSubmit(event) {
-//    
-//    event.preventDefault();
-//    const { name } = this.state;
-//    const { email } = this.state;
-//    alert('A name and email were submitted: ' + name + ' ' + email);
-//    
-//    /*UserDataService.retrieveUserInfo(name, email)
-//      .then((res) => {
-//         let user = res.data.result;
-//         this.setState({
-//            id: user.name
-//         })
-//      });
-//    //const { id } = this.state;
-//    this.props.history.push( "user/" + name + "/" + email);
-}*/
    
    /*****************************************************************************************
     * Handler: handleClick - This handler will route the application to other existing pages.
@@ -126,6 +108,15 @@ async setVisable2( b ){
       this.setState( { comment: '' } );
    }
 
+/*
+ * The admin account page allows the administrative user to navigate to mulitple pages
+ * through a list of buttons. Each button leads to a new page except for "see all users" this 
+ * button leads to a pop-up modal. In the modal, the administrative user can see all the users 
+ * including other admins.
+ * 
+ * 
+ * 
+ */
    render() {
       const columns = [
         {

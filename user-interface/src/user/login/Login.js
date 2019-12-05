@@ -83,7 +83,9 @@ class LoginForm extends React.Component {
                     )}
                     </FormItem>
                     <FormItem>
-                        <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
+                        <Button
+                        style={{ borderColor:"#597ef7"}}
+                        htmlType="submit" size="large" className="login-form-button">Login</Button>
                     </FormItem>
                 </Form>
         );

@@ -9,7 +9,7 @@ import logo from './customer_logo.jpg';
 
 //import CreateAdmin from './CreateAdmin';
 
-import './customer.css';
+//import './customer.css';
 import { Form, Input, Button, Row, Col } from 'antd' 
 const FormItem= Form.Item;
 
@@ -84,8 +84,8 @@ class CustomerAccountPage extends React.Component {
             <div align="center" className="customer-container2">
                <Col>
                   <FormItem>
-                  <Button  
-                     type="primary"
+                  <Button
+                     style={{ borderColor:"#597ef7"}}
                      htmlType="submit"
                      size="large"
                      className="edit"
@@ -94,8 +94,8 @@ class CustomerAccountPage extends React.Component {
                </Col>
                <Col> 
                   <FormItem>
-                  <Button 
-                     type="primary"
+                  <Button
+                     style={{ borderColor:"#597ef7"}}
                      htmlType="submit"
                      size="large"
                      className="edit"

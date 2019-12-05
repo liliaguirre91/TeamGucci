@@ -4,8 +4,6 @@ import { withRouter } from 'react-router-dom'
 import logo from './LCHS_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
@@ -15,9 +13,7 @@ class HomePage extends React.Component {
                     isLoading: false,
         }
 
-        
         this.handleClick = this.handleClick.bind(this);
-        //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
    

@@ -36,18 +36,18 @@ class DeliveryInfo extends React.Component {
    * State Handlers: These handlers set the states based on the given events. These
    * will corrspond to the user entries in the delivery form.
    ************************************************************************************/
-   handleInputChange(event, validationFun) {
-      const target = event.target;
-      const inputName = target.name;
-      const inputValue = target.value;
+    handleInputChange(event, validationFun) {
+        const target = event.target;
+        const inputName = target.name;
+        const inputValue = target.value;
       
-      this.setState ({
-         [inputName] : {
-            value: inputValue,
-            ...validationFun(inputValue)
-         }
-      });
-   }
+        this.setState ({
+            [inputName] : {
+                value: inputValue,
+                ...validationFun(inputValue)
+            }
+        });
+    }
    
     async componentDidMount() {
         let cart = JSON.parse(localStorage.getItem('cart'));
@@ -80,11 +80,14 @@ class DeliveryInfo extends React.Component {
                         //console.log(product[id]);
                        
                         productNames.push(this.state.productName);
+                        
                         if (price != undefined)
                             productPrices.push("$" + price.toString());
+                        
                         productQuantities.push(quantity);
                         tot += (this.state.productPrice * quantity);
             }
+            
             for (var i = 0; i < productNames.length; i++) {
                 const item = { product: productNames[i], price: productPrices[i], quantity: productQuantities[i] }
                 console.log(item);
@@ -335,7 +338,7 @@ class DeliveryInfo extends React.Component {
                             </FormItem>
 
                             <FormItem>
-                                <Button type="primary"
+                                <Button
                                 htmlType="submit"
                                 size="large"
                                 className="delivery-form-button"

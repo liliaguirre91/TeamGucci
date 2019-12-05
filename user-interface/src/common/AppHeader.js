@@ -31,7 +31,9 @@ class AppHeader extends Component {
             menuItems = [
                 <Menu.Item key="/">
                     <Link to="/">
-                        <Icon type="home" className="nav-icon" />
+                        <Icon 
+                            type="home" 
+                            className="nav-icon" />
                     </Link>
                 </Menu.Item>,
                 <Menu.Item key="/account" className="account-menu">

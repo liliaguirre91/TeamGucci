@@ -150,7 +150,7 @@ class OrderLookup extends Component {
                             onChange={this.handleIDChange} maxLength="9"/>
                     </FormItem>
                     <FormItem>
-                         <Button type="primary"
+                         <Button
                                 htmlType="submit"
                                 size="large"
                                className="search-form-button">Search</Button>
