@@ -5,10 +5,11 @@ import {
     withRouter, 
     Switch 
 } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { ACCESS_TOKEN } from './constants';
-import { getCurrentUser, getCampaign } from './util/APIFunctions';
 
+import { getCurrentUser, getCampaign } from './util/APIFunctions';
 import HomePage from './HomePage';
 import OrderLookup from './OrderLookup';
 import Login from './user/login/Login.js';
@@ -18,7 +19,6 @@ import DeliveryInfo from './DeliveryInfo.js';
 import AppHeader from './common/AppHeader';
 import LoadingIndicator from './common/LoadingIndicator';
 import PayPalPage from './paypal/PayPalPage.js';
-import OrderReview from './OrderReview.js';
 import AdminAccountPage from './user/account/admin/AdminAccountPage.js';
 import CustomerAccountPage from './user/account/customer/CustomerAccountPage.js';
 import CreateAdmin from './user/account/admin/CreateAdmin.js';
@@ -26,26 +26,15 @@ import CampaignsPage from './user/account/admin/Campaign.js';
 import DeliveryReport from './user/account/admin/DeliveryReport.js';
 import OrdersReport from './user/account/admin/OrdersReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
-
 import EditInfo from './user/account/EditInfo.js';
 import CustomerOrders from './user/account/customer/CustomerOrders.js';
-
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import logo from './footer_logo.png';
-
 import ModifyProduct from './user/account/admin/ModifyProduct.js';
 import ResetPassword from './user/account/admin/ResetPassword.js';
 import ProductsOrdered from './user/account/admin/ProductsOrdered.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import OrderConfirmation from './OrderConfirmation';
 import FailurePage from './FailurePage';
-import { Layout, notification, Icon } from 'antd';
+import { Layout, notification } from 'antd';
 const Footer = Layout.Footer;
-
-
-
-
 
 const { Content } = Layout;
 
@@ -53,14 +42,10 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-                    currentUser: null,
-                    isAuthenticated: false,
-                    isLoading: false,
+            currentUser: null,
+            isAuthenticated: false,
+            isLoading: false,
         }
-
-        
-        //this.handleClick = this.handleClick.bind(this);
-        //this.handleSubmit = this.handleSubmit.bind(this);
         this.loadCurrentUser = this.loadCurrentUser.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
@@ -71,31 +56,31 @@ class App extends React.Component {
             top: 70,
             duration: 5,
         });
-  }
+    }
   
     loadCurrentUser() {
         this.setState({
             isLoading: true
         });
         getCurrentUser()
-        .then(response => {
-            this.setState({
-                currentUser: response,
-                isAuthenticated: true,
-                isLoading: false
-            });
-        }).catch(error => {
+            .then(response => {
                 this.setState({
+                    currentUser: response,
+                    isAuthenticated: true,
                     isLoading: false
-                });  
+                });
+        })
+        .catch(error => {
+            this.setState({
+                isLoading: false
+            });  
         });
     }
     async loadCurrentCampaign() {
         await getCampaign()
-        .then( response => {
-            localStorage.setItem( 'campaign', ( JSON.parse( response ) ) );
-        });
-        console.log(localStorage.getItem( 'campaign' ));
+            .then( response => {
+                localStorage.setItem( 'campaign', ( JSON.parse( response ) ) );
+            });
     }
   
     componentDidMount() {
@@ -157,9 +142,6 @@ class App extends React.Component {
                             <Route path="/paypal"
                                  render={(props) => <PayPalPage isAuthenticated={this.state.isAuthenticated} 
                                     currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
-                            <Route path="/order-review"
-                                 render={(props) => <OrderReview isAuthenticated={this.state.isAuthenticated} 
-                                    currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
                             <Route path="/admin-account"
                                 render={(props) => <AdminAccountPage isAuthenticated={this.state.isAuthenticated} 
                                 currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}></Route>
@@ -216,6 +198,5 @@ class App extends React.Component {
         );
     }
 }
-//<Icon component={() => (<img src="./footer-logo.png"/>)}/>
 
-export default withRouter(App); //I COMMENTED THESE OUT TO MAKE IT RUN IN THE WEB BROWSER
+export default withRouter(App); 
