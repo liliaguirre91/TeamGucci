@@ -198,7 +198,8 @@ public class UserController {
 		}//end else
 	}// end getonName_Email
 	
-	//Needs testing
+	//setPassword of a user is is expecting the users id and 
+	//a parameter with the password in it
 	@PutMapping( "/users/password/{id}" )
 	@PreAuthorize( "isAuthenticated()" )
 	public ResponseEntity<Long> setPassword( @PathVariable( "id" ) Long id, @Valid @RequestParam( value = "password" ) String pass ){
@@ -217,6 +218,25 @@ public class UserController {
 
 	}//end setPassword
 
+	//setPassword of a user is is expecting the users id and 
+	//a parameter with the password in it
+	@PutMapping( "/users/passwordAdmin/{id}" )
+	@PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+	public ResponseEntity<Long> setPasswordAdmin( @PathVariable( "id" ) Long id, @Valid @RequestParam( value = "password" ) String pass ){
+		//Check the database for the user
+		Optional<users> userData = userRepository.findById( id );
+		//if the user exists set the new password
+		if ( userData.isPresent() ) {
+			users u = userData.get();
+			u.setPassword( passwordEncoder.encode( pass ) );
+			userRepository.save( u );
+		    return new ResponseEntity<>( u.getUserId(),  HttpStatus.OK );
+		}//end try
+        else {
+		    return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+		}//end else
+
+	}//end setPasswordAdmin
 	//setComments is used to change the comments assosated with a user
 	//it is expecting the email of the user to be modified and a paramater with the string
 	//to be placed in the comment of the user it returns the user id to show it works
