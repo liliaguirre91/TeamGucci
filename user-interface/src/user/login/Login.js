@@ -15,43 +15,43 @@ class Login extends React.Component {
                     <AntWrappedLoginForm onLogin={this.props.onLogin} />
                 </div>
             </div>
-        );
-    }
-}
+        );//end return
+    }//end render
+}//end Login
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    }//end constructor
     
     handleSubmit(event) {
-    
         event.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const loginRequest = Object.assign( {}, values );
                 login(loginRequest)
-                .then(response => {
-                    localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-                    this.props.onLogin();
-                }).catch(error => {
-                    if (error.status === 401) {
-                        notification.error({
-                            message: 'LCHS Band Fundraising',
-                            description: 'Your Username or Password is incorrect. Please try again!'
-                        });
-                    } else {
-                        notification.error({
-                            message: 'LCHS Band Fundraising',
-                            description: error.message || 'Sorry! Something went wrong. Please try again!'
-                        });
-                    }
-                });
-            }
-        });
-        
-    }
+                    .then(response => {
+                        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+                        this.props.onLogin();
+                    })//end then
+                    .catch(error => {
+                        if (error.status === 401) {
+                            notification.error({
+                                message: 'LCHS Band Fundraising',
+                                description: 'Your Username or Password is incorrect. Please try again!'
+                            });//end notification
+                        }//end if
+                        else {
+                            notification.error({
+                                message: 'LCHS Band Fundraising',
+                                description: error.message || 'Sorry! Something went wrong. Please try again!'
+                            });//end notification
+                        }//end else
+                    });//end catch
+            }//end if
+        });//end validateFields
+    }//end handleSubmit
     
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -68,8 +68,8 @@ class LoginForm extends React.Component {
                         name="email" 
                         placeholder="Email" />    
                     )}
-                    </FormItem>
-                    <FormItem>
+                </FormItem>
+                <FormItem>
                     {getFieldDecorator('password', {
                         rules: [{ required: true, message: 'Please input your Password!' }],
                     })(
@@ -81,16 +81,15 @@ class LoginForm extends React.Component {
                         type="password" 
                         placeholder="Password"  />                        
                     )}
-                    </FormItem>
-                    <FormItem>
+                </FormItem>
+                <FormItem>
                         <Button
                         style={{ borderColor:"#597ef7"}}
                         htmlType="submit" size="large" className="login-form-button">Login</Button>
-                    </FormItem>
-                </Form>
-        );
-    }
-}
-
+                </FormItem>
+            </Form>
+        );//end return
+    }//end render
+}//end LoginForm
 
 export default Login;

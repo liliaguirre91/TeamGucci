@@ -1,14 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { 
-    Link, 
-    withRouter, 
-} from 'react-router-dom'
-
 import './HomePage.css';
 
-import { createOrder, createProductsOrdered } from './util/APIFunctions';
-import {Form, Input, Button, notification, Result, Typography } from 'antd';
+import { Form, Button, Result, Typography } from 'antd';
 const {Text}=Typography;
 
 class OrderConfirmation extends React.Component {
@@ -16,23 +9,22 @@ class OrderConfirmation extends React.Component {
         super(props);
         this.state = {  order_id: 0 };
         this.handleClick = this.handleClick.bind(this);
-    }
+    }//end constructor
 
     handleClick = param => e => {
-      e.preventDefault();
-      this.props.history.push(param);
-    }
+        e.preventDefault();
+        this.props.history.push(param);
+    };//end handleClick
     
     handleSubmit(event) {
         event.preventDefault();
         localStorage.removeItem('cart')
         this.props.history.push("/");
-    }
+    };//end handleSubmit
 
     render() {
         const ohLord = localStorage.getItem('orderNumber');
         const yesLord = localStorage.getItem('campaign');
-        console.log(localStorage.getItem('orderNumber'));
         const amen ='20' + yesLord + '-' + ohLord;
 
         return (
@@ -44,10 +36,8 @@ class OrderConfirmation extends React.Component {
              <Result
                 status="success"
                 subTitle="Above is your order confirmation number."
-                //{localStorage.getItem('orderNumber')}
                 title={amen}
 
-               // console.log(localStorage.getItem('orderNumber'));
                     extra={[
                      <Button onClick={this.handleClick("/")}>
                         Home
@@ -58,8 +48,8 @@ class OrderConfirmation extends React.Component {
                 </Form>
             </div>
 
-        );
-    }
-}
+        );//end return
+    }//end render
+}//end OrderConfirmation
 
 export default OrderConfirmation;

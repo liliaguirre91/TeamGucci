@@ -1,17 +1,9 @@
-//import React from 'react';
-import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { getPreviousOrders, getProductsOrdered, getProduct, getAllProducts } from '../../../util/APIFunctions';
-import {
-    Form, 
-    Input, 
+import { getPreviousOrders, getProductsOrdered, getAllProducts } from '../../../util/APIFunctions';
+import { 
     Button, 
     notification, 
-    Table, 
-    Badge, 
-    Menu, 
-    Dropdown, 
-    Icon } from 'antd';
+    Table } from 'antd';
 
 
 class CustomerOrder extends Component {
@@ -23,123 +15,96 @@ class CustomerOrder extends Component {
             orders: '',
             productTmp: '',
             productName: "",
-            //product: null,
             items: null,
             orderNumber: 0
-        }
-    }
+        }//end state
+    }//end constructor
     
   
     async componentDidMount() {
-        var productQuantities= [];
-        var product= [];
         const allProducts = [];
         var data = [];
-        const products = []
-        //var orders = [];
+        const products = [];
         await getAllProducts( )
             .then( response => {
                 this.setState( {
                     productTmp: response
-                });
-             } )
+                });//end setState
+             })//end then
             .catch(error => {
                 notification.error({
                     message: 'LCHS Band Fundraising',
                     description:error.message || 'Sorry! Something went wrong!'
-                });
-            })
+                });//end notification
+            })//end catch
         const idk = this.state.productTmp;
-        console.log( idk );
         for( var i = 0; i < idk.length; i++ ){
             allProducts[ idk[i].productId ] = idk[i].product
-        }
-        console.log( allProducts );
-        //let user = JSON.parse(localStorage.getItem('this.currentUser'));
-        //let campaignYear = setCampaign["year"]
-        //console.log("hello" + campaignYear);
+        }//end for
         let user_id = 0;
 
         if(this.props.currentUser){
             let currentUser = this.props.currentUser;
             user_id = currentUser.userId;
-            console.log(user_id);
         }
-        const response = await getPreviousOrders(user_id)
+        await getPreviousOrders(user_id)
             .then (response => {
                 this.setState({
                     orders: response
-                });
+                });//end setState
                 const orders = this.state.orders;
                 for (var i = 0; i < orders.length; i++) {
-                    //console.log("total cost:" + orders[i].totalCost)
                     this.state.orders[i].totalCost = "$" + orders[i].totalCost.toString() + ".00";
                     this.state.orders[i].paid = "$" + orders[i].paid.toString() + ".00";
-                    //console.log("total cost:" + this.state.orders[i].totalCost);
-                }
-                console.log("Orders:" + JSON.stringify(this.state.orders));
-                //orders = this.state.orders;
-            })
+                }//end for
+            })//end then
             .catch(error => {
                 notification.error({
                     message: 'LCHS Band Fundraising',
                     description:error.message || 'Sorry! Something went wrong!'
-                });
-            })
+                });//end notification
+            })//end catch
         
         const orders = this.state.orders;
-        //console.log(orders[0].orderId);
         for (var i = 0; i < orders.length; i++) {
-            const productResponse = await getProductsOrdered(orders[i].orderId) 
+            await getProductsOrdered(orders[i].orderId) 
                 .then (productResponse => {
                     const length = productResponse.length;
                     for (var i = 0; i < length; i++) {
-                        //do the api call to get product with productid
+                        /* do the api call to get product with productid */
                         const item = { productID: productResponse[i].productId, name: allProducts[productResponse[i].productId], quantity: productResponse[i].quantity };
-                        console.log(orders[i].orderId, item);
                         data.push(item);
-                        console.log(data);
-
-                    }
+                    }//end for
                      products.push(data);
                      data = [];
-                })
+                })//end then
                 .catch(error => {
                     notification.error({
                         message: 'LCHS Band Fundraising',
                         description:error.message || 'Sorry! Something went wrong!'
-                    });
-                })
-        }
-        
-       
-        //console.log(data);
+                    });//end notification
+                })//end catch
+        }//end for
         this.setState({items: products});
-        console.log(this.state.items);
-    }
+    }//end componentDidMount
     
     getOrderedProducts(x)  {
-        console.log(x);
-        //const productQuantities= [];
-        //const productIDs= [];
-        const orders = this.state.orders;
-        
         const columns = [
         { title: 'Product ID', dataIndex: 'productID', key: 'productID' },
         { title: 'Product Name', dataIndex: 'name', key: 'name' },
         //{ title: 'Product Name', dataIndex: 'product', key: 'product' },
         { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
-        ];
+        ];//end columns
 
         const products = this.state.items;
         const data = products[x];
         return <Table columns={columns} dataSource={data} pagination={false} />
-    }
+    }//end getOrderedProducts
     
     handleClick = param => e => {
         e.preventDefault();
         this.props.history.push(param);
-     }  
+    };//end handleClick
     
     render() {
         const columns = [
@@ -178,10 +143,9 @@ class CustomerOrder extends Component {
                 dataIndex: 'totalCost',
                 key: 'totalCost',
             },
-        ];
+        ];//end columns
     
         return (
-
             <div className="delivery-report-container">
                 <h1 className="page-title">My Orders</h1>
                 <Button
@@ -203,10 +167,8 @@ class CustomerOrder extends Component {
                     
                 />
             </div>
-        );
-    }
-}
-
-
+        );//end return
+    }//end render
+}//end CustomerOrders
 
 export default CustomerOrder;

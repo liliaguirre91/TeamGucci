@@ -4,47 +4,12 @@ import { withRouter } from 'react-router-dom'
 import logo from './LCHS_band_logo.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-                    currentUser: null,
-                    isAuthenticated: false,
-                    isLoading: false,
-        }
-
-        
-        this.handleClick = this.handleClick.bind(this);
-        //this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-   
-                        
-   
-   /*****************************************************************************************
-    * Handler: handleClick - This handler will route the application to other existing pages.
-    * This handler will be called on the button's click. 
-    * Parameters: This handler takes one parameter representing the URL extension where the
-    * page that will be accesses will be located.
-    * Preconditions: None
-    * Postconditions: The user will be rerouted to the correct page
-    **************************************************************************************/
-   handleClick = param => e => {
-      e.preventDefault();
-      if (param === "/products") {
-          localStorage.removeItem('cart');
-      }
-      this.props.history.push(param);
-   }
-
-   clicked(){
-      console.log("button was clicked");
-   }
+    }
 
    render() {
-       console.log(localStorage.getItem('cart'));
       return (
          <form onSubmit={this.handleSubmit}> 
             <h1 class="title" align="center"> Welcome to the Las Cruces High School Band Luminary Fundraiser  </h1> 
@@ -71,13 +36,4 @@ class HomePage extends React.Component {
    }
 }
 
-
-/*ReactDOM.render(
-  <HomePage/>,
-  document.getElementById('root')
-);*/
-
-
-
-export default withRouter(HomePage); //I COMMENTED THESE OUT TO MAKE IT RUN IN THE WEB BROWSER
-
+export default withRouter(HomePage); 

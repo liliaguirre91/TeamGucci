@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { getProducts,
-         deleteProduct, 
-         updateProduct,
-         getProduct } from '../../../util/APIFunctions';
-import { Form, 
-         notification, 
-         Table, 
-         Modal, 
-         Popconfirm, 
-         Divider, 
-         Input,
-        Button } from 'antd';
-const FormItem = Form.Item;
+import { getProducts, deleteProduct, 
+         updateProduct, getProduct } from '../../../util/APIFunctions';
+import { Form, notification, Table, 
+         Modal, Popconfirm, Divider, 
+         Input, Button } from 'antd';
 
+const FormItem = Form.Item;
 
 class ModifyProduct extends Component {
     constructor(props) {
@@ -34,23 +27,25 @@ class ModifyProduct extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }//end constructor
  
- /*---------------------------------------------------------------------------------------------------------------*/   
+ /*---------------------------------------------------------------------------------------------------------------
+  * Function:
+  * Parameters:
+  * Preconditions:
+  * Postconditions:
+  *---------------------------------------------------------------------------------------------------------------*/   
     async componentDidMount() {
         let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
         let campaignYear = setCampaign["year"];
         
-        const response = await getProducts(campaignYear)
+        await getProducts(campaignYear)
             .then( response => {
                 this.setState( {
                     products: response
                 });
                 const products = this.state.products;
                 for (var i = 0; i < products.length; i++) {
-                    //console.log("total cost:" + orders[i].totalCost)
-                    //console.log("Price:" + products[i].price);
                     if (products[i].price != undefined) {
                         this.state.products[i].price = "$" + products[i].price.toString() + ".00";
-                        console.log("Price:" + this.state.products[i].price);
                     }
                 }
              })
@@ -60,12 +55,14 @@ class ModifyProduct extends Component {
                     description: error.message || 'Sorry! Something went wrong!'
                 });
             });
-            
-                
-            //console.log(JSON.stringify(this.state.products));
     }
 
-/*---------------------------------------------------------------------------------------------------------------*/
+   /*---------------------------------------------------------------------------------------------------------------
+    * Function:
+    * Parameters:
+    * Preconditions:
+    * Postconditions:
+    *---------------------------------------------------------------------------------------------------------------*/
     handleInputChange(event) {
         const target = event.target;
         const inputName = target.name;
@@ -78,7 +75,12 @@ class ModifyProduct extends Component {
         });
     }
 
-/*---------------------------------------------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------------------------------------------
+    * Function:
+    * Parameters:
+    * Preconditions:
+    * Postconditions:
+    *---------------------------------------------------------------------------------------------------------------*/
     async showModal(product) {
         await this.setState({ productID: product });
         const response = await getProduct(this.state.productID)
@@ -93,18 +95,35 @@ class ModifyProduct extends Component {
                     description:error.message || 'Sorry! Something went wrong!'
                 });
             });
-        
         this.setState({ visible: true });
     };
     
+    
+    /*---------------------------------------------------------------------------------------------------------------
+    * Function:
+    * Parameters:
+    * Preconditions:
+    * Postconditions:
+    *---------------------------------------------------------------------------------------------------------------*/
     handleCancel = () => {
         this.setState({ visible: false });
     };
- 
-/*---------------------------------------------------------------------------------------------------------------*/
+
+    /*---------------------------------------------------------------------------------------------------------------
+    * Function:
+    * Parameters:
+    * Preconditions:
+    * Postconditions:
+    *---------------------------------------------------------------------------------------------------------------*/
     async handleDelete(productID) {
-        console.log(productID);
-        const response = await deleteProduct(productID)
+        let user_role = '';
+        if (this.props.currentUser) {
+            let currentUser = this.props.currentUser;
+            user_role = currentUser.role;
+        }
+        
+        if (user_role === 'Role_ROOT') {
+            const response = await deleteProduct(productID)
             .then (response => {
                 notification.success({
                     message: 'LCHS Band Fundraising',
@@ -117,32 +136,34 @@ class ModifyProduct extends Component {
                     description: error.message || 'Sorry! Something went wrong!'
                 });
             });
-            window.location.reload();
+            
+            setTimeout( function( ) {
+                window.location.reload();
+            }.bind( this ), 1000 );
+        }
+        else {
+            notification.error({
+                message: 'LCHS Band Fundraising',
+                description: 'You must be GOD (admin) to do this!'
+            });
+        }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+   /*---------------------------------------------------------------------------------------------------------------
+    * Handler
+    *---------------------------------------------------------------------------------------------------------------*/
     handleBackClick = param => e => {
         e.preventDefault();
         this.props.history.push(param);
      }
 
-/*---------------------------------------------------------------------------------------------------------------*/    
+     
+   /*---------------------------------------------------------------------------------------------------------------
+    * Handler:
+    *---------------------------------------------------------------------------------------------------------------*/
     async handleSubmit(event) {
         event.preventDefault();
-        //console.log( this.state.image );
-        //const camp = JSON.parse(localStorage.getItem( 'setCampaign' ));
-        //console.log (this.state.product.value);
         var price, product, description;
         
         if (this.state.productName.value === '') {
@@ -183,8 +204,15 @@ class ModifyProduct extends Component {
                     description:error.message || 'Sorry! Something went wrong!'
                 });
             });
-};
-/*---------------------------------------------------------------------------------------------------------------*/
+    };
+
+    
+   /*---------------------------------------------------------------------------------------------------------------
+    * Function:
+    * Parameters:
+    * Preconditions:
+    * Postconditions:
+    *---------------------------------------------------------------------------------------------------------------*/
     render() {
         const columns = [
             {
@@ -207,14 +235,8 @@ class ModifyProduct extends Component {
                 dataIndex: 'description',
                 key: 'description',
             },
-            /*{
-                title: 'Image',
-                dataIndex: 'image',
-                key: 'image',
-            },*/
             {
                 title: 'Action',
-                //dataIndex: 'action',
                 key: 'action',
                 render: (text, record) =>
                     this.state.products.length >= 1 ? (
@@ -232,12 +254,13 @@ class ModifyProduct extends Component {
             <div className="modify-product-container">
                 <h2 className="page-title">Products</h2>
                 <div className="table">
-                            <Button
-                                style={{ borderColor:"#f5222d"}}
-                                htmlType="button"
-                                size="large"
-                                className="back-button"
-                                onClick={ this.handleBackClick("/campaigns")}> Back </Button>
+                    <Button
+                        style={{ borderColor:"#f5222d"}}
+                        htmlType="button"
+                        size="large"
+                        className="back-button"
+                        onClick={ this.handleBackClick("/campaigns")}> Back </Button>
+                    
                     <Table 
                         dataSource={this.state.products} 
                         columns={columns} 
@@ -266,6 +289,7 @@ class ModifyProduct extends Component {
                                 value={this.state.productName.value}
                                 onChange={(event) => this.handleInputChange(event) } maxLength="20"/>
                         </FormItem>
+                        
                         <FormItem
                             label="Product description">
                             <Input 
@@ -277,6 +301,7 @@ class ModifyProduct extends Component {
                                 value={this.state.description.value}
                                 onChange={(event) => this.handleInputChange(event) } maxLength="50"/>
                         </FormItem>
+                        
                         <FormItem
                             label="Price">
                             <Input 
@@ -290,12 +315,11 @@ class ModifyProduct extends Component {
                         </FormItem>
                     </Form>
                 </Modal>
-                
             </div>
         );
     }
 }
+
 const WrappedDemo = Form.create({ name: 'validate_other' })(ModifyProduct);
 ReactDOM.render(<ModifyProduct />, document.getElementById('root'));        
-//export default ModifyProduct;
 export default WrappedDemo;
