@@ -1,14 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { 
-    Link, 
-    withRouter, 
-} from 'react-router-dom'
-
 import './HomePage.css';
 
-import { createOrder, createProductsOrdered } from './util/APIFunctions';
-import {Form, Input, Button, notification, Result, Typography } from 'antd';
+import {Form, Button, Result, Typography } from 'antd';
 const {Text}=Typography;
 
 class OrderConfirmation extends React.Component {
@@ -32,7 +25,6 @@ class OrderConfirmation extends React.Component {
     render() {
         const ohLord = localStorage.getItem('orderNumber');
         const yesLord = localStorage.getItem('campaign');
-        console.log(localStorage.getItem('orderNumber'));
         const amen ='20' + yesLord + '-' + ohLord;
 
         return (
@@ -44,10 +36,8 @@ class OrderConfirmation extends React.Component {
              <Result
                 status="success"
                 subTitle="Above is your order confirmation number."
-                //{localStorage.getItem('orderNumber')}
                 title={amen}
 
-               // console.log(localStorage.getItem('orderNumber'));
                     extra={[
                      <Button onClick={this.handleClick("/")}>
                         Home

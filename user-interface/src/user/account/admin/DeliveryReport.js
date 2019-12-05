@@ -327,8 +327,6 @@ class DeliveryReport extends Component {
                     size="large"
                     className="back-button"
                     onClick={ this.handleBackClick("/campaigns")}> Back </Button>
-
-
                 <Row gutter={[110]} type = 'flex'>
                     <Col span={7}>
                         <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>

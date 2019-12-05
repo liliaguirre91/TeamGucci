@@ -14,25 +14,15 @@ import {Form, Input, Button, notification } from 'antd';
 const FormItem= Form.Item;
 
 class CreateAccount extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-                  name: {
-                     value: ''
-                  },
-                  email: {
-                     value: ''
-                  },
-                  password: {
-                  	 value: ''
-                  },
-                  id: {
-                     value: ''
-                  },
-                  errors: {
-                     value: []
-                  }
-   };
+    constructor(props) {
+        super(props);
+        this.state = { 
+            name: { value: '' },
+            email: { value: '' },
+            password: { value: '' },
+            id: { value: '' },
+            errors: { value: [] }
+        };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -48,18 +38,18 @@ class CreateAccount extends React.Component {
   /*This basically does all handlers at once. Also it validates each input as it's entered.
    * This means that each state needs its own validation function. 
    */
-   handleInputChange(event, validationFun) {
-      const target = event.target;
-      const inputName = target.name;
-      const inputValue = target.value;
-      
-      this.setState ({
-         [inputName] : {
-            value: inputValue,
-            ...validationFun(inputValue)
-         }
-      });
-   }
+    handleInputChange(event, validationFun) {
+        const target = event.target;
+        const inputName = target.name;
+        const inputValue = target.value;
+        
+        this.setState ({
+            [inputName] : {
+                value: inputValue,
+                ...validationFun(inputValue)
+            }
+        });
+    }
   
 
   /*******************************************************************************************
@@ -71,35 +61,35 @@ class CreateAccount extends React.Component {
    * Postcondition: An order will be created and all relevant order information will be inserted
    * into the database.
    ********************************************************************************************/
-   handleSubmit(event) {
-      event.preventDefault();
-      const name  = this.state.name.value;
-      const email = this.state.email.value;
-      const password = this.state.password.value;
+    handleSubmit(event) {
+        event.preventDefault();
+        const name  = this.state.name.value;
+        const email = this.state.email.value;
+        const password = this.state.password.value;
 
+        
+        //Create a constant containing all the information necessary to create a user account in database
+        const signupRequest = {
+            name: name,
+            email: email,
+            password: password
+        };
       
-      //Create a constant containing all the information necessary to create a user account in database
-      const signupRequest = {
-         name: name,
-         email: email,
-         password: password
-      };
-      
-      //Call the createAccount function to insert user into database
-      createAccount(signupRequest)
-      .then(response => {
-         notification.success({
-            message: 'LCHS Band Fundraising',
-            description: "Congratulations! You have succesfully created an account. Please Login to continue!",
-         });
-         this.props.history.push("/login");
-      }).catch(error => {
-         notification.error({
-            message: 'LCHS Band Fundraising',
-            description: error.message || 'Sorry! Something went wrong. Please try again!'
-         });
-      });
-   }
+        //Call the createAccount function to insert user into database
+        createAccount(signupRequest)
+        .then(response => {
+            notification.success({
+                message: 'LCHS Band Fundraising',
+                description: "Congratulations! You have succesfully created an account. Please Login to continue!",
+            });
+            this.props.history.push("/login");
+        }).catch(error => {
+            notification.error({
+                message: 'LCHS Band Fundraising',
+                description: error.message || 'Sorry! Something went wrong. Please try again!'
+            });
+        });
+    }
 
    isFormInvalid() {
    		return !(this.state.name.validateStatus === 'success' &&

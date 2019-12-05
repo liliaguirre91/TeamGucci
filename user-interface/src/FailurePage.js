@@ -1,14 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { 
-    Link, 
-    withRouter, 
-} from 'react-router-dom'
-
 import './HomePage.css';
-
-import { createOrder, createProductsOrdered } from './util/APIFunctions';
-import {Form, Input, Button, notification, Result, Paragraph, Text, Icon } from 'antd';
+import {Button, Result } from 'antd';
 
 class FailurePage extends React.Component {
     constructor(props) {
@@ -42,7 +34,7 @@ class FailurePage extends React.Component {
                                 <Button type="primary" onClick={ this.handleClick("/") }>
                                  Home
                                 </Button>,
-                                    ]}
+                            ]}
                     >
                     </Result>
                 </form>
