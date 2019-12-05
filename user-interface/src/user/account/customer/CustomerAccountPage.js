@@ -7,24 +7,25 @@ const FormItem= Form.Item;
 class CustomerAccountPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {name: '',
-                    email: '',
-                    id:'',
-                    page: ''
-        };
+        this.state = {
+            name: '',
+            email: '',
+            id:'',
+            page: ''
+        };//end state
 
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
-    }
+    }//end constructor
   
     handleNameChange(event) {
         this.setState({name: event.target.value});
-    }
+    }//end handleNameChange
   
     handleEmailChange(event) {
         this.setState({email: event.target.value});
-    }
+    }//end handleEmailChange
    
    /*****************************************************************************************
     * Handler: handleClick - This handler will route the application to other existing pages.
@@ -37,14 +38,14 @@ class CustomerAccountPage extends React.Component {
     handleClick = param => e => {
         e.preventDefault();
         this.props.history.push(param);
-    }
+    };//end handleClick
 
     render() {
         let name = '';
         if (this.props.currentUser) {
             let currentUser = this.props.currentUser;
             name = currentUser.name;
-        }
+        }//end if
         return (  
             <Form className="customerPage" onSubmit={this.handleSubmit}> 
             {/* WELCOME TITLE */}
@@ -56,9 +57,7 @@ class CustomerAccountPage extends React.Component {
                     width={150}/><br/>
                     <br/><br/>
                 </div>
-
                 <h2 align="center">Welcome {name}</h2>
-
                 <div align="center" className="customer-container2">
                 <Col>
                     <FormItem>
@@ -82,13 +81,13 @@ class CustomerAccountPage extends React.Component {
                 </Col>
                 </div>
             </Form>
-        );
-    }
-}
+        );//end return
+    }//end render
+}//end CustomerAccountPage
 
 ReactDOM.render(
-  <CustomerAccountPage/>,
-  document.getElementById('root')
+    <CustomerAccountPage/>,
+    document.getElementById('root')
 );
 
 export default CustomerAccountPage; 

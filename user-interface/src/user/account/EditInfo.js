@@ -20,13 +20,13 @@ class EditInfo extends React.Component {
             password: { value: '' },
             id: { value: '' },
             errors: { value: [] }
-    };
+        };//end state
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.isFormInvalid = this.isFormInvalid.bind(this);
         this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
-    }
+    }//end constructor
   
   /***********************************************************************************
    * State Handlers: These handlers set the states based on the given events. These
@@ -46,8 +46,8 @@ class EditInfo extends React.Component {
                 value: inputValue,
                 ...validationFun(inputValue)
             }
-        });
-    }
+        });//end setState
+    }//end handleInputChange
 
   /*******************************************************************************************
    * Handler: handleSubmit() - This handler takes care of posting the order delivery
@@ -68,55 +68,54 @@ class EditInfo extends React.Component {
             let currentUser = this.props.currentUser;
             if (email === '') {
                  email = currentUser.email;
-            }
+            }//end if
             if (name === '') {
                 name = currentUser.name;
-            }
-        }
+            }//end if
+        }//end if
    
         /* user id */
         let chickenStrips = '';
         if (this.props.currentUser) {
             let currentUser = this.props.currentUser;
             chickenStrips = currentUser.userId;
-        }
+        }//end if
       
         changeUserInfo(chickenStrips, name, email)
             .then(response => {
                 notification.success({
                     message: 'LCHS Band Fundraising',
                     description: "Congratulations! You have succesfully updated your information. Please Login to continue!",
-                });
+                });//end notification
                 this.props.history.push("/login");
-            })
+            })//end then
             .catch(error => {
                 notification.error({
                     message: 'LCHS Band Fundraising',
                     description: error.message || 'Sorry! Something went wrong. Please try again!'
-                });
-            });
+                });//end notification
+            });//end catch
 
      
         if(password !== ''){
             setPassword( chickenStrips, password )
                 .then( response => {
                     this.setState( { customer: response } )
-                } )
+                })//end then
                 .catch(error => {
                     notification.error({
                         message: 'LCHS Band Fundraising',
                         description:error.message || 'Sorry! Something went wrong!'
-                    });
-                });
-        }
-    }
+                    });//end notification
+                });//end catch
+        }//end if
+    }///end handleSubmit
     isFormInvalid() {
         return !(this.state.name.validateStatus === 'success' &&
                 this.state.email.validateStatus === 'success' &&
                 this.state.password.validateStatus === 'success'
-        );
-    }
-
+        );//end return
+    }//end isFormInvalid
 
     handleClick = param => e => {
         e.preventDefault();
@@ -126,8 +125,8 @@ class EditInfo extends React.Component {
                 this.props.history.push("/user-account");
             else
                 this.props.history.push("/admin-account")    
-        }
-    }
+        }//end if
+    };//end handleClick
    
     render() {
         let name = '';
@@ -136,7 +135,7 @@ class EditInfo extends React.Component {
             let currentUser = this.props.currentUser;
             name = currentUser.name;
             email = currentUser.email;
-        }
+        }//end if 
 
         return (
             <div className="signup-container">
@@ -200,8 +199,8 @@ class EditInfo extends React.Component {
                     </Form>
                 </div>
             </div>
-        );
-    }
+        );//end return
+    }//end render
 
 /* VALIDATION FUCNTIONS */
 
@@ -210,70 +209,70 @@ class EditInfo extends React.Component {
             return{
                 validateStatus: 'error',
                 errorMsg: 'Name is too short (Minimum 4 characters needed.)'
-                }
-        } 
+            }//end return
+        }//end if
         else if(name.length > NAME_MAX_LENGTH){
             return{
                 validationStatus: 'error',
                 errorMsg: 'Name is too long (Maximum 40 characters allowed.)'
-            }
-        } 
+            }//end return
+        }//end else if
         else {
             return{
                 validateStatus: 'success',
                 errorMsg: null,
-            };
-        }
-    }
+            };//end return
+        }//end else
+    }//end validateName
 
     validateEmail = (email) => {
         if(!email) {
             return	{
                 validateStatus: 'error',
                 errorMsg: 'Email may not be empty'
-            }
-        }
+            }//end return
+        }//end if
         const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
         if(!EMAIL_REGEX.test(email)) {
             return {
                 validateStatus: 'error',
                 errorMsg: 'Email not valid'
-            }
-        }
+            }//end return
+        }//end if
 
         if(email.length > EMAIL_MAX_LENGTH) {
             return {
                 validateStatus: 'error',
                 errorMsg: 'Email is too long (Maximum 40 characters allowed)'
-            }
-        }
+            }//end return
+        }//end if
 
         return {
             validateStatus: null,
             errorMsg: null
-        }
-    }
+        }//end return
+    }//end validateEmail
  	
     validatePassword = (password) => {
         if(password.length < PASSWORD_MIN_LENGTH) {
             return {
                 validateStatus: 'error',
                 errorMsg: 'Password is too short (Minimum 8 characters needed.)'
-            }
-        } 
+            }//end retrn
+        }//end if
         else if (password.length > PASSWORD_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
                 errorMsg: 'Password is too long (Maximum 32 characters allowed.)'
-            }
-        } 
+            }//end return
+        }//end else if
         else {
             return {
                 validateStatus: 'success',
                 errorMsg: null,
-            };            
-        }
-    }
+            };//end return          
+        }//end else
+    };//end validatePassword
     
     validateEmailAvailability() {
         const emailValue = this.state.email.value;
@@ -285,9 +284,9 @@ class EditInfo extends React.Component {
                     value: emailValue,
                     ...emailValidation
                 }
-            });
+            });//end setState
             return;
-        }
+        }//end if
         
         this.setState({
             email: {
@@ -295,7 +294,7 @@ class EditInfo extends React.Component {
                 validateStatus: 'validating',
                 errorMsg: null
             }
-        });
+        });//end setState
         
         checkEmail(emailValue)
             .then(response => {
@@ -306,8 +305,8 @@ class EditInfo extends React.Component {
                             validateStatus: 'success',
                             errorMsg: null
                         }
-                    });
-                }
+                    });//end setState
+                }//end if
                 else {
                     this.setState({
                         email: {
@@ -315,9 +314,9 @@ class EditInfo extends React.Component {
                             validateStatus: 'error',
                             errorMsg: 'This Email is already registered'
                         }
-                    });
-                }
-            })
+                    });//end setState
+                }//end else
+            })//end then
             .catch(error => {
             /* Marking validateStatus as success, Form will be rechecked at server */
                 this.setState({
@@ -326,15 +325,15 @@ class EditInfo extends React.Component {
                         validateStatus: 'success',
                         errorMsg: null
                     }
-                });
-            });
+                });//end setState
+            });//end catch
     }//end validateEmailAvailability
   
 }//end class
 
 ReactDOM.render(
-  <EditInfo />,
-  document.getElementById('root')
+    <EditInfo />,
+    document.getElementById('root')
 );
 
 export default EditInfo;

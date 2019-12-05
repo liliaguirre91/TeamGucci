@@ -334,13 +334,24 @@ class DeliveryReport extends Component {
                             this.getOrderedProducts(i)}
                         bordered
                         pagination={false}
-                        scroll={{ y: 500 }}
-                    />
+                        scroll={{ y: 500 }} />
                 </div>
-                <CSVLink data={this.state.orders} >Download me</CSVLink>
+                <Row gutter={[150]} type="flex">
+                    <Col span={7}>    
+                        <CSVLink data={this.state.orders} > Download Delivery Report </CSVLink>
+                    </Col>
+                    <Col span={10}></Col>
+                    <Col span={7}>
+                        <Button
+                            style={{ borderColor:"#f5222d"}}
+                            htmlType="button"
+                            size="large"
+                            className="back-button"
+                            onClick={ this.handleBackClick("/campaigns")}> Back </Button>
+                    </Col>
+                </Row>
             </div>
         );
     }
 }
-
 export default DeliveryReport;

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './DeliveryInfo.css';
 import { createOrder, createProductsOrdered, getProduct } from './util/APIFunctions';
-import {Form, Input, Button, Table, notification, message } from 'antd';
+import {Form, Input, Button, Table, notification } from 'antd';
 import {
     NAME_MIN_LENGTH,
     NAME_MAX_LENGTH, 
@@ -15,22 +15,22 @@ class DeliveryInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-    			   name:    { value: '' },
-                   phone:   { value: '' },
-                   address: { value: '' },
-                   city: 	{ value: '' },
-                   st:	 	{ value: '' },
-                   zipCode: { value: '' },
-                   paid:    { value: 0  },
-                   totalCost: 0,
-                   products: [],
-                   order_id: 0
-        };
+            name:    { value: '' },
+            phone:   { value: '' },
+            address: { value: '' },
+            city: 	{ value: '' },
+            st:	 	{ value: '' },
+            zipCode: { value: '' },
+            paid:    { value: 0  },
+            totalCost: 0,
+            products: [],
+            order_id: 0
+        };//end state
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.isFormInvalid = this.isFormInvalid.bind(this);
-    }
+    }//end constructor
   
   /***********************************************************************************
    * State Handlers: These handlers set the states based on the given events. These
@@ -46,8 +46,8 @@ class DeliveryInfo extends React.Component {
                 value: inputValue,
                 ...validationFun(inputValue)
             }
-        });
-    }
+        });//end setState
+    }//end handleInputChange
    
     async componentDidMount() {
         let cart = JSON.parse(localStorage.getItem('cart'));
@@ -68,33 +68,33 @@ class DeliveryInfo extends React.Component {
                         this.setState({
                             productName: response.product,
                             productPrice: response.price
-                        });
-                    })
+                        });//end setState
+                    })//end then
                     .catch(error => {
                         notification.error({
                             message: 'LCHS Band Fundraising',
                             description:error.message || 'Sorry! Something went wrong!'
-                        });
-                    })
+                        });//end notification
+                    })//end catch
                 const price = this.state.productPrice
                 productNames.push(this.state.productName);
                 
                 if (price != undefined) { 
                     productPrices.push("$" + price.toString());
-                }
+                }//end if
                 
                 productQuantities.push(quantity);
                 tot += (this.state.productPrice * quantity);
-            }
+            }//end for
             
             for (var i = 0; i < productNames.length; i++) {
                 const item = { product: productNames[i], price: productPrices[i], quantity: productQuantities[i] }
                 items.push(item);
-            }
+            }//end for
             this.setState({ products: items })
             this.setState({ totalCost: tot });
-        } 
-    }
+        }//end if
+    }//end componentDidMount
 
   /*******************************************************************************************
    * Handler: handleSubmit() - This handler takes care of posting the order delivery
@@ -129,14 +129,14 @@ class DeliveryInfo extends React.Component {
             name: name,
             paid: paid[0],
             totalCost: this.state.totalCost
-        };
+        };//end orderInfo
         localStorage.setItem('cashOrderInfo', JSON.stringify(orderInfo));
         /* Call the createOrder function to create order in database */
         createOrder(orderInfo)
             .then((order_id) => this.setState({ order_id }))
             .catch(error => {
                 order_created = false;
-            });
+            });//end catch
         
             
         /* Implementing insertion of multiple products tied to one order number */
@@ -154,7 +154,7 @@ class DeliveryInfo extends React.Component {
                     orderId: parseInt(orderID, 10),
                     productId: productID,
                     quantity: quantity
-                };
+                };//end productsOrdered
                 if (order_created === true) {    
                     createProductsOrdered(productsOrdered)
                         .catch(error => {
@@ -162,38 +162,38 @@ class DeliveryInfo extends React.Component {
                             notification.error({
                                 message: 'LCHS Band Fundraising',
                                 description:error.message || 'Sorry! Something went wrong!'
-                            });
-                        });
-                }
+                            });//end notification
+                        });//end catch
+                }//end if
                 else {
                     notification.error({
                         message: 'LCHS Band Fundraising',
                         description:'Sorry! Something went wrong! Please try creating your order again.'
-                    });
+                    });//end notification
                     products_added = false;
                     this.props.history.push("/failure-page");
-                }
+                }//end else
                 if (products_added === false) {
                     this.props.history.push("/failure-page");
                     break;
                     /* remove order and redirect to other page to attempt order again */
-                }
+                }//end if
             }//end for
 
             if (products_added === true) {
                 notification.success({
                     message: 'LCHS Band Fundraising',
                     description: "Your order has been placed!"
-                });
+                });//end notification
                 localStorage.removeItem('cart')
                 localStorage.setItem('orderNumber', this.state.orderID);
                 localStorage.removeItem('cart')
                 this.props.history.push("/order-confirmation");
-            }
+            }//end if
             
-        }.bind(this), 500)
+        }.bind(this), 500)//end Timeout
         
-    }
+    }//end handleSubmit
 
     isFormInvalid() {
         return !(this.state.name.validateStatus === 'success' &&
@@ -201,8 +201,8 @@ class DeliveryInfo extends React.Component {
             this.state.city.validateStatus === 'success' &&
             this.state.st.validateStatus === 'success' &&
             this.state.zipCode.validateStatus === 'success'
-        );
-    }
+        );//end return
+    }//end isFormInvalid
    
 
   render() {
@@ -222,7 +222,7 @@ class DeliveryInfo extends React.Component {
             dataIndex: 'quantity',
             key: 'quantity',
         },    
-    ];
+    ];//end column
     return (
         <div className="delivery-info-container">
             <h2 className="page-title"> Order Summary </h2>
@@ -337,8 +337,8 @@ class DeliveryInfo extends React.Component {
                     </Form>
                 </div>
             </div>
-        );
-    }
+        );//end return
+    }//end render
 
 //VALIDATION FUCNTIONS
 
@@ -347,20 +347,20 @@ class DeliveryInfo extends React.Component {
             return{
                 validateStatus: 'error',
                 errorMsg: 'Name is too short (Minimum 4 characters needed.)'
-            }
-        } 
+            }//end return
+        } //end if
         else if(name.length > NAME_MAX_LENGTH){
             return{
                 validationStatus: 'error',
                 errorMsg: 'Name is too long (Maximum 40 characters allowed.)'
-            }
-        } 
+            }//end return
+        } //end if
         else {
             return{
                 validateStatus: 'success',
                 errorMsg: null,
-            };
-        }
+            };//end return
+        }//end else
     }
 
     validatePhone = (phone) => {
@@ -368,96 +368,95 @@ class DeliveryInfo extends React.Component {
             return{
                 validateStatus: 'error',
                 errorMsg: 'Invalid phone number. Please enter the phone number in the shown format.'
-            }
-        } 
+            }//end return
+        } //end if
         else {
             return{
                 validateStatus: 'success',
                 errorMsg: null,
-            };
-        }
-    }
+            };//end return
+        }//end else
+    }//end validatePhone
 
     validateAddress = ( address ) => {
         if( address.length < 3){
             return{
                 validateStatus: 'error',
                 errorMsg: 'Not a valid address'
-            }
-        } 
+            }//end return
+        }//end if
         else {
             return{
                 validateStatus: 'success',
                 errorMsg: null,
-            };
-        }
-    }
+            };//end return
+        }//end else
+    }//end validateAddress
 
     validateCity = ( city ) => {
         if( city.length < 3){
             return{
                 validateStatus: 'error',
                 errorMsg: 'Not a valid city'
-            }
-        } 
+            }//end return
+        } //end if
         else {
             return{
                 validateStatus: 'success',
                 errorMsg: null,
-            };
-        }
-    }
+            };//end return
+        }//end else
+    }//end validateCity
 
     validateSt = ( st ) => {
         if( st.length < 2){
             return{
                 validateStatus: 'error',
                 errorMsg: 'Not a valid state'
-            }
-        } 
+            }//end return
+        }//end if
         else {
             return{
                 validateStatus: 'success',
                 errorMsg: null,
-            };
-        }
-    }
+            };//end return
+        }//end else
+    }//end validateSt
 
    validateZipcode = ( zipCode ) => {
         if( zipCode.length < 5){
             return{
-            validateStatus: 'error',
-            errorMsg: 'Not a valid zip code'
-            }
-        } 
+                validateStatus: 'error',
+                errorMsg: 'Not a valid zip code'
+            }//end return
+        }//end if
         else {
             return{
                 validateStatus: 'success',
                 errorMsg: null,
-                };
-            }
-    }
+            };//end return
+        }//end else
+    }//end validateZipcode
 
     validatePaid = ( paid ) => {
         if( paid.length === 0 || paid.length > 8){
             return{
                 validateStatus: 'error',
                 errorMsg: 'Not a valid amount'
-            }
-        } 
+            }//end return
+        }//end if
         else {
             return{
                 validateStatus: 'success',
                 errorMsg: null,
-                };
-            }
-       }
+            };//end return
+        }//end els
+    }//end validatePaid
  		
 }//end of class
 
 ReactDOM.render(
-  <DeliveryInfo />,
-  document.getElementById('root')
+    <DeliveryInfo />,
+    document.getElementById('root')
 );
-
 export default DeliveryInfo;

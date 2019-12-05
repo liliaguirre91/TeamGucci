@@ -1,7 +1,7 @@
 import React from 'react';
 import './HomePage.css';
 
-import {Form, Button, Result, Typography } from 'antd';
+import { Form, Button, Result, Typography } from 'antd';
 const {Text}=Typography;
 
 class OrderConfirmation extends React.Component {
@@ -9,18 +9,18 @@ class OrderConfirmation extends React.Component {
         super(props);
         this.state = {  order_id: 0 };
         this.handleClick = this.handleClick.bind(this);
-    }
+    }//end constructor
 
     handleClick = param => e => {
-      e.preventDefault();
-      this.props.history.push(param);
-    }
+        e.preventDefault();
+        this.props.history.push(param);
+    };//end handleClick
     
     handleSubmit(event) {
         event.preventDefault();
         localStorage.removeItem('cart')
         this.props.history.push("/");
-    }
+    };//end handleSubmit
 
     render() {
         const ohLord = localStorage.getItem('orderNumber');
@@ -48,8 +48,8 @@ class OrderConfirmation extends React.Component {
                 </Form>
             </div>
 
-        );
-    }
-}
+        );//end return
+    }//end render
+}//end OrderConfirmation
 
 export default OrderConfirmation;

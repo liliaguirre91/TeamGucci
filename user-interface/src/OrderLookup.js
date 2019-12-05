@@ -15,14 +15,14 @@ class OrderLookup extends Component {
             submitted: false,
             productsOrdered: [],
             temp: ''
-        };
+        };//end state
         this.handleIDChange = this.handleIDChange.bind(this);    
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    }//end constructor
 
     handleIDChange(event) {
         this.setState({OrderID: event.target.value});
-    }
+    }//end handleIDChange
 
     
     async handleSubmit(event) {
@@ -34,59 +34,59 @@ class OrderLookup extends Component {
         
         /* lookup order number and return if delivered or not */
         await lookupOrder(orderNumber) 
-        .then(result => 
-            this.setState({ result })
-        );
+            .then(result => 
+                this.setState({ result })
+            );//end then
         
         /* get the products ordered attached to the order number */
         await getProductsOrdered(orderNumber)
-        .then (response => {
-            this.setState({
-                productsOrdered: response
-            })
-        })
-        .catch(error => {
-            notification.error({
-                message: '',
-                description: error.message
-            });
-        })
+            .then (response => {
+                this.setState({
+                    productsOrdered: response
+                })//end setState
+            })//end then
+            .catch(error => {
+                notification.error({
+                    message: '',
+                    description: error.message
+                });//end notification
+            })//end catch
         for (var i = 0; i < this.state.productsOrdered.length; i++) {
             await getProduct( this.state.productsOrdered[ i ].productId )
-            .then( response => {
-            this.setState( { temp: response });
-            })
-            .catch(error => {
-            notification.error({
-                message: 'There was an error please try again',
-                description: error.message
-            });
-        } )
+                .then( response => {
+                    this.setState( { temp: response });
+                })//end then
+                .catch(error => {
+                    notification.error({
+                        message: 'There was an error please try again',
+                        description: error.message
+                    });//end notification
+                })//end catch
             const name = this.state.temp.product
             productNames.push( name );
             productQuantities.push( this.state.productsOrdered[ i ].quantity );
-        }
+        }//end for
         for (var i = 0; i < this.state.productsOrdered.length; i++) {
                 const item = { productId: productNames[ i ] , quantity: productQuantities[  i ] }
                 items.push(item);
-        }
+        }//end for
         /* check if order has been delivered or not, give a message saying yes or no */
         if (this.state.result === 'false') {     
             message.error('Order number ' + orderNumber + ' has not been delivered yet.');
             this.setState({deliveryInfo:"Your Order has not been delivered yet."});
-        }
+        }//end if
         else if (this.state.result === 'true') {
             message.success('Order number ' + orderNumber + ' has been delivered!')
             this.setState({deliveryInfo: "Your order has been delivered!!"});
-        }
+        }//end if
 
         /* order could not be found */
         /* never triggers because of the await on line 38 */
         else {
             this.setState({deliveryInfo:"There is no order with that order number!!"});
-        }
+        }//end else
         this.setState({ submitted: true});
-    }  
+    }//end handleSubmit
     
     render() {
         /* table columns */
@@ -101,7 +101,7 @@ class OrderLookup extends Component {
                 dataIndex: 'quantity',
                 key: 'quantity'
             }
-        ];
+        ];//end columns
         
         return (
             <div className="order-search-container">
@@ -133,7 +133,7 @@ class OrderLookup extends Component {
                         </div>
                     }
             </div>
-        );
-    }
-}
+        );//end return
+    }//end render
+}//end OrderLookup
 export default OrderLookup;

@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import './AppHeader.css';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
-import 'antd/dist/antd.css';
+//import 'antd/dist/antd.css';
 const Header = Layout.Header;
 
 class AppHeader extends Component {
