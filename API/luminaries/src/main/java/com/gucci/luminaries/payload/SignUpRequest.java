@@ -2,8 +2,11 @@ package com.gucci.luminaries.payload;
 
 import javax.validation.constraints.*;
 
-//Used during authentication. Creates a SignUpRequest object that gets passed to AuthController
-//when a user is signing up
+/*  Class SignUpRequest
+    -Used during authentication 
+    -Creates a SignUpRequest object that gets passed to AuthController
+    -when a user is signing up
+*/
 public class SignUpRequest {
     @NotBlank
     @Size(min = 4, max = 40)

@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+/*  Class CustomUserDetailsService
+    -Specifies a CustomUserDetailsService to return
+    -information about a user through the API.
+*/
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
@@ -20,6 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
         // Let people login with either username or email
+        // NOTE: username has been deprecated, and e-mail takes its place
         users user = userRepository.checkEmail( email )
                 .orElseThrow(() -> 
                         new UsernameNotFoundException("User not found with email : " + email)

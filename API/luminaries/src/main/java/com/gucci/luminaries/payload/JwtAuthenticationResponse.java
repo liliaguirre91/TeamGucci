@@ -1,7 +1,11 @@
 package com.gucci.luminaries.payload;
 
-//Custom Authentication response. Used during authentication to display a correct sign in
-//Displays the accessToken string and specifies the token type as "Bearer"
+/* Class JwtAuthenticationResponse
+    -Custom Authentication response. Used during authentication 
+    -to return a correct sign in response.
+    -Displays the accessToken string and specifies the token type 
+    -as "Bearer".
+*/
 public class JwtAuthenticationResponse {
     private String accessToken;
     private String tokenType = "Bearer";
