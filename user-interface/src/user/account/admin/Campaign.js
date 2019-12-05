@@ -32,18 +32,25 @@ class Campaign extends Component {
       this.handleEarnings = this.handleEarnings.bind(this);
       this.handleCurrent = this.handleCurrent.bind(this);
       this.setEarning = this.setEarning.bind(this);
-  }
+   }
 
-    handleIDChange(event) {
-        this.setState({CampaignID: event.target.value});
-    }
+   /*
+    * Handler: handleIDChange hanges the changing of the campaign ID number.
+    */ 
+   handleIDChange(event) {
+      this.setState({CampaignID: event.target.value});
+   }
 
+   /*
+    * Handler: handleClick handles the redirection of the user to a different page. It takes a parameter
+    * of the page they are being redirected to. It store the user input in local storage.
+    * It also catches the error of when the user clicks a button but no integer is entered. 
+    */
     handleClick = param => e => {
         e.preventDefault();
         const setCampaign = { year: this.state.CampaignID };
         if (this.state.CampaignID !== '') {
             localStorage.setItem('setCampaign', JSON.stringify(setCampaign));
-            console.log(localStorage.getItem('setCampaign'));
             this.props.history.push(param);
         }
         else {
@@ -51,15 +58,25 @@ class Campaign extends Component {
         }
     }
 
+/* Handler: handleBackCLick handles the user pressing the back button */
     handleBackClick = param => e => {
       e.preventDefault();
       this.props.history.push(param);
    }
 
-
+/*
+ * Handler: setEarning handles whether the modal is visible or not by changing from false to true.
+ */
    setEarning( b ){
       this.setState( { earnings: b } );
    }
+
+
+   /*
+    * Function: handleCreate creates a new campagin specified by the user.
+    * It calls the API function createCampaign the takes an input value and creates a new campaign
+    * It also catches creation errors, and notifies the user. 
+    */
    async handleCreate(event) {
       event.preventDefault();
       
@@ -83,6 +100,12 @@ class Campaign extends Component {
                });
            });  
    }
+   /*
+    * Function: handleDelete deletes a campaign specified by the user.
+    * It calls the API function deleteCampaign that takes input from the user and deletes the campaign.
+    * It then prompts the user to confrim their choice of deletion. It also catches errors and notifies
+    * the user. 
+    */ 
    async handleDelete(event) {
       event.preventDefault();
       
@@ -112,7 +135,11 @@ class Campaign extends Component {
       this.setState( { submitted: false } );
       }
    }
-
+   /*
+    * Function: handleEarnings calls to the API functions getTotalCost, amountPaid and orderCount
+    * these funtions return numerical values when the user presses the "revenue report" button.
+    * It also catches errors and notifies the user when something goes wrong.
+    */
    async handleEarnings( event ){
       const campaignNumber = parseInt( this.state.CampaignID );
       await getTotalCost(campaignNumber)
@@ -147,6 +174,10 @@ class Campaign extends Component {
          });
       });
    }
+   /*
+    * Function: handleCurrent sets the current campaign specified by the user. It calls the API function
+    * setCampaign, is given the campaign number as a parameter and sets the input as the current campaign.
+    */
    async handleCurrent( event ){
       const campaignNumber = parseInt( this.state.CampaignID );
       await setCampaign(campaignNumber)
@@ -168,9 +199,23 @@ class Campaign extends Component {
         return <Campaign CampaignID={this.state.CampaignID}/>
     }
    
-    handleSubmit( event ){
-        alert( "Please Press a Button")
-    }
+/*
+ * The campaign page expects the user to input a two-digit integer then allows them
+ * to select one of the buttons on the page. The buttons will not function properly
+ * if there is not input. We expect the user to input the correctly formatted input
+ * of a two-digit integer. 
+ * 
+ * A modal is in place when the user requests the revenue report. A pop-up window will
+ * appear that the user can then click away from.
+ * 
+ * All of the buttons in the render() have the following attributtes:
+ *    - style: allows for a border color to be applied
+ *    - htmlType: expresses the type of button functionality
+ *    - size: make the text larger on screen
+ *    - onClick: a function defined above
+ * The buttons were also separated with a row gutter and col span.
+ */
+
    
    render() {
       return (
@@ -178,129 +223,123 @@ class Campaign extends Component {
             <h2 className="page-title"> Campaign Configuration </h2>
             <h5 align="center"> Enter a campaign ID number: </h5>
             <Modal
-                  title="Amount Earned"
-                  centered
-                  destroyOnClose={true}
-                  visible={ this.state.earnings }
-                  onOk={ () => this.setEarning( false ) }
-                  onCancel={ () => this.setEarning( false ) }
-               >
+               title="Amount Earned"
+               centered
+               destroyOnClose={true}
+               visible={ this.state.earnings }
+               onOk={ () => this.setEarning( false ) }
+               onCancel={ () => this.setEarning( false ) }>
                   <p>The amount of money earned in this campaign is ${this.state.amount}</p>
                   <p>The amount of money owed in this campaign is ${this.state.owed}</p>
                   <p>The amount of orders made in this campaign is {this.state.orders}</p>
-               </Modal>
-               <br />
-               <br />
-               <Form className="campaign-form" align="center" layout = 'inline'> 
-                  <FormItem
-                           label="">
-                           <Input 
-                              size="large"
-                              type="text" 
-                              pattern="^[0-9]*$"
-                              autocomplete="off"
-                              placeholder="campaign ID"
-                              CampaignID={this.state.CampaignID} 
-                              onChange={this.handleIDChange} maxLength="2"/>
-                     </FormItem>
-                     <div className="campaign-container2">
-
-                     <Row gutter={[100, 40]} type = 'flex'>
-                        <Col span={8}>
-                           <FormItem>
-                              <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="campaign-form-create-button"
-                                    onClick={(e) => this.handleCreate(e) }>Create campaign</Button>
-                           </FormItem>
-                        </Col>
-                        <Col span={8}> 
-                           <FormItem>
-                              <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="campaign-form-delete-button"
-                                    onClick={(e) => this.handleDelete(e) }>Delete campaign</Button>
-                           </FormItem>
-                        </Col>
-                        <Col span={8}>
-                           <FormItem>
-                              <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="row2-button"
-                                    onClick={(e) => this.handleEarnings( e ) }>Revenue report</Button>
-                           </FormItem>
-                        </Col>
-                        <Col span={8}>
-                           <FormItem>
-                              <Button 
-                                 type="primary"
-                                 htmlType="submit"
-                                 size="large"
-                                 className="row3-button"
-                                 onClick={this.handleClick("/add-product")}>Add a product</Button>
-                           </FormItem>
-                        </Col>
-                        <Col span={8}>
-                           <FormItem>
-                              <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="campaign-form-delProduct-button"
-                                    onClick={this.handleClick("/modify-product")}>Modify a product</Button>
-                           </FormItem>
-                        </Col>
-                        <Col span={8}> 
-                           <FormItem>
-                              <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="campaign-form-viewProductsOrders-button"
-                                    onClick={this.handleClick("/products-ordered") }>Products ordered</Button>
-                           </FormItem>
-                        </Col>
-                        <Col span={8}>
-                           <FormItem>
-                              <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="row4-button"
-                                    onClick={this.handleClick("/delivery-report") }>Delivery Report</Button>
-                           </FormItem>
-                        </Col>
-                        <Col span={8}>
-                           <FormItem>
-                              <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="row4-button"
-                                    onClick={this.handleClick("/orders-report") }>Orders Report</Button>
-                           </FormItem>
-                        </Col>
-                        <Col span={8}>
-                           <FormItem>
-                              <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="campaign-form-setCampaign-button"
-                                    onClick={(e) => this.handleCurrent( e ) }>Set Current Campaign</Button>
-                           </FormItem>
-                        </Col>
-                        <Col span={24}>
-                        <FormItem>
-                            <Button
-                                htmlType="button"
-                                size="large"
-                                className="back-button"
-                                onClick={ this.handleBackClick("/admin-account")}> Back </Button>
-                        </FormItem>
-                        </Col>
-                     </Row>
-                     </div>
-   
-                </Form>
+            </Modal>
+            <br /><br />
+            <Form className="campaign-form" align="center" layout = 'inline'> 
+               <FormItem label="">
+                  <Input 
+                     size="large"
+                     type="text" 
+                     pattern="^[0-9]*$"
+                     autocomplete="off"
+                     placeholder="campaign ID"
+                     CampaignID={this.state.CampaignID} 
+                     onChange={this.handleIDChange} maxLength="2"/>
+               </FormItem>
+               <div className="campaign-container2">
+               <Row gutter={[100, 40]} type = 'flex'>
+               <Col span={8}>
+               <FormItem>
+                  <Button 
+                     style={{ borderColor:"#597ef7"}}
+                     htmlType="submit"
+                     size="large"
+                     onClick={(e) => this.handleCreate(e) }>Create campaign</Button>
+               </FormItem>
+               </Col>
+               <Col span={8}> 
+               <FormItem>
+                  <Button
+                     style={{ borderColor:"#597ef7"}}
+                     htmlType="submit"
+                     size="large"
+                     onClick={(e) => this.handleDelete(e) }>Delete campaign</Button>
+               </FormItem>
+               </Col>
+               <Col span={8}>
+               <FormItem>
+                  <Button 
+                     style={{ borderColor:"#597ef7"}}
+                     htmlType="submit"
+                     size="large"
+                     onClick={(e) => this.handleCurrent( e ) }>Set Current Campaign</Button>
+               </FormItem>
+               </Col>
+               <Col span={8}>
+               <FormItem>
+                  <Button 
+                     style={{ borderColor:"#597ef7"}}
+                     htmlType="submit"
+                     size="large"
+                     onClick={this.handleClick("/add-product")}>Add a product</Button>
+               </FormItem>
+               </Col>
+               <Col span={8}>
+               <FormItem>
+                  <Button 
+                     style={{ borderColor:"#597ef7"}}
+                     htmlType="submit"
+                     size="large"
+                     onClick={this.handleClick("/modify-product")}>Modify a product</Button>
+               </FormItem>
+               </Col>
+               <Col span={8}> 
+               <FormItem>
+                  <Button 
+                     style={{ borderColor:"#597ef7"}}
+                     htmlType="submit"
+                     size="large"
+                     onClick={this.handleClick("/products-ordered") }>Products ordered</Button>
+               </FormItem>
+               </Col>
+               <Col span={8}>
+               <FormItem>
+                  <Button 
+                     style={{ borderColor:"#597ef7"}}
+                     htmlType="submit"
+                     size="large"
+                     onClick={this.handleClick("/delivery-report") }>Delivery Report</Button>
+               </FormItem>
+               </Col>
+               <Col span={8}>
+               <FormItem>
+                  <Button 
+                     style={{ borderColor:"#597ef7"}}
+                     htmlType="submit"
+                     size="large"
+                     onClick={this.handleClick("/orders-report") }>Orders Report</Button>
+               </FormItem>
+               </Col>
+               <Col span={8}>
+               <FormItem>
+                  <Button 
+                     style={{ borderColor:"#597ef7"}}
+                     htmlType="submit"
+                     size="large"
+                     onClick={(e) => this.handleEarnings( e ) }>Revenue report</Button>
+               </FormItem>
+               </Col>
+               <Col span={24}>
+               <FormItem>
+                  <Button
+                     style={{ borderColor:"#f5222d"}}
+                     htmlType="button"
+                     size="large"
+                     onClick={ this.handleBackClick("/admin-account")}> Back </Button>
+               </FormItem>
+               </Col>
+               </Row>
+               </div>
+            </Form>
          </div>
       );
    }
@@ -310,5 +349,4 @@ ReactDOM.render(
   <Campaign/>,
   document.getElementById('root')
 );
-
 export default Campaign;

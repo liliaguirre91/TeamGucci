@@ -14,6 +14,8 @@ import {
   Rate,
   Checkbox,
   notification,
+  Row,
+  Col
 } from 'antd';
 import { createProduct, getAllProducts, getProduct } from '../../../util/APIFunctions.js';
 
@@ -21,9 +23,9 @@ const FormItem= Form.Item;
 
 class addProduct extends React.Component {
 
-  constructor(props) {
-      super(props);
-        this.state = { 
+    constructor(props) {
+        super(props);
+            this.state = { 
             selectedFile: null,
             product:        { value: '' },
             description:    { value: '' },
@@ -35,7 +37,7 @@ class addProduct extends React.Component {
       this.handleUpload = this.handleUpload.bind( this );
       this.handleInputChange = this.handleInputChange.bind(this);
       this.setVisable = this.setVisable.bind( this );
-  }
+}
 
     handleInputChange(event) {
         const target = event.target;
@@ -86,6 +88,11 @@ class addProduct extends React.Component {
                 });
             });
 };
+
+handleBackClick = param => e => {
+    e.preventDefault();
+    this.props.history.push(param);
+ }
 
     fileChangedHandler = (event) => {
         this.setState({ selectedFile: event.target.files[0] });
@@ -212,7 +219,10 @@ class addProduct extends React.Component {
                 </div>
                </Modal>
           
-              <button onClick={ () => this.setVisable( true ) }>Use Previous Product</button>
+              <Button 
+                 htmlType="submit"
+                 size="large"
+                 onClick={ () => this.setVisable( true ) }>Use Previous Product</Button>
           <Form>
             <FormItem
                 label="Product">
@@ -234,7 +244,7 @@ class addProduct extends React.Component {
                     autocomplete="off"
                     placeholder="description"
                     value={this.state.description.value}
-                    onChange={(event) => this.handleInputChange(event) } maxLength="50"/>
+                    onChange={(event) => this.handleInputChange(event) } maxLength="255"/>
             </FormItem>
             <FormItem
                 label="Price">
@@ -250,13 +260,28 @@ class addProduct extends React.Component {
 
             <FormItem label="Upload">
               <input type="file" onChange={ this.fileChangedHandler }></input>
-              <button onClick={ this.handleUpload }>Upload!</button>
+              <br/>
+              <Button 
+                    htmlType="submit"
+                    size="large"
+                    onClick={ this.handleUpload }>Upload!</Button>
             </FormItem>
         <FormItem >
-          <Button type="primary" htmlType="submit" onClick = { this.handleSubmit}>
-            Add
-          </Button>
+          <Button
+                htmlType="submit"
+                size="large"
+                onClick = { this.handleSubmit}> Add </Button>
         </FormItem>
+
+        <FormItem>
+            <Button
+                type="danger" ghost
+                htmlType="button"
+                size="large"
+                className="back-button"
+                onClick={ this.handleBackClick("/campaigns")}> Cancel </Button>
+        </FormItem>
+        
       </Form>
       </div>
     );

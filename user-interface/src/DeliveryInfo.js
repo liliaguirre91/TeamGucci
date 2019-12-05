@@ -335,7 +335,7 @@ class DeliveryInfo extends React.Component {
                             </FormItem>
 
                             <FormItem>
-                                <Button type="primary"
+                                <Button
                                 htmlType="submit"
                                 size="large"
                                 className="delivery-form-button"

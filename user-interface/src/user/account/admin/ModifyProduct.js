@@ -10,7 +10,8 @@ import { Form,
          Modal, 
          Popconfirm, 
          Divider, 
-         Input } from 'antd';
+         Input,
+        Button } from 'antd';
 const FormItem = Form.Item;
 
 
@@ -119,6 +120,23 @@ class ModifyProduct extends Component {
             window.location.reload();
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+    handleBackClick = param => e => {
+        e.preventDefault();
+        this.props.history.push(param);
+     }
+
 /*---------------------------------------------------------------------------------------------------------------*/    
     async handleSubmit(event) {
         event.preventDefault();
@@ -214,6 +232,12 @@ class ModifyProduct extends Component {
             <div className="modify-product-container">
                 <h2 className="page-title">Products</h2>
                 <div className="table">
+                            <Button
+                                style={{ borderColor:"#f5222d"}}
+                                htmlType="button"
+                                size="large"
+                                className="back-button"
+                                onClick={ this.handleBackClick("/campaigns")}> Back </Button>
                     <Table 
                         dataSource={this.state.products} 
                         columns={columns} 

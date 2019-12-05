@@ -15,10 +15,6 @@
     margin-top: 60px;    
 
 }
-.campaign-form-button {
-    margin-top: 30px;
-    
-}
 
 .campaign-form-button[disabled], .signup-form-button[disabled]:hover, .signup-form-button[disabled]:focus {
     opacity: 0.6;
@@ -28,41 +24,9 @@
 
 }
 
-.campaign-form .row1-button{
-    opacity: 0.6;
-    color: #fff;
-    background-color: #1890ff;
-    border-color: #1890ff;
-
-}
-
-.campaign-form .row2-button{
-    opacity: 0.6;
-    color: #fff;
-    background-color: #1890ff;
-    border-color: #1890ff;
-    width: 130%;
-}
-
-.campaign-form .row3-button{
-    opacity: 0.6;
-    color: #fff;
-    background-color: #1890ff;
-    border-color: #1890ff;
-    width: 115%;
-}
-
-.campaign-form .row4-button{
-    opacity: 0.6;
-    color: #fff;
-    background-color: #1890ff;
-    border-color: #1890ff;
-    width: 110%;
-}
-
 .campaign-form input {
     margin-bottom: 3px;
     min-width: 150px;
-    width: 30%;
+    width: 50%;
     text-align: center;
 }

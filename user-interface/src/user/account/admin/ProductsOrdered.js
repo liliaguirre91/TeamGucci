@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-//import './ProductsOrdered.css';
+import './Campaign.css';
 import { countProducts, getProducts, getProduct, countProductsLeft } from '../../../util/APIFunctions';
-import { notification, Table } from 'antd';
+import { notification, Table, Button } from 'antd';
 
 const productIDs = [];
 const productCounts = [];
@@ -23,9 +23,9 @@ class ProductsOrdered extends Component {
     }//end constructor
     async componentDidMount() {
         
-        //get the campaign number from local storage and set state.campaignID
-        let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
-        let campaignNumber = setCampaign["year"];
+    //get the campaign number from local storage and set state.campaignID
+    let setCampaign = JSON.parse(localStorage.getItem('setCampaign'));
+    let campaignNumber = setCampaign["year"];
         
         //get all Products
         
@@ -100,6 +100,18 @@ class ProductsOrdered extends Component {
         tableResults.length = 0;
     }//end componentDidMount
 
+    /* Handler: handleBackCLick handles the user pressing the back button */
+    handleBackClick = param => e => {
+        e.preventDefault();
+        this.props.history.push(param);
+     }
+/*
+ * Inside the render() is a table that contains product information including the ID, name,
+ * the number ordered and the number not yet delivered. 
+ * 
+ * The button within the return() is a back button that takes the user back to the previous page.
+ *
+ */
     render() {
         //table columns
         const columns = [
@@ -124,18 +136,22 @@ class ProductsOrdered extends Component {
                 key: 'left'
             }
         ]
-             return(
-                <div classname = 'ProductsOrderedContainer'>
-                    <h1 classname='Space Filler' >Count the Products Ordered </h1>
-                    <h2 classname = 'Page Title' align="center">Count the Products Ordered</h2>
-                    <Table columns = {columns} dataSource = {this.state.fillTable} bordered pagination = {false} size = 'middle' />
-                   
-                </div>
-                
-             );
-             
-         } 
-        
+    return(
+        <div classname = 'ProductsOrderedContainer'>
+            <h2 className = 'page-title' align='center'>Count the Products Ordered</h2>
+                <Button
+                    style={{ borderColor:'#f5222d' }}
+                    htmlType='submitbutton'
+                    size='large'
+                    onClick={ this.handleBackClick('/campaigns')}> Back </Button>       
+                <Table
+                    columns = {columns}
+                    dataSource = {this.state.fillTable}
+                    bordered pagination = {false}
+                    size = 'middle' />
+        </div>
+    );  
+}    
 }//end ProductsOrdered class
   
 export default ProductsOrdered;

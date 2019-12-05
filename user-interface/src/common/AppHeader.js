@@ -22,8 +22,8 @@ class AppHeader extends Component {
       }
     }
     handleFun( ){  
-      let audio = new Audio(music)
-      audio.play()
+     // let audio = new Audio(music)
+      //audio.play()
     }
     clearCart( ){
         localStorage.removeItem( 'cart' );
@@ -61,7 +61,7 @@ class AppHeader extends Component {
                 <Header className="app-header">
                     <div className="container">
                         <div className="app-title" >
-                            <Link to="/" onClick = { this.handleFun( ) }><Icon component={() => (<img src={require('../LCHS_logo.png')} />)} /></Link>
+                            <Link tabIndex='0' to="/" onClick = { this.handleFun( ) }><Icon component={() => (<img src={require('../LCHS_logo.png')} />)} /></Link>
                             <Link to="/products" style={{
                                 paddingRight: '50px',
                                 }}><span onClick = { ( ) => this.clearCart() }>Products</span></Link>

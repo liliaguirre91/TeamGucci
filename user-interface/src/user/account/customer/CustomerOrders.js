@@ -184,7 +184,8 @@ class CustomerOrder extends Component {
 
             <div className="delivery-report-container">
                 <h1 className="page-title">My Orders</h1>
-                <Button type="primary"
+                <Button
+                style={{ borderColor:"#f5222d"}}
                 htmlType="submit"
                 size="large"
                 className="customer-back-button"

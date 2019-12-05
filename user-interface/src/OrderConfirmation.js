@@ -49,7 +49,7 @@ class OrderConfirmation extends React.Component {
 
                // console.log(localStorage.getItem('orderNumber'));
                     extra={[
-                     <Button type="primary" onClick={this.handleClick("/")}>
+                     <Button onClick={this.handleClick("/")}>
                         Home
                      </Button>,
                     

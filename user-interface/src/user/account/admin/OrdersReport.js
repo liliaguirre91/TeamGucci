@@ -164,6 +164,12 @@ class OrdersReport extends Component {
   handlePaidChange(event) {
     this.setState({ amount: event.target.value});
   }
+
+
+  handleBackClick = param => e => {
+    e.preventDefault();
+    this.props.history.push(param);
+ }
     
     
 /*******************************************************************************************/      
@@ -219,7 +225,12 @@ class OrdersReport extends Component {
             <div className="delivery-report-container" style={{ marginTop: 16 }}>
                 <h1 className="page-title">Orders Report</h1>
                 <div style={{ marginBottom: 20 }}>
-                    
+                <Button
+                    style={{ borderColor:"#f5222d"}}
+                    htmlType="button"
+                    size="large"
+                    className="back-button"
+                    onClick={ this.handleBackClick("/campaigns")}> Back </Button>    
                 <Modal
                   title="Update amount Paid"
                   centered

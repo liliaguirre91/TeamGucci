@@ -26,7 +26,6 @@ import CampaignsPage from './user/account/admin/Campaign.js';
 import DeliveryReport from './user/account/admin/DeliveryReport.js';
 import OrdersReport from './user/account/admin/OrdersReport.js';
 import AddProduct from './user/account/admin/addProduct.js';
-import CampaignProductsOrdered from './user/account/admin/CampaignProductsOrdered.js';
 
 import EditInfo from './user/account/EditInfo.js';
 import CustomerOrders from './user/account/customer/CustomerOrders.js';
