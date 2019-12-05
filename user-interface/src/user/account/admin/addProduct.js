@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------------------------------------------------\
- * Date Created:
+ * Date Created: November 13, 2019
  * Description: The addProduct class components allows an admin to add a product to the selected campaign. This page
  * includes a form where the admin can enter the product's name, price, description, and upload an image. The admin also
  * has the choice to select from a set of products from previous campaigns to add to the current campaign.
@@ -208,9 +208,11 @@ class addProduct extends React.Component {
     * Handler: handleUpload takes the upload event and 
     * Parameters:
     *       -
-    * Preconditions: None
+    * Preconditions: 
+    *       - The image to be used needs to be stored in the selected file state
     * Postconditions:
-    *       - 
+    *       - The image will be stored in image as a base 64 byte array and are ready 
+    *         be inserted into to the database 
     *---------------------------------------------------------------------------------------------------------------------*/ 
     async handleUpload( event ){
         const reader = new FileReader();
