@@ -7,18 +7,18 @@ class FailurePage extends React.Component {
         super(props);
         this.state = {  order_id: 0 };
         this.handleClick = this.handleClick.bind(this);
-    }
+    }//end constructor
 
     handleClick = param => e => {
-      e.preventDefault();
-      this.props.history.push(param);
-    }
+        e.preventDefault();
+        this.props.history.push(param);
+    };//end handleClick
     
     handleSubmit(event) {
         event.preventDefault();
         localStorage.removeItem('cart')
         this.props.history.push("/");
-    }
+    };//end handleSubmit
 
     render() {     
         return (
@@ -39,9 +39,8 @@ class FailurePage extends React.Component {
                     </Result>
                 </form>
             </div>
-
-        );
-    }
-}
+        );//end return
+    }//end render
+}//end FailurePage
 
 export default FailurePage;

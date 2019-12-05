@@ -45,7 +45,7 @@ class App extends React.Component {
             currentUser: null,
             isAuthenticated: false,
             isLoading: false,
-        }
+        }//end state
         this.loadCurrentUser = this.loadCurrentUser.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
@@ -55,38 +55,38 @@ class App extends React.Component {
             placement: 'topLeft',
             top: 70,
             duration: 5,
-        });
-    }
+        });//end notification
+    }//end constructor
   
     loadCurrentUser() {
         this.setState({
             isLoading: true
-        });
+        });//end setState
         getCurrentUser()
             .then(response => {
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true,
                     isLoading: false
-                });
-        })
+                });//end setState
+            })//end then
         .catch(error => {
             this.setState({
                 isLoading: false
-            });  
-        });
-    }
+            });//end setState
+        });//end catch
+    }//end loadCurrentUser
     async loadCurrentCampaign() {
         await getCampaign()
             .then( response => {
                 localStorage.setItem( 'campaign', ( JSON.parse( response ) ) );
-            });
-    }
+            });//end then
+    }//end loadCurrentCampaign
   
     componentDidMount() {
         this.loadCurrentUser();
         this.loadCurrentCampaign();
-    }
+    }//end componentDidMount
     
     handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
         localStorage.removeItem(ACCESS_TOKEN);
@@ -94,30 +94,30 @@ class App extends React.Component {
         this.setState({
             currentUser: null,
             isAuthenticated: false
-        });
+        });//end setState
 
         this.props.history.push(redirectTo);
     
         notification[notificationType]({
             message: 'LCHS Band Fundraising',
             description: description,
-        });
-    }
+        });//end notification
+    }//end handleLogout
     
     handleLogin() {
         notification.success({
             message: 'LCHS Band Fundraising',
             description: "You're successfully logged in.",
-        });
+        });//end notification
         this.loadCurrentUser();
         this.props.history.push("/");
-    }
+    }//end handleLogin
 
   
     render() {
         if(this.state.isLoading) {
             return <LoadingIndicator />
-        }
+        }//end if
         return (
             <Layout className="app-container">
                 <AppHeader isAuthenticated={this.state.isAuthenticated} 
@@ -195,8 +195,8 @@ class App extends React.Component {
                  
                 </Footer>
             </Layout>
-        );
-    }
-}
+        );//end return
+    }//end render
+}//end App
 
 export default withRouter(App); 
