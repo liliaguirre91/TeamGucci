@@ -230,7 +230,7 @@ class OrdersReport extends Component {
     
     /*---------------------------------------------------------------------------------------------------------------------
     * Function: render takes care of rendering all component elements to the screen. Here we define the main table's
-    * columns and hanlde any actions that will be included in the columns. Then the return includes all JSX/HTML components
+    * columns and handle any actions that will be included in the columns. Then the return includes all JSX/HTML components
     * and their formatting. In this portion we define the table, modal, and form that will be used in the page. 
     *---------------------------------------------------------------------------------------------------------------------*/ 
     render() {
