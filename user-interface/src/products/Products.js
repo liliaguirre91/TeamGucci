@@ -70,7 +70,7 @@ class Products extends React.Component {
         const{ products } = this.state;
         
         return (
-            <div className="product-container">
+            <div>
                 <h3 className="page-title"> List of Products </h3><hr/>
                 { products.map((product, index) => <ProductItem product={product} key={index}/>)}
                 <hr/>

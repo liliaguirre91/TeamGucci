@@ -60,6 +60,8 @@ class AppHeader extends Component {
                     <div className="container">
                         <div className="app-title" >
                             <Link to="/"><Icon component={() => (<img src={require('../LCHS_logo.png')} />)} /></Link>
+                        </div>
+                        <div className="app-links">
                             <Link to="/products" style={{
                                 paddingRight: '50px',
                                 }}><span onClick = { ( ) => this.clearCart() }>Products</span></Link>

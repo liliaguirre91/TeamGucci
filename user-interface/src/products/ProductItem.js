@@ -14,7 +14,7 @@
  *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import { notification, message, Button, Input, Card, Row, Col } from 'antd';
-//import './ProductItem.css';
+import './ProductItem.css';
 
 
 class ProductItem extends React.Component {
@@ -70,7 +70,13 @@ class ProductItem extends React.Component {
     
     /*---------------------------------------------------------------------------------------------------------------------
      * Function: removeFromCart removes the specified product completely from the cart. This function does not use the 
-     * specified
+     * entered quantity, but instead removes it completely.
+     * Parameters: 
+     *      - product object conatining all product information
+     * Preconditions: 
+     *      - Cart must not be null
+     * Postconditions:
+     *      - The product represented by the parameter will be completely removed form the cart.
      *---------------------------------------------------------------------------------------------------------------------*/
     removeFromCart = (product) => {
         if (localStorage.getItem('cart') !== null) {
@@ -101,19 +107,17 @@ class ProductItem extends React.Component {
     render() {
         const { product } = this.props;
         return (
-            <Row gutter ={2}>
-                <Col span={10}>
+            <div align="center">
             <Card 
-            align="center"
-            title={product.product}
-            marginBottom="10px"
-            style={{ width: "600%"}} 
-            cover={<img src={`data:image/jpg;base64, ${product.image}`} />} >
+                align="center"
+                marginBottom="10px"
+                style={{ width: "50%"}} 
+                >
                 <div>
-                   {/* <h4 align="center">{product.product}</h4><br/> */}
-                {/*    <div align="center"> */}
-                   {/*<img src={`data:image/jpg;base64, ${product.image}`} height={500} width={500} /><br/> */}
-                {/*    </div> */}
+                    <h4 align="center">{product.product}</h4><br/>
+                
+                   <img className="image" src={`data:image/jpg;base64, ${product.image}`} height={500} width={500} /><br/> 
+                    
                     <div>
                     <h5><small>price: </small>${product.price}</h5>
                     <h6>{product.description}</h6><br/>
@@ -143,8 +147,8 @@ class ProductItem extends React.Component {
                     </div>
                 </div>
             </Card>
-            </Col>
-            </Row>
+            </div>
+           
         )
     }
 }

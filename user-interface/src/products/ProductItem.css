@@ -6,3 +6,8 @@
     align: "center";
     
 }
+
+img {
+    max-width: 70%!important;
+    height: auto;
+}

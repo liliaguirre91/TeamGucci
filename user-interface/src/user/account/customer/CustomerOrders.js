@@ -1,3 +1,16 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created:
+ * Description: The CustomerOrders class components renders a table containing all orders made in the current campaign
+ * as well as products associated with each order. Also, each order will allow the admin to modify the amount paid 
+ * towards the order. The main handlers/function s in this component are:
+ *      - componentDidMount
+ *      - getOrderedProducts
+ *      - setVisable
+ *      - handlePaid
+ *      - handlePaidChange
+ *      - handleBackClick
+ *      - render
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React, { Component } from 'react';
 import { getPreviousOrders, getProductsOrdered, getAllProducts } from '../../../util/APIFunctions';
 import { 
