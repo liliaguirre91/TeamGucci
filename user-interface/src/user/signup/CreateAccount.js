@@ -1,3 +1,13 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created: October 21, 2019
+ * Description: The CreateAccount class component is used by customers to make an acount it takes a name, email,
+ * and password from the users input and sends that to the api to make a user account
+ * The main handlers/functions in this component are:
+ *      - handleInputChange
+ *      - handleSubmit
+ *      - handleIsFormInvalid
+ *      - validateEmailAvailability
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createAccount , checkEmail } from '../../util/APIFunctions';
@@ -52,15 +62,15 @@ class CreateAccount extends React.Component {
     }//end handleInputChangeS
   
 
-  /*******************************************************************************************
-   * Handler: handleSubmit() - This handler takes care of posting the order delivery
-   * information to the API, which will in turn isert the relevan information to the 
-   * database. 
-   * Parameters: default submit event
-   * Preconditions: All fields in the delivery forma must be filled out
-   * Postcondition: An order will be created and all relevant order information will be inserted
-   * into the database.
-   ********************************************************************************************/
+    /*******************************************************************************************
+     * Handler: handleSubmit() - This handler takes care of posting the account creation
+     * information to the API, which will in turn isert the relevant information to the 
+     * database. 
+     * Parameters: default submit event
+     * Preconditions: All fields in the account form must be filled out
+     * Postcondition: An account will be created and all relevant account information will be inserted
+     * into the database.
+     ********************************************************************************************/
     handleSubmit(event) {
         event.preventDefault();
         const name  = this.state.name.value;
@@ -92,13 +102,26 @@ class CreateAccount extends React.Component {
             });//end catch
     }//end handleSubmit
 
-   isFormInvalid() {
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: isFormInvalid checks whether or not the inputted values are valid or not
+     * Parameters: None
+     * Preconditions:
+     *      - None
+     * Postconditions: 
+     *      - Returns true or false based on the validity of the input 
+     *---------------------------------------------------------------------------------------------------------------------*/  
+    isFormInvalid() {
    		return !(this.state.name.validateStatus === 'success' &&
    				 this.state.email.validateStatus === 'success' &&
    				 this.state.password.validateStatus === 'success'
    		);//end return
    }//end isFormInvalid
 
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render takes care of rendering all component elements to the screen. 
+    * Then the return includes all JSX/HTML components and their formatting. 
+    * In this portion we define the form that will be used in the page. 
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     render() {
         return (
             <div className="signup-container">
@@ -158,8 +181,11 @@ class CreateAccount extends React.Component {
         );//end return
     }//end render
 
-//VALIDATION FUCNTIONS
-
+/***********************************************************************************
+   * VALIDATION FUCNTIONS: These functions check whether or not an inputted value is 
+   * valid or not. They also print a message to inform the user what part if any
+   * of the inputted values is incorrect 
+**************************************************************************************/
     validateName = (name) => {
         if(name.length < NAME_MIN_LENGTH){
             return{

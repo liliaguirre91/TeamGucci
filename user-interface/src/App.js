@@ -1,3 +1,14 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created: October 2, 2019
+ * Description: The App class component is the initializer for the entire project. It defines all of the routes
+ * for the pages so that they are accessable. It also holds all information that needs to be passed between the
+ * pages like the current user and the current campaign
+ * The main handlers/functions in this component are:
+ *      - handlecurrentUser
+ *      - handleLogin
+ *      - hangleLogout
+ *      - loadCurrentCampaign
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import './HomePage.css';
 import { 
@@ -59,6 +70,16 @@ class App extends React.Component {
         });//end notification
     }//end constructor
   
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: loadCurrentUser gets the information pertaining to the user who is currently logged in
+     * Parameters: None
+     * Preconditions:
+     *      - None
+     * Postconditions: 
+     *      - currentUser state holds the information about the user who is logged in if any
+     *      - isAuthenticated state is set to true if a user is logged in
+     *      - isLoading is set to false
+     *---------------------------------------------------------------------------------------------------------------------*/  
     loadCurrentUser() {
         this.setState({
             isLoading: true
@@ -77,6 +98,15 @@ class App extends React.Component {
             });//end setState
         });//end catch
     }//end loadCurrentUser
+    
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: loadCurrentCampaign gets the information about the campaign that is set to current in the databasee
+     * Parameters: None
+     * Preconditions:
+     *      - A campaign in the database has field isCurrent set to true
+     * Postconditions: 
+     *      - localStorage item campaign holds the campaign information for the current campaign
+     *---------------------------------------------------------------------------------------------------------------------*/  
     async loadCurrentCampaign() {
         await getCampaign()
             .then( response => {
@@ -84,11 +114,32 @@ class App extends React.Component {
             });//end then
     }//end loadCurrentCampaign
   
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: componentDidMount is executed as soon as the component is mounted; when the application is 
+     * started or refreshed.
+     * This function calls the loadCurrentUser and loadCurrentCampaign functions. 
+     * Parameters: None
+     * Preconditions:
+     *      - None
+     * Postconditions: 
+     *      - None
+     *---------------------------------------------------------------------------------------------------------------------*/  
     componentDidMount() {
         this.loadCurrentUser();
         this.loadCurrentCampaign();
     }//end componentDidMount
     
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: handleLogout is used to log a user out it deletes the currentUser information and sets the
+     * isAuthenicated state to false and removes the Access Token is removed
+     * Parameters: None
+     * Preconditions:
+     *      - currentUser has information
+     *      - isAuthenticated is true
+     * Postconditions: 
+     *      - currentUser is null
+     *      - isAuthenicated is false
+     *---------------------------------------------------------------------------------------------------------------------*/  
     handleLogout(redirectTo="/", notificationType="success", description="You're successfully logged out.") {
         localStorage.removeItem(ACCESS_TOKEN);
 
@@ -105,6 +156,16 @@ class App extends React.Component {
         });//end notification
     }//end handleLogout
     
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: handleLogin is used to log a user in it sets the currentUser info, isAuthenticated to true
+     * Parameters: None
+     * Preconditions:
+     *      - currentUser is empty
+     *      - isAuthenticated is false
+     * Postconditions: 
+     *      - currentUser has information
+     *      - isAuthenicated is true
+     *---------------------------------------------------------------------------------------------------------------------*/  
     handleLogin() {
         notification.success({
             message: 'LCHS Band Fundraising',
@@ -115,6 +176,10 @@ class App extends React.Component {
     }//end handleLogin
 
   
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render takes care of rendering all component elements to the screen. Here we call AppHeader
+    * and set all of the routes
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     render() {
         if(this.state.isLoading) {
             return <LoadingIndicator />
