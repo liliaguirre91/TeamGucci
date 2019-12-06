@@ -113,7 +113,7 @@ class ProductItem extends React.Component {
             <div align="center">
             <Card     
                 marginBottom="10px"
-                style={{ width: "50%"}}>
+                style={{ width: "600px"}}>
                 <div>
                     <h3 align="center">{product.product}</h3><br/>
                     <img 
@@ -134,7 +134,7 @@ class ProductItem extends React.Component {
                                     min="1" 
                                     name="quantity" 
                                     onChange={this.handleInputChange} 
-                                    style={{ width: "60px", marginRight: "10px", borderRadius: "1px"}}/>
+                                    style={{ height:"40px", width: "60px", marginRight: "10px", borderRadius: "1px"}}/>
                             </Col>
                             <Col xs={{ span:1, offset:2}}
                                 lg={{span:1, offset:2}}>
@@ -148,6 +148,7 @@ class ProductItem extends React.Component {
                         <div>
                             <Col xs={{ span:1, offset:14}}
                                 lg={{span:1, offset:15}}>
+                                <br/>
                                 <Button 
                                     type="danger" 
                                     size="large"
