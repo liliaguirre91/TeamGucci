@@ -1,3 +1,13 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created: November 21, 2019
+ * Description: The CustomerAccountPage class component is used to direct customers to pages that allow them
+ * to change their info or see their orders
+ * The main handlers/function s in this component are:
+ *      - handleNameChange
+ *      - handleEmailChange
+ *      - handleClick
+ *      - render
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import logo from './customer_logo.jpg';
@@ -19,6 +29,10 @@ class CustomerAccountPage extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }//end constructor
   
+    /***********************************************************************************
+   * State Handlers: These handlers set the states based on the given events. These
+   * will corrspond to the user entries in the delivery form.
+   ************************************************************************************/
     handleNameChange(event) {
         this.setState({name: event.target.value});
     }//end handleNameChange
@@ -40,6 +54,11 @@ class CustomerAccountPage extends React.Component {
         this.props.history.push(param);
     };//end handleClick
 
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render takes care of rendering all component elements to the screen. 
+    * Then the return includes all JSX/HTML components and their formatting. 
+    * In this portion we define the form that will be used in the page. 
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     render() {
         let name = '';
         if (this.props.currentUser) {
