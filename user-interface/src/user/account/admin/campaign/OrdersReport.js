@@ -128,7 +128,7 @@ class OrdersReport extends Component {
         this.setState({items: products});
     }
 
-   /*---------------------------------------------------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------------------------------------------------
     * Function: getOrderedProducts defines the columns and data that will be rendered when any order is expanded. This 
     * will display the products associated with the selected order as a smaller table.
     * Parameters:
@@ -150,7 +150,7 @@ class OrdersReport extends Component {
         return <Table rowKey="productID" columns={columns} dataSource={data} pagination={false} />
     }
 
-   /*---------------------------------------------------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------------------------------------------------
     * Function: setVisable sets the visible state for the modal, and sets the orderId state based on the value passed.
     * Parameters:
     *       - Boolean vis determines if the modal will become visible
@@ -167,7 +167,7 @@ class OrdersReport extends Component {
     }
     
     
-   /*---------------------------------------------------------------------------------------------------------------------
+    /*---------------------------------------------------------------------------------------------------------------------
     * Handler: handlePaid will add the inputted ammount to the total amount paid for the order from the selected row. This
     * fucntion send a PUT HTTP request to the API to modify the database.
     * Parameters: 

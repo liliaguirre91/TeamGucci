@@ -241,7 +241,7 @@ class DeliveryInfo extends React.Component {
     * columns. Then the return includes all JSX/HTML components and their formatting. In this portion we define the 
     * table and form that will be used in the page. 
     *---------------------------------------------------------------------------------------------------------------------*/ 
-   render() {
+    render() {
         const columns = [
         {
             title: 'Product',
