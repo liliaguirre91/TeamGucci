@@ -1,14 +1,12 @@
 /*---------------------------------------------------------------------------------------------------------------------\
- * Date Created:
+ * Date Created: November 21, 2019
  * Description: The CustomerOrders class components renders a table containing all orders made in the current campaign
  * as well as products associated with each order. Also, each order will allow the admin to modify the amount paid 
- * towards the order. The main handlers/function s in this component are:
+ * towards the order. 
+ * The main handlers/function s in this component are:
  *      - componentDidMount
  *      - getOrderedProducts
- *      - setVisable
- *      - handlePaid
- *      - handlePaidChange
- *      - handleBackClick
+ *      - handleClick
  *      - render
  *---------------------------------------------------------------------------------------------------------------------*/
 import React, { Component } from 'react';
@@ -34,6 +32,20 @@ class CustomerOrder extends Component {
     }//end constructor
     
   
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: componentDidMount is executed as soon as the component is mounted; when the application or the page itself
+     * is accessed. This function takes care of retrieving all the orders placed by this user, as well as the 
+     * products included in each order. It sends three HTTP request to the API requesting orders, products, and products
+     * in the order. 
+     * Parameters: None
+     * Preconditions:
+     *      - A user must be logged in.
+     * Postconditions: 
+     *      - All orders in the campaign will have retrieved and stored in the orders state.
+     *      - All products in the campaign will have been retrieved and stored in the productTmp state.
+     *      - All products included in each order will be retrieved and stored in the items state, including their name,
+     *        id and quantity. 
+     *---------------------------------------------------------------------------------------------------------------------*/
     async componentDidMount() {
         const allProducts = [];
         var data = [];
@@ -50,16 +62,16 @@ class CustomerOrder extends Component {
                     description:error.message || 'Sorry! Something went wrong!'
                 });//end notification
             })//end catch
-        const idk = this.state.productTmp;
-        for( var i = 0; i < idk.length; i++ ){
-            allProducts[ idk[i].productId ] = idk[i].product
+        const tempProd = this.state.productTmp;
+        for( var i = 0; i < tempProd.length; i++ ){
+            allProducts[ tempProd[i].productId ] = tempProd[i].product
         }//end for
         let user_id = 0;
 
         if(this.props.currentUser){
             let currentUser = this.props.currentUser;
             user_id = currentUser.userId;
-        }
+        }//end if
         await getPreviousOrders(user_id)
             .then (response => {
                 this.setState({
@@ -84,7 +96,6 @@ class CustomerOrder extends Component {
                 .then (productResponse => {
                     const length = productResponse.length;
                     for (var i = 0; i < length; i++) {
-                        /* do the api call to get product with productid */
                         const item = { productID: productResponse[i].productId, name: allProducts[productResponse[i].productId], quantity: productResponse[i].quantity };
                         data.push(item);
                     }//end for
@@ -101,12 +112,21 @@ class CustomerOrder extends Component {
         this.setState({items: products});
     }//end componentDidMount
     
-    getOrderedProducts(x)  {
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: getOrderedProducts defines the columns and data that will be rendered when any order is expanded. This 
+    * will display the products associated with the selected order as a smaller table.
+    * Parameters:
+    *       - Integer x represents the row for which the products will be displayed
+    * Preconditions: 
+    *       - The order must have products associated with it, otherwise no data will be displayed
+    * Postconditions:
+    *       - When an order row is expanded, the products associated with that order will be displayed.
+    *---------------------------------------------------------------------------------------------------------------------*/
+   getOrderedProducts(x)  {
         const columns = [
-        { title: 'Product ID', dataIndex: 'productID', key: 'productID' },
-        { title: 'Product Name', dataIndex: 'name', key: 'name' },
-        //{ title: 'Product Name', dataIndex: 'product', key: 'product' },
-        { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
+            { title: 'Product ID', dataIndex: 'productID', key: 'productID' },
+            { title: 'Product Name', dataIndex: 'name', key: 'name' },
+            { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
         ];//end columns
 
         const products = this.state.items;
@@ -114,11 +134,20 @@ class CustomerOrder extends Component {
         return <Table columns={columns} dataSource={data} pagination={false} />
     }//end getOrderedProducts
     
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleClick will handle the action of the back button. If the back button is clicked, the user will be
+    * redirected to the previous page. In this case the user account page.
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     handleClick = param => e => {
         e.preventDefault();
         this.props.history.push(param);
     };//end handleClick
     
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render takes care of rendering all component elements to the screen. Here we define the main table's
+    * columns. Here we also handle row selection to change the delivery status. Then the return includes all JSX/HTML 
+    * components and their formatting. In this portion we define the table and necessary buttons.
+    *---------------------------------------------------------------------------------------------------------------------*/    
     render() {
         const columns = [
             {

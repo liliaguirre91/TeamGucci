@@ -1,3 +1,15 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created: November 12, 2019
+ * Description: The CreateAdmin class component allows the root admin to create more low level admins. This
+ * page behaves the same way as createAccount but it creates an admin instead of a user.
+ * The main handlers/function s in this component are:
+ *      - handleInputChange
+ *      - handleSubmit
+ *      - handleClick
+ *      - isFormInvalid
+ *      - validateEmailAddress
+ *      - render
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { checkEmail, createAdmin } from '../../../util/APIFunctions'; //PROBABLY NEED
@@ -93,11 +105,23 @@ class CreateAdmin extends React.Component {
             });
     }
 
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleClick will handle the action of the back button. If the back button is clicked, the user will be
+    * redirected to the previous page. In this case the user account page.
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     handleClick = param => e => {
         e.preventDefault();
         this.props.history.push(param);
     }
 
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: isFormInvalid checks whether or not the inputted values are valid or not
+     * Parameters: None
+     * Preconditions:
+     *      - None
+     * Postconditions: 
+     *      - Returns true or false based on the validity of the input 
+     *---------------------------------------------------------------------------------------------------------------------*/  
     isFormInvalid() {
         return !(this.state.name.validateStatus === 'success' &&
                  this.state.email.validateStatus === 'success' &&
@@ -175,9 +199,11 @@ class CreateAdmin extends React.Component {
         );
     }
 
-
-//VALIDATION FUCNTIONS
-
+/***********************************************************************************
+   * VALIDATION FUCNTIONS: These functions check whether or not an inputted value is 
+   * valid or not. They also print a message to inform the user what part if any
+   * of the inputted values is incorrect 
+**************************************************************************************/
     validateName = (name) => {
         if(name.length < 4){
             return {

@@ -38,7 +38,7 @@ class OrderConfirmation extends React.Component {
 
         return (
             <div className="order-review-conainer">
-                <h1 class="title">Thank you for your purchase!</h1>
+                <h1 className="title" align="center">Thank you for your purchase!</h1>
                 <h5><Text type="danger">PLEASE </Text>write down your confirmation number. Once this page is refreshed you will not be able to return.</h5>
                 <Result
                     status="success"

@@ -11,8 +11,7 @@
  *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import 'antd/dist/antd.css';
-import './addProduct.css'; //NEED
+import './addProduct.css'; 
 import {Form, Input, Button, Modal, Table, notification, Row, Col } from 'antd';
 import { createProduct, getAllProducts, getProduct } from '../../../../util/APIFunctions.js';
 

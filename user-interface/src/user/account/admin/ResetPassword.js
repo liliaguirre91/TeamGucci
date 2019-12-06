@@ -46,6 +46,13 @@ class ResetPassword extends Component {
    }
 
    async setPass( event ){
+      if( this.state.customer.userId === 1 ){
+          notification.error({
+	             message: 'LCHS Band Fundraising',
+	             description:'You can\'t change god\'s password'
+	         });
+	   return;
+      }
       await setPasswordAdmin( this.state.customer.userId, this.state.password )
       .then( response => {
          this.setState( { customer: response } )

@@ -1,8 +1,17 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created:
+ * Description: The AppHeader class component renders a header that will be persistent through all pages in the website.
+ * This header will contain a link two links to home, a link to the products page, a link to the order lookup page, and 
+ * a couple other links depending on whether the user is logged in or not. If the user is not logged in, then the header
+ * contains a link to th elogin page and a link to the signup page. If the user is logged in then the header contains
+ * a small menu showing the name and email for the user, and giving them the choice to go to their account page or logout.
+ * The main handlers/function s in this component are:
+ *      - handleMenuClick
+ *      - clearCart
+ *      - render
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React, { Component } from 'react';
-import {
-    Link,
-    withRouter
-} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './AppHeader.css';
 import 'antd/dist/antd.css';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
@@ -15,16 +24,27 @@ class AppHeader extends Component {
         this.clearCart= this.clearCart.bind(this); 
     }
 
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleMenuClick calls the onLogout prop if the key id set to logout. This logs the user out.
+    *---------------------------------------------------------------------------------------------------------------------*/
     handleMenuClick({ key }) {
         if(key === "logout") {
             this.props.onLogout();
         }
     }
     
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Function: clearCart removes the cart from local storage .
+    *---------------------------------------------------------------------------------------------------------------------*/
     clearCart( ) {
         localStorage.removeItem( 'cart' );
     }
 
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render defines the menu on the right side of the header based on if the user is logged in and defines the
+    * necessary links for it. This also includes the dropdown menu define further down in the the file. The return 
+    * portion defined the actual header along with its formatting, and the links found on the left side of the header. 
+    *---------------------------------------------------------------------------------------------------------------------*/
     render() {
         let menuItems;
         if(this.props.currentUser) {
@@ -82,6 +102,12 @@ class AppHeader extends Component {
     }
 }
 
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created:
+ * Description: The AccountDropdownMenu function defines and renders the dropdown menu for the user. The route to the 
+ * account page will be determined based on the user role (admin or customer). This menu includes a link to the account
+ * page and th elogout fucntionality. 
+ *---------------------------------------------------------------------------------------------------------------------*/
 function AccountDropdownMenu(props) {
     var dropdownMenu;
     let user_role = props.currentUser.role;
@@ -131,8 +157,9 @@ function AccountDropdownMenu(props) {
             </Menu>
         );
     }
-
-  return (
+    
+    /* Defines the navigation icons */ 
+    return (
         <Dropdown 
             overlay={dropdownMenu} 
             trigger={['click']}

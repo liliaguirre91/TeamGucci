@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------------------------------------------------\
- * Date Created: November 19, 2019
+ * Date Created: October 10, 2019
  * Description: The DeliveryInfo class comonent allows admins to create orders for customers who pay in cash
  * This page includes a form where the admin can enter the customer's name, phone number, address, and how 
  * much a user paid. The admin is also given a list of all the products they are ordering for the user.
@@ -209,7 +209,7 @@ class DeliveryInfo extends React.Component {
                     description: "Your order has been placed!"
                 });//end notification
                 localStorage.removeItem('cart')
-                localStorage.setItem('orderNumber', this.state.orderID);
+                localStorage.setItem('orderNumber', orderID);
                 localStorage.removeItem('cart')
                 this.props.history.push("/order-confirmation");
             }//end if
