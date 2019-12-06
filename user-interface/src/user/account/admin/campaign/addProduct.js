@@ -27,6 +27,7 @@ class addProduct extends React.Component {
                 description:    { value: '' },
                 price:          { value: '' },
                 image: [],
+                uploadImage: false,
                 products: [],
                 visable: false,
             };
@@ -224,6 +225,7 @@ class addProduct extends React.Component {
         
         setTimeout( function( ) {
             this.setState( { image: r } );
+            this.setState( { uploadImage: true } );
         }.bind( this ), 500 );
         
         reader.onerror = function (error) {
@@ -286,16 +288,14 @@ class addProduct extends React.Component {
                             rowKey={(record) => record.productId}
                             bordered
                             pagination={false}
-                            scroll={{ y: 500 }}
-                        />
+                            scroll={{ y: 500 }}/>
                     </div>
                 </Modal>
-                    <Button 
-                        onClick={ () => this.setVisable( true ) }>Use Previous Product</Button>
-                
+                <Button 
+                    style={{ borderColor:"#597ef7"}}
+                    onClick={ () => this.setVisable( true ) }>Use Previous Product</Button>
                 <Form>
-                    <FormItem
-                        label="Product">
+                    <FormItem label="Product">
                         <Input 
                             name="product"
                             size="large"
@@ -305,8 +305,7 @@ class addProduct extends React.Component {
                             value={this.state.product.value}
                             onChange={(event) => this.handleInputChange(event) } maxLength="20"/>
                     </FormItem>
-                    <FormItem
-                        label="Product description">
+                    <FormItem label="Product description">
                         <Input 
                             name="description"
                             size="large"
@@ -316,8 +315,7 @@ class addProduct extends React.Component {
                             value={this.state.description.value}
                             onChange={(event) => this.handleInputChange(event) } maxLength="255"/>
                     </FormItem>
-                    <FormItem
-                        label="Price">
+                    <FormItem label="Price">
                         <Input 
                             name="price"
                             size="large"
@@ -328,44 +326,36 @@ class addProduct extends React.Component {
                             onChange={(event) => this.handleInputChange(event) } maxLength="5"/>
                     </FormItem>
                     
-                    <Row>
-                    <Col xs={{ span:15, offset:1}}
-                        lg={{span:6, offset:1}}>
-                    
-                        <input type="file" onChange={ this.fileChangedHandler }></input>
-                    
+                    <Row gutter={[185, 8]} type="flex">
+                    <Col xs={{ span:20, offset:0}}
+                        lg={{span:6, offset:0}}>
+                        <input 
+                        type="file" 
+                        onChange={ this.fileChangedHandler }></input>
                     </Col>
-
-                    <br/>
-
                     <Col xs={{ span:15, offset:1}}
-                        lg={{span:6, offset:5}}>
-                        <Button 
-                        onClick={ this.handleUpload }>Upload!</Button>
+                        lg={{span:6, offset:6}}>
+                        <Button onClick={ this.handleUpload }>Upload</Button>
                     </Col>
-
-                    </Row>
-
-
-
-
-
-
-                    <FormItem >
-                        <Button 
-                            type="primary" 
-                            htmlType="submit" 
-                            onClick = { this.handleSubmit}> Add </Button>
-                    </FormItem>
-                    <br/>
-                    <FormItem>
+                    <Col xs={{ span:20, offset:0}}
+                        lg={{span:6, offset:0}}>
                         <Button
                             type="danger" ghost
                             htmlType="button"
                             size="large"
                             className="back-button"
                             onClick={ this.handleBackClick("/campaigns")}> Cancel </Button>
-                    </FormItem>
+                    </Col>                
+                    <Col xs={{ span:15, offset:1}}
+                        lg={{span:6, offset:5}}>
+                        <Button 
+                            htmlType="submit" 
+                            style={{ borderColor:"#597ef7"}}
+                            size="large"
+                            disabled={ !this.state.uploadImage}
+                            onClick = { this.handleSubmit}> Add Product</Button>
+                    </Col>
+                    </Row>
                 </Form>
             </div>
         );
