@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created: October 4, 2019
+ * Description: The HomePage class component is used as the starting point of the website. It is the welcome page
+ * for all users. It has an about us to tell users the point of the website
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import './HomePage.css';
 import { withRouter } from 'react-router-dom'
@@ -9,6 +14,10 @@ class HomePage extends React.Component {
         super(props);
     }
 
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render takes care of rendering all component elements to the screen. Then the return includes all 
+    * JSX/HTML components and their formatting. In this portion we define the welcome and about us
+    *---------------------------------------------------------------------------------------------------------------------*/ 
    render() {
       return (
          <form onSubmit={this.handleSubmit}> 
