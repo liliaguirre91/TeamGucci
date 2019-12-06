@@ -50,7 +50,11 @@ class OrderLookup extends Component {
     async handleSubmit(event) {
         items.length =0;
         event.preventDefault();
-        const orderNumber  = this.state.OrderID.split('-')[1];
+        var orderNumber = 0;
+        if (this.state.OrderID.includes('-'))
+            orderNumber  = this.state.OrderID.split('-')[1];
+        else
+            orderNumber  = this.state.OrderID
         const productNames = [];
         const productQuantities = [];
         
@@ -94,11 +98,9 @@ class OrderLookup extends Component {
         }//end for
         /* check if order has been delivered or not, give a message saying yes or no */
         if (this.state.result === 'false') {     
-            message.error('Order number ' + orderNumber + ' has not been delivered yet.');
             this.setState({deliveryInfo:"Your Order has not been delivered yet."});
         }//end if
         else if (this.state.result === 'true') {
-            message.success('Order number ' + orderNumber + ' has been delivered!')
             this.setState({deliveryInfo: "Your order has been delivered!!"});
         }//end if
 
