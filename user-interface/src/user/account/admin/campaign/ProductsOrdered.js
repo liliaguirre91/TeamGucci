@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './Campaign.css';
-import { countProducts, getProducts, getProduct, countProductsLeft } from '../../../util/APIFunctions';
+import '../Campaign.css';
+import { countProducts, getProducts, getProduct, countProductsLeft } from '../../../../util/APIFunctions';
 import { notification, Table, Button } from 'antd';
 
 const productIDs = [];

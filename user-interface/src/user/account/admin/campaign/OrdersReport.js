@@ -13,7 +13,7 @@
  *---------------------------------------------------------------------------------------------------------------------*/
 import React, { Component } from 'react';
 import { getOrders, getProductsOrdered, 
-         getProducts, setPaid } from '../../../util/APIFunctions';
+         getProducts, setPaid } from '../../../../util/APIFunctions';
 import { Form, Input, Button, 
          notification, Table, Modal, } from 'antd';
 

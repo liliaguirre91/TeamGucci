@@ -19,7 +19,7 @@ import './DeliveryReport.css';
 import { 
     getOrdersNotDelivered, getProductsOrdered, 
     getOrdersDelivered,getProducts, 
-    setToDelivered } from '../../../util/APIFunctions';
+    setToDelivered } from '../../../../util/APIFunctions';
 import { Button, notification, Table, Row, Col } from 'antd';
 
 

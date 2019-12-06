@@ -16,7 +16,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { getProducts, deleteProduct, 
-         updateProduct, getProduct } from '../../../util/APIFunctions';
+         updateProduct, getProduct } from '../../../../util/APIFunctions';
 import { Form, notification, Table, 
          Modal, Popconfirm, Divider, 
          Input, Button } from 'antd';
