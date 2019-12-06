@@ -61,16 +61,23 @@ public class ProductController {
         return list;
     }// end getAllProducts
 
+    //getCurrentProducts is used to get all the products in a given campaign
+    //it is expecting a number which is the year the campaign was ran in and it
+    //returns a list of products that were offered in that year
     @GetMapping( "/products/camp/{year_ran}" )
     public ResponseEntity<List<products>> getCurrentProducts( @PathVariable int year_ran ) {
+        //initialize the list to be returned
         List<products> list = new ArrayList<>();
-        Iterable<products> p = productRepository.selectProductFor(year_ran);
-
-        p.forEach( list::add );
-        if( list.isEmpty() ){
+        //try to get all the products offered in that year and add them to the list
+        //return the list or if there was an error in any part return a 404 error
+        try {
+            Iterable<products> p = productRepository.selectProductFor(year_ran);
+             p.forEach( list::add );
+             return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
-        }//end if
-        return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end catch
     }//end getCurrentProducts
 
     // Create product function is used to create a new product
@@ -149,17 +156,23 @@ public class ProductController {
         }//end catch
     }//end getPrice
     
+    //updataProduct is used to change the name, price or desciption of a product
+    //it is expecting an id of the product to be changed as well as a body holding a product
+    //to get its product, price and description it returns the new products information
     @PutMapping( "/products/{id}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<products> updateProduct( @PathVariable( "id" ) long id, @RequestBody products product ) {
         System.out.println( "Update Product with ID = " + id + "..." );
     
+        //find the product for the id
         Optional<products> productData = productRepository.findById( id );
+        //if the product is found get its data and change it then save it and return the products
+        //information if there is an error return a 404 error
         if ( productData.isPresent() ) {
             products o = productData.get();
             o.setProduct( product.getProduct() );
             o.setPrice( product.getPrice() );
-            o.setYearRan( product.getYearRan() );
+            o.setDescription( product.getDescription() );
     
             products update = productRepository.save( o );
             return new ResponseEntity<>( update, HttpStatus.OK );
@@ -169,11 +182,15 @@ public class ProductController {
         }//end else
     }//end update Product
     
+    //deleteProduct is used to delete a product it is expecting the id of the product to be 
+    //deleted it returns a string saying whether or not it worked
     @DeleteMapping( "/products/{id}" )
-    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    @PreAuthorize( "hasAuthority('Role_ROOT')" )
     public ResponseEntity<String> deleteProduct( @PathVariable( "id" ) long id ) {
         System.out.println( "Delete Product with ID = " + id + "..." );
     
+        //try to delete the product if it can't return a failed delete message
+        //otherwise send a successful deletion message
         try {
         productRepository.deleteById( id );
         }//end try 

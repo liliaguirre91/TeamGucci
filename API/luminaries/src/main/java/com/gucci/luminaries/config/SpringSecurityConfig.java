@@ -27,6 +27,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         jsr250Enabled = true,
         prePostEnabled = true
 )
+/*  Class SpringSecurityConfig
+    
+    -Specifies custom configurations for the Spring Security authentication
+    -Encodes passwords with the passwordEncoder
+    -Enables CORS (Cross-Origin Resource Sharing)
+    -Sets the protection level for specific URLs
+
+*/
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomUserDetailsService customUserDetailsService;
@@ -85,7 +93,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                     .antMatchers("/api/orders/create", "/api/user/checkEmailAvailability", "/api/productOrdered/create")
                         .permitAll()
-                    .antMatchers( HttpMethod.GET, "/api/products/**", "/api/users/**", "/api/orders/search/**" )
+                    .antMatchers( HttpMethod.GET, "/api/products/**", "/api/users/**", "/api/orders/search/**", "/api/productOrdered/**" , "/api/campaigns/current" )
                         .permitAll()
                     .anyRequest()
                         .authenticated();

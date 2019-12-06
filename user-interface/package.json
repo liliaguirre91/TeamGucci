@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "latest",
+    "antd": "^3.25.1",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "dist": "^0.1.2",
@@ -12,6 +12,8 @@
     "react": "^16.9.0",
     "react-async-script-loader": "^0.3.0",
     "react-cookie": "3.0.4",
+    "react-csv": "^1.1.2",
+    "react-data-grid": "^6.1.0",
     "react-dom": "^16.9.0",
     "react-json-to-table": "^0.1.5",
     "react-paypal-button-v2": "^2.5.0",
@@ -22,7 +24,8 @@
     "react-shopping-cart": "^1.8.32",
     "react-table": "^6.10.3",
     "reactstrap": "6.5.0",
-    "rimraf": "^3.0.0"
+    "rimraf": "^3.0.0",
+    "styles": "^0.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

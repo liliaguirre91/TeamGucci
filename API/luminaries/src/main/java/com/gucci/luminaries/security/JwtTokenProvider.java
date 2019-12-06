@@ -9,6 +9,12 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
+/*  Class JwtTokenProvider
+    -Provides the JWT Token that is used
+    -to authenticate the user upon successful login.
+    -Includes custom exceptions if there is an error with 
+    -the JWT token.
+*/
 public class JwtTokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);

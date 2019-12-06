@@ -2,16 +2,18 @@
   text-align: center;
 }
 
-
 .campaign-container {
-    max-width: 420px;
+    max-width: 600px;
     margin: 0 auto;
     margin-top: 80px;    
+
 }
 
-.campaign-form-button {
-    width: 20%;
-    margin-top: 15px;
+.campaign-container2 {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 60px;    
+
 }
 
 .campaign-form-button[disabled], .signup-form-button[disabled]:hover, .signup-form-button[disabled]:focus {
@@ -19,10 +21,12 @@
     color: #fff;
     background-color: #1890ff;
     border-color: #1890ff;
+
 }
 
 .campaign-form input {
     margin-bottom: 3px;
-    width: 30%;
+    min-width: 150px;
+    width: 50%;
     text-align: center;
 }

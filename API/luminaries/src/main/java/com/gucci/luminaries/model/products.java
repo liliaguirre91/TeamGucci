@@ -35,14 +35,9 @@ public class products {
     private byte[] image;
     @Column( name = "description")
     private String description;
-    /*@OneToMany( mappedBy="product_id" )
-    private Collection<orders> order;*/
 
     //default constructor
     public products(){
-        /*product = "Luminary";
-        price = 2;
-        year_ran = 19;*/
     }//end constructor
 
     //Constructor
@@ -115,8 +110,4 @@ public class products {
     public void setDescription( String d ){
         description = d;
     }//end setter
-
-    public String toString( ){
-        return "Product " + getProduct() + " costs " + getPrice() + " is ran in " + getYearRan();
-    }//end toString
 }

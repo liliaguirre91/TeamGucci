@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App.js';
-import HomePage from './HomePage';
-import OrderLookup from './OrderLookup';
-import Login from './user/login/Login.js';
-import CreateAccount from './user/signup/CreateAccount.js';
-import Products from './products/Products.js';
-import DeliveryInfo from './DeliveryInfo.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 

@@ -14,6 +14,8 @@ import com.gucci.luminaries.repository.UserRepository;
 import com.gucci.luminaries.security.JwtTokenProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -90,6 +92,8 @@ public class AuthController {
                 .fromCurrentContextPath().path("/api/users/{email}")
                 .buildAndExpand(result.getEmail()).toUri();
 
-        return ResponseEntity.created(location).body( "User registered successfully" );
+                HttpHeaders responseHeaders = new HttpHeaders();
+                responseHeaders.setLocation(location);
+                return new ResponseEntity<>("User created", responseHeaders, HttpStatus.OK);
     }
 } 

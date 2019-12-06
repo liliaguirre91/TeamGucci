@@ -1,0 +1,14 @@
+.card {
+    width: 430px;
+    height: 400px
+}
+.card-body{
+    align: "center";
+    
+}
+
+img {
+    max-width: 70%!important;
+    height: auto;
+}
+

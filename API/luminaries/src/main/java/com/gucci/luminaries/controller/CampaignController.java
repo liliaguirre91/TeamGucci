@@ -92,9 +92,12 @@ public class CampaignController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end else
     }//end getCampaign
-
-    @GetMapping( "/api/campaigns/current" )
+    //getCurrent is used to get the current campaign it takes no paramaters
+    //and it returns the id of the current campaign
+    @GetMapping( "/campaigns/current" )
     public ResponseEntity<Long> getCurrent( ){
+        //Try to run the getCurrent campaign Repository function and return the result
+        //if you can't retun a 404
         try{
             return new ResponseEntity<>( campaignRepository.getCurrent( ), HttpStatus.OK ); 
         }//end try
@@ -103,9 +106,14 @@ public class CampaignController {
         }//end catch
     }//end getCurrent
 
+    //setCurrent is used to set the current campaign it is expecting the id of the
+    //current campaign and it returns that id if successful
     @PutMapping( "/campaigns/current/{id}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<Long> setCurrent( @PathVariable( "id" ) long id ){
+        //try to get the current campaign and set it to false since it is no longer current
+        //then try to find the campaign to be set to current and set it to true
+        //if either part fails return a 404 error
         try{
             Optional<campaigns> previous = campaignRepository.findById( campaignRepository.getCurrent() );
             if( previous.isPresent() ){

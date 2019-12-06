@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created: October 29, 2019
+ * Description: The LoadingIndicator class component is used to create the loading symbol when a page takes
+ * time to load
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import { Spin, Icon } from 'antd';
 

@@ -102,6 +102,9 @@ public class OrderController {
         }//end else
     }//end orderQuerry
  
+    //orderCount is used to count the number of orders in a given campaign
+    //it is given the id of the chosen campaign and it returns a number
+    //which is the total number of orders made in that campaign
     @GetMapping( "/orders/count/{camp}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public int orderCount( @PathVariable( "camp" ) Long camp ){
@@ -125,14 +128,19 @@ public class OrderController {
         }//end else
     }//end orderCount
 
-    // countProducts is expecting an integer camp and a product id it then returns the number of
-    //products of that id in the specified campaign the user running it has to be some type of admin
+    //countProducts is expecting an integer camp and a product id it then returns the number of
+    //products of that id that have been delivered in the specified campaign the user running it 
+    //has to be some type of admin
     @GetMapping( "/orders/products/{camp}/{product}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<Long> countProducts( @PathVariable( "camp" ) int camp, 
         @PathVariable( "product" ) long product ){
+        //initalize the total to 0 and make a list to be iterated through
         long total = 0;
         List<orders> list = new ArrayList<>();
+        //try to get a list of all orders made in the given campaign that have been delivered 
+        //then for each one count how many of the given product were in that order and add that
+        //number to the total if any part fails through a 404 error
         try{
             Iterable<orders> o = orderRepository.getCamp( camp );
             o.forEach( list::add );
@@ -150,9 +158,14 @@ public class OrderController {
         }//end catch
     }//end countProducts
 
+    //getAmountPaid id used to get the total amount of money that has been paid
+    //it takes the campaign id for the campaign that the revenue is asked for
+    //it returns a number which is the amount of money earned
     @GetMapping( "/orders/total/{camp}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<Long> getAmountPaid( @PathVariable( "camp" ) int camp ){
+        //try to run the getSum function from the order repository and return its results
+        //otherwise return a 404
         try{
             return new ResponseEntity<>( orderRepository.getSum( camp ), HttpStatus.OK );
         }//end try
@@ -161,10 +174,52 @@ public class OrderController {
         }//end catrch
     }//end getAmountPaid
 
+    //getAmountOwed is used to get the totalCost of all orders in a given campaign
+    //it returns a number which is how much the total cost of all products ordered
+    //in the given campaign is
+    @GetMapping( "/orders/totalCost/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<Long> getAmountOwed( @PathVariable( "camp" ) int camp ){
+        //try to run the getTotalCost function from the order repository and return its
+        //result if you can't return a 404 error
+        try{
+            return new ResponseEntity<>( orderRepository.getTotalCost( camp ), HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catrch
+    }//end getAmountPaid
+
+    //getCamp is used to get all of the orders in a given campaign
+    //ir returns a list of all the orders that were asked for
+    @GetMapping( "orders/campaign/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<List<orders>> getCamp( @PathVariable( "camp" ) int camp ){
+        //initalize the list to be returned
+        List<orders> list = new ArrayList<>();
+        //try to run the getCampaign function from the order repository
+        //for every order in the returned value add it to the list to be returned
+        //and return it if there is an error return a 404 error code
+        try{
+            Iterable<orders> o = orderRepository.getCampaign( camp );
+            o.forEach( list::add );
+            return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }//end getCamp
+
+    //getToBeDelivered is used to get the list of orders that need to be delivered
+    //it is given a campaign to check and it returns a list of orders
     @GetMapping( "orders/deliver/{camp}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
     public ResponseEntity<List<orders>> getToBeDelivered( @PathVariable( "camp" ) int camp ){
+        //initalize the list to be returned
         List<orders> list = new ArrayList<>();
+        //try to run the getToBeDelivered function from the order repository
+        //for every order in the returned value add it to the list to be returned
+        //and return it if there is an error return a 404 error code        
         try{
             Iterable<orders> o = orderRepository.getToBeDelivered( camp );
             o.forEach( list::add );
@@ -175,10 +230,37 @@ public class OrderController {
         }//end catch
     }//end getToBeDelivered
 
+    //getDelivered is used to get all the orders that have been delivered
+    //it is expecting an id of the campaign it is suppossed to check
+    @GetMapping( "orders/delivered/{camp}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<List<orders>> getDelivered( @PathVariable( "camp" ) int camp ){
+        //initalize the list to be returned
+        List<orders> list = new ArrayList<>();
+        //try to run the getDelivered function from the order repository
+        //for every order in the returned value add it to the list to be returned
+        //and return it if there is an error return a 404 error code 
+        try{
+            Iterable<orders> o = orderRepository.getDelivered( camp );
+            o.forEach( list::add );
+            return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }//end getDelivered
+
+    //getPrevious is used to get all of the previous orders of a user
+    //it is expecting a userId and it returns a list of all the orders that user
+    //has made
     @GetMapping( "orders/previous/{userId}" )
     @PreAuthorize( "isAuthenticated()" )
     public ResponseEntity<List<orders>> getPrevious( @PathVariable( "userId" ) long userId ){
+        //initalize the list to be returned
         List<orders> list = new ArrayList<>();
+        //try to run the getPrevious function from the order repository
+        //for every order in the returned value add it to the list to be returned
+        //and return it if there is an error return a 404 error code 
         try{
             Iterable<orders> o = orderRepository.getPrevious( userId );
             o.forEach( list::add );
@@ -188,6 +270,20 @@ public class OrderController {
             return new ResponseEntity<>( HttpStatus.NOT_FOUND );
         }//end catch
     }//end getPrevious
+
+    @GetMapping( "orders/notPaid" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<List<orders>> getNotPaid( ){
+        List<orders> list = new ArrayList<>();
+        try{
+            Iterable<orders> o = orderRepository.getNotPaid( );
+            o.forEach( list::add );
+            return new ResponseEntity<>( list, HttpStatus.OK );
+        }//end try
+        catch( Exception e ){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end catch
+    }
  
     //Put mapping updates an order entry in the orders table
     //To create go to /api/orders/{order number}
@@ -220,13 +316,40 @@ public class OrderController {
         }//end else
     }//end updateOrder
 
-    @PutMapping( "/orders/delivered/{id}" )
+    //setDelivered is used to set the delivery status of an order
+    //it is expecting an order id and the status that needs to be set to that order
+    //and returns all of the orders information after the update
+    @PutMapping( "/orders/delivered/{id}/{bool}" )
     @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
-    public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id ){
+    public ResponseEntity<orders> setDelivered( @PathVariable( "id" ) long id, @PathVariable( "bool" ) boolean bool ){
+        //try to find the specifed order
         Optional<orders> orderData = orderRepository.findById( id );
+        //if the order exists get its current information and change the delivery status
+        //once the status is changed save the order back to the respository
+        //then return the orders new information if the order doesn't exist return a 404 error
         if( orderData.isPresent() ){
             orders o = orderData.get();
-            o.setDelivered( true );
+            o.setDelivered( bool );
+            return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
+        }//end if 
+        else{
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+        }//end else
+    }//end setDelivered
+
+    //setPaid is used to change the amount paid of a given order
+    //it is expecting the order id and how much to add to the paid field
+    //it returns the order with its new information
+    @PutMapping( "/orders/paid/{id}/{amount}" )
+    @PreAuthorize( "hasAnyAuthority('Role_ADMIN','Role_ROOT')" )
+    public ResponseEntity<orders> setPaid( @PathVariable( "id" ) long id, @PathVariable( "amount" ) int paid ){
+        //find the specified order
+        Optional<orders> orderData = orderRepository.findById( id );
+        //if the order exists add the amount given to the paid field of the order and return the order
+        //otherwise return error code 404
+        if( orderData.isPresent() ){
+            orders o = orderData.get();
+            o.setPaid( o.getPaid( ) + paid );
             return new ResponseEntity<>( orderRepository.save( o ), HttpStatus.OK );
         }//end if 
         else{

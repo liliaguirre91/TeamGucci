@@ -1,27 +1,23 @@
 
-.app-title {
+.app-title a {
     float: left;
+    width: 8%;
+    height: 10%;
   }
   
-  .app-title a {
-    text-decoration: none;
-    line-height: 64px;
-    font-size: 21px;
-    display: inline-block;
-  }
   
   .app-title a:hover {
     text-decoration: none;
   }
   
-  /*.fixed {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #FFF;
-      z-index: 99;
-  }*/
+  .app-links {
+    text-decoration: none;
+    line-height: 64px;
+    font-size: 20px;
+    display: inline-block;
+    padding: 0 100px;
+  }
+  
   .app-header {
     position: fixed;
     top: 0;
@@ -30,7 +26,7 @@
     box-shadow: 0 2px 8px #f0f1f2;
     background-color: #f0f1f2;
     z-index: 99;
-    padding: 0;
+    padding: 0 0 !important;
   }
   
   .app-menu {
@@ -77,12 +73,13 @@
   }
   
   .nav-icon {
-    font-size: 20px;
+    font-size: 25px!important;
+    align: left;
   }
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .app-title a {
     font-size: 20px;
   }

@@ -12,10 +12,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/*  Class UserPrincipal
+    -Creates a custom UserPrincipal object used by the 
+    -API for various authentication functions.
+    -Includes user information including:
+        --id
+        --name
+        --username (DEPRECATED)
+        --password
+*/
 public class UserPrincipal implements UserDetails {
-    /**
-     *
-     */
+ 
     private static final long serialVersionUID = 1L;
 
     private Long id;
