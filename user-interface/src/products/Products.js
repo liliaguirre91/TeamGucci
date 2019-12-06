@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import logo from './luminary.jpg';
 import ProductItem from './ProductItem.js';
 import { getProducts } from '../util/APIFunctions';
 import { message, Form, Input, Button } from 'antd';
-//import './Products.css';
 
 const FormItem = Form.Item;
 class Products extends React.Component {
@@ -19,12 +17,25 @@ class Products extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: componentDidMount is executed as soon as the component is mounted; when the application or the page itself
+     * is accessed. This function takes care of retrieving the current campaign from local storage and then using it to
+     * retrieve all product in the campaign and storing it in the products state.
+     * Parameters: None
+     * Preconditions:
+     *      - A campaign must have been previously stored in local Storage.
+     * Postconditions: 
+     *      - All products in the campaign will have been retrieved and stored in the products state.
+     *---------------------------------------------------------------------------------------------------------------------*/    
     componentDidMount() {
         let campaign = localStorage.getItem( 'campaign' );
         getProducts(campaign).then((products) =>this.setState({ products }));
     }
 
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleInputChange handles the change of state of the every one of the user's input quantity. The handler
+    * takes an event, which is the user's and assigns the input value to the specified state.
+    *---------------------------------------------------------------------------------------------------------------------*/
     handleInputChange(event, validationFun) {
         const target = event.target;
         const inputName = target.name;
@@ -39,6 +50,11 @@ class Products extends React.Component {
         this.setState( { submitted: true } );
     }
     
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleSubmit handles the submit event and after checking that the cart is not empty redirects the user to
+    * the next page. If the user is an admin they are redirected to the delivery info page, and if the user is a 
+    * customer they get redirected to the paypal.
+    *---------------------------------------------------------------------------------------------------------------------*/
     handleSubmit(event) {
         event.preventDefault();
         if (localStorage.getItem('cart') === null) {
@@ -61,6 +77,11 @@ class Products extends React.Component {
         }
     } 
 
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render calls the ProductItem component to wrap each product in a card. It also adds an input box for 
+    * customers to enter their phone number before moving on to the next page. Rendering of each product happens in the 
+    * ProductItem component.
+    *---------------------------------------------------------------------------------------------------------------------*/
     render() {
         let user_role = '';
         if (this.props.currentUser) {
@@ -95,7 +116,11 @@ class Products extends React.Component {
             </div>
             );
     }
-    
+
+/*---------------------------------------------------------------------------------------------------------------------
+* Function: validatePhone validates that the phone number the user inputs is the right length before moving on to the
+* next page.
+*---------------------------------------------------------------------------------------------------------------------*/
 validatePhone = (phone) => {
     if(phone.length > 10) {
         return{

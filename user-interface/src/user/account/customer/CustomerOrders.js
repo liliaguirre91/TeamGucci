@@ -84,7 +84,6 @@ class CustomerOrder extends Component {
                 .then (productResponse => {
                     const length = productResponse.length;
                     for (var i = 0; i < length; i++) {
-                        /* do the api call to get product with productid */
                         const item = { productID: productResponse[i].productId, name: allProducts[productResponse[i].productId], quantity: productResponse[i].quantity };
                         data.push(item);
                     }//end for
@@ -103,10 +102,9 @@ class CustomerOrder extends Component {
     
     getOrderedProducts(x)  {
         const columns = [
-        { title: 'Product ID', dataIndex: 'productID', key: 'productID' },
-        { title: 'Product Name', dataIndex: 'name', key: 'name' },
-        //{ title: 'Product Name', dataIndex: 'product', key: 'product' },
-        { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
+            { title: 'Product ID', dataIndex: 'productID', key: 'productID' },
+            { title: 'Product Name', dataIndex: 'name', key: 'name' },
+            { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
         ];//end columns
 
         const products = this.state.items;
