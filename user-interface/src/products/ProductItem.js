@@ -111,8 +111,7 @@ class ProductItem extends React.Component {
         const { product } = this.props;
         return (
             <div align="center">
-            <Card 
-                
+            <Card     
                 marginBottom="10px"
                 style={{ width: "50%"}}>
                 <div>
@@ -121,17 +120,11 @@ class ProductItem extends React.Component {
                         className="image" 
                         src={`data:image/jpg;base64, ${product.image}`}
                         height={500} width={500} /> <br/> 
-                        <div>
-                            <br/>
+                        <div><br/>
                         <h4>{product.description}</h4>
-
-                            <h4 align="right"><Text type="danger">price: </Text>${product.price}</h4>
+                        <h4 align="right"><Text type="danger">price: </Text>${product.price}</h4>
                         </div>
-
-
-
                         <div>
-
                             <Row gutter={[6,2]}>
                             <Col xs={{ span:1, offset:15}}
                                 lg={{span:1, offset:15}}>
@@ -143,8 +136,8 @@ class ProductItem extends React.Component {
                                     onChange={this.handleInputChange} 
                                     style={{ width: "60px", marginRight: "10px", borderRadius: "1px"}}/>
                             </Col>
-                        <Col xs={{ span:1, offset:2}}
-                        lg={{span:1, offset:2}}>
+                            <Col xs={{ span:1, offset:2}}
+                                lg={{span:1, offset:2}}>
                                 <Button 
                                     style={{ borderColor:"#597ef7"}}
                                     size="large"
@@ -152,23 +145,19 @@ class ProductItem extends React.Component {
                             </Col>
                             </Row>                        
                         </div>
-
                         <div>
-                    <Col xs={{ span:1, offset:14}}
-                        lg={{span:1, offset:15}}>
+                            <Col xs={{ span:1, offset:14}}
+                                lg={{span:1, offset:15}}>
                                 <Button 
                                     type="danger" 
                                     size="large"
                                     onClick={this.removeFromCart}> Remove This Product </Button>
                             </Col>
-                            </div>
                         </div>
-                
+                </div> 
             </Card>
             </div>
         )
     }
 }
-
-
 export default ProductItem;
