@@ -1,3 +1,13 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created: November 21, 2019
+ * Description: The EditInfo class component is used by all users to change their name, email, or password. It
+ * links back to the users account page once they have finished updating their info.
+ * The main handlers/functions in this component are:
+ *      - handleInputChange
+ *      - handleSubmit
+ *      - handleIsFormInvalid
+ *      - validateEmailAvailability
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { checkEmail, changeUserInfo, setPassword } from '../../util/APIFunctions';
@@ -49,15 +59,13 @@ class EditInfo extends React.Component {
         });//end setState
     }//end handleInputChange
 
-  /*******************************************************************************************
-   * Handler: handleSubmit() - This handler takes care of posting the order delivery
-   * information to the API, which will in turn isert the relevan information to the 
-   * database. 
-   * Parameters: default submit event
-   * Preconditions: All fields in the delivery forma must be filled out
-   * Postcondition: An order will be created and all relevant order information will be inserted
-   * into the database.
-   ********************************************************************************************/
+    /*******************************************************************************************
+     * Handler: handleSubmit() - This handler takes care of sending a user's information to the api
+     * to update the user's name, email, or password
+     * Parameters: default submit event
+     * Preconditions: A field in the handleSubmit must be fielded in
+     * Postcondition: The inputted field or fields will be inserted into the users info in the database
+     ********************************************************************************************/
     handleSubmit(event) {
         event.preventDefault();
         var name  = this.state.name.value;
@@ -110,6 +118,14 @@ class EditInfo extends React.Component {
                 });//end catch
         }//end if
     }///end handleSubmit
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: isFormInvalid checks whether or not the inputted values are valid or not
+     * Parameters: None
+     * Preconditions:
+     *      - None
+     * Postconditions: 
+     *      - Returns true or false based on the validity of the input 
+     *---------------------------------------------------------------------------------------------------------------------*/  
     isFormInvalid() {
         return !(this.state.name.validateStatus === 'success' &&
                 this.state.email.validateStatus === 'success' &&
@@ -117,6 +133,10 @@ class EditInfo extends React.Component {
         );//end return
     }//end isFormInvalid
 
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleCLick handles the user pressing the back button. It'll redirect based on the user's role.
+    * If the user is an admin it'll lead to the admin page otherwise it'll go to the user page
+    *---------------------------------------------------------------------------------------------------------------------*/
     handleClick = param => e => {
         e.preventDefault();
         if (this.props.currentUser) {
@@ -127,7 +147,11 @@ class EditInfo extends React.Component {
                 this.props.history.push("/admin-account")    
         }//end if
     };//end handleClick
-   
+   /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render takes care of rendering all component elements to the screen. 
+    * Then the return includes all JSX/HTML components and their formatting. 
+    * In this portion we define the form that will be used in the page. 
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     render() {
         let name = '';
         let email = '';
@@ -140,7 +164,6 @@ class EditInfo extends React.Component {
         return (
             <div className="signup-container">
                 <h1 className="page-title">Edit My Info</h1>
-
                 <div className="signup-content">
                     <Form align="center" onSubmit={this.handleSubmit} className="signup-form">
                         <FormItem
@@ -202,8 +225,11 @@ class EditInfo extends React.Component {
         );//end return
     }//end render
 
-/* VALIDATION FUCNTIONS */
-
+/***********************************************************************************
+   * VALIDATION FUCNTIONS: These functions check whether or not an inputted value is 
+   * valid or not. They also print a message to inform the user what part if any
+   * of the inputted values is incorrect 
+**************************************************************************************/
     validateName = (name) => {
         if(name.length < NAME_MIN_LENGTH){
             return{
