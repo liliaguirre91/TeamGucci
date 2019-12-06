@@ -3,9 +3,9 @@ import {
     Link,
     withRouter
 } from 'react-router-dom';
-import './AppHeader.css';
+import './AppHeader.css'; //NEED
 import { Layout, Menu, Dropdown, Icon } from 'antd';
-//import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'; //NEED
 const Header = Layout.Header;
 
 class AppHeader extends Component {

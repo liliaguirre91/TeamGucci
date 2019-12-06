@@ -107,7 +107,7 @@ class ProductItem extends React.Component {
             align="center"
             title={product.product}
             marginBottom="10px"
-            style={{ width: "500"}} 
+            style={{ width: "600%"}} 
             cover={<img src={`data:image/jpg;base64, ${product.image}`} />} >
                 <div>
                    {/* <h4 align="center">{product.product}</h4><br/> */}

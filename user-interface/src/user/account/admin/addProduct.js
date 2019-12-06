@@ -11,8 +11,8 @@
  *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'antd/dist/antd.css';
-import './addProduct.css';
+//import 'antd/dist/antd.css';
+import './addProduct.css'; //NEED
 import {Form, Input, Button, Modal, Table, notification, Row, Col } from 'antd';
 import { createProduct, getAllProducts, getProduct } from '../../../util/APIFunctions.js';
 
@@ -222,7 +222,6 @@ class addProduct extends React.Component {
         
         setTimeout( function( ) {
             this.setState( { image: r } );
-            console.log( r );
         }.bind( this ), 500 );
         
         reader.onerror = function (error) {
@@ -291,6 +290,7 @@ class addProduct extends React.Component {
                 </Modal>
                     <Button 
                         onClick={ () => this.setVisable( true ) }>Use Previous Product</Button>
+                
                 <Form>
                     <FormItem
                         label="Product">
@@ -325,10 +325,30 @@ class addProduct extends React.Component {
                             value={this.state.price.value}
                             onChange={(event) => this.handleInputChange(event) } maxLength="5"/>
                     </FormItem>
-                    <FormItem label="Upload">
+                    
+                    <Row>
+                    <Col xs={{ span:15, offset:1}}
+                        lg={{span:6, offset:1}}>
+                    
                         <input type="file" onChange={ this.fileChangedHandler }></input>
-                        <button onClick={ this.handleUpload }>Upload!</button>
-                    </FormItem>
+                    
+                    </Col>
+
+                    <br/>
+
+                    <Col xs={{ span:15, offset:1}}
+                        lg={{span:6, offset:5}}>
+                        <Button 
+                        onClick={ this.handleUpload }>Upload!</Button>
+                    </Col>
+
+                    </Row>
+
+
+
+
+
+
                     <FormItem >
                         <Button 
                             type="primary" 

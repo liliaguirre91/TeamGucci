@@ -325,12 +325,11 @@ class DeliveryReport extends Component {
                         pagination={false}
                         scroll={{ y: 500 }} />
                 </div>
-                <Row gutter={[150]} type="flex">
-                    <Col span={7}>    
+                <Row gutter={[860]} type="flex">
+                    <Col span={30}>    
                         <CSVLink data={this.state.orders} > Download Delivery Report </CSVLink>
                     </Col>
-                    <Col span={10}></Col>
-                    <Col span={7}>
+                    <Col span={30}>
                         <Button
                             style={{ borderColor:"#f5222d"}}
                             htmlType="button"
