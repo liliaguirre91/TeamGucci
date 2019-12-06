@@ -92,7 +92,7 @@ class Products extends React.Component {
         
         return (
             <div>
-                <h3 className="page-title"> List of Products </h3><hr/>
+                <h2 className="page-title"> Our Products </h2><hr/>
                 { products.map((product, index) => <ProductItem product={product} key={index}/>)}
                 <hr/>
                 {user_role !== 'Role_ADMIN' && user_role !== 'Role_ROOT' &&

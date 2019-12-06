@@ -13,8 +13,11 @@
  *      - render
  *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
-import { notification, message, Button, Input, Card, Row, Col } from 'antd';
 import './ProductItem.css';
+import { notification, message, Button, Input, Card, Row, Col, Typography } from 'antd';
+const {Text}=Typography;
+
+
 
 
 class ProductItem extends React.Component {
@@ -108,50 +111,53 @@ class ProductItem extends React.Component {
         const { product } = this.props;
         return (
             <div align="center">
-            <Card 
-                align="center"
+            <Card     
                 marginBottom="10px"
-                style={{ width: "50%"}} 
-                >
+                style={{ width: "50%"}}>
                 <div>
-                    <h4 align="center">{product.product}</h4><br/>
-                
-                   <img className="image" src={`data:image/jpg;base64, ${product.image}`} height={500} width={500} /><br/> 
-                    
-                    <div>
-                    <h5><small>price: </small>${product.price}</h5>
-                    <h6>{product.description}</h6><br/>
-                    </div>
-                    <div align="right">
-                         <Row gutter={[10, 24]}>
-                            <Col span={16}>
-                                <Input type="number" value={this.state.quantity} min="1" name="quantity" 
-                                    onChange={this.handleInputChange} align="left" className="quantity-input" 
+                    <h3 align="center">{product.product}</h3><br/>
+                    <img 
+                        className="image" 
+                        src={`data:image/jpg;base64, ${product.image}`}
+                        height={500} width={500} /> <br/> 
+                        <div><br/>
+                        <h4>{product.description}</h4>
+                        <h4 align="right"><Text type="danger">price: </Text>${product.price}</h4>
+                        </div>
+                        <div>
+                            <Row gutter={[6,2]}>
+                            <Col xs={{ span:1, offset:15}}
+                                lg={{span:1, offset:15}}>
+                                <Input
+                                    type="number" 
+                                    value={this.state.quantity} 
+                                    min="1" 
+                                    name="quantity" 
+                                    onChange={this.handleInputChange} 
                                     style={{ width: "60px", marginRight: "10px", borderRadius: "1px"}}/>
                             </Col>
-                        </Row>
-                        <Row gutter={[4, 20]}>
-                            <Col span={16}>
-                                <Button className="add-button" size="small"
-                                    onClick={this.addToCart}>Add product</Button> <br/>
+                            <Col xs={{ span:1, offset:2}}
+                                lg={{span:1, offset:2}}>
+                                <Button 
+                                    style={{ borderColor:"#597ef7"}}
+                                    size="large"
+                                    onClick={this.addToCart}> Add product </Button> <br/>
                             </Col>
-                        </Row>
-                        <Row gutter={[4, 20]}>
-                            <Col span={18}>
-                                <Button className="remove-button"  type="danger" size="small"
-                                    onClick={this.removeFromCart}>Remove This Product</Button>
+                            </Row>                        
+                        </div>
+                        <div>
+                            <Col xs={{ span:1, offset:14}}
+                                lg={{span:1, offset:15}}>
+                                <Button 
+                                    type="danger" 
+                                    size="large"
+                                    onClick={this.removeFromCart}> Remove This Product </Button>
                             </Col>
-                        </Row>
-                        
-                        
-                    </div>
-                </div>
+                        </div>
+                </div> 
             </Card>
             </div>
-           
         )
     }
 }
-
-
 export default ProductItem;
