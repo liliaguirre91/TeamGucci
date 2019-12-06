@@ -1,3 +1,14 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created:
+ * Description: The addProduct class components allows an admin to add a product to the selected campaign. This page
+ * includes a form where the admin can enter the product's name, price, description, and upload an image. The admin also
+ * has the choice to select from a set of products from previous campaigns to add to the current campaign.
+ * The main handlers/function s in this component are:
+ *      - handleInputChange
+ *      - addToCart
+ *      - removeFromCart
+ *      - render
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React, { Component } from 'react';
 import {CSVLink, CSVDownload} from 'react-csv';
 import './DeliveryReport.css';

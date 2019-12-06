@@ -1,3 +1,19 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created:
+ * Description: The Campaign class component renders a set of buttons that can be used to configure the campaign
+ * specified in the provided input. In this page the admin can directly create, set and delete (only root) the specified
+ * campaign. Here the admin can also generate a short revenue and orders summary. The main handlers/function s in this
+ * component are:
+ *      - handleIDChange
+ *      - handleClick
+ *      - handleBackCLick
+ *      - setEarning
+ *      - handleCreate
+ *      - handleDelete
+ *      - handleCurrent
+ *      - handleEarnings
+ *      - render
+ *---------------------------------------------------------------------------------------------------------------------*/
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import { createCampaign, deleteCampaign, orderCount, 
@@ -53,7 +69,7 @@ class Campaign extends Component {
         }
     }
 
-    /*---------------------------------------------------------------------------------------------------------------------
+   /*---------------------------------------------------------------------------------------------------------------------
     * Handler: handleBackCLick handles the user pressing the back button 
     *---------------------------------------------------------------------------------------------------------------------*/
     handleBackClick = param => e => {
@@ -61,7 +77,7 @@ class Campaign extends Component {
         this.props.history.push(param);
     }
 
-    /*---------------------------------------------------------------------------------------------------------------------
+   /*---------------------------------------------------------------------------------------------------------------------
     * Handler: setEarning handles whether the modal is visible or not by changing from false to true.
     *---------------------------------------------------------------------------------------------------------------------*/
     setEarning( b ){
@@ -219,7 +235,7 @@ class Campaign extends Component {
         }.bind( this ), 1000 );
     }
    
-    /*---------------------------------------------------------------------------------------------------------------------
+   /*---------------------------------------------------------------------------------------------------------------------
     * The campaign page expects the user to input a two-digit integer then allows them
     * to select one of the buttons on the page. The buttons will not function properly
     * if there is not input. We expect the user to input the correctly formatted input

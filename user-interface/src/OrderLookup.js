@@ -1,3 +1,12 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created: October 9, 2019
+ * Description: The OrderLookup class components allows a user to find out whether or not an order was delivered.
+ * This page has a form for users to insert the order number they wish to lookup. The user is given a notification
+ * of the delivery status as well as a table containing all of the products ordered.
+ * The main handlers/functions in this component are:
+ *      - handleIDChange
+ *      - handleSubmit
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React, { Component } from 'react';
 import { lookupOrder, getProductsOrdered, getProduct } from './util/APIFunctions';
 import './OrderLookup.css';
@@ -20,11 +29,24 @@ class OrderLookup extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }//end constructor
 
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleIDChange handles the change of state for the order id. It takes an event which is the
+    * change of the input and assigns the new value to the OrderID status
+    *---------------------------------------------------------------------------------------------------------------------*/
     handleIDChange(event) {
         this.setState({OrderID: event.target.value});
     }//end handleIDChange
 
     
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Handler: handleSubmit takes a submit event, it takes the order id and finds all of the information
+    * about the order if it has any information to be fetched. It then shows all the information it found
+    * about the order.
+    * Preconditions:
+    *       - The OrderID state must be set
+    * Postconditions:
+    *       - The delivery status and all products ordered in the specified order are shown on the page
+    *---------------------------------------------------------------------------------------------------------------------*/
     async handleSubmit(event) {
         items.length =0;
         event.preventDefault();
@@ -88,6 +110,11 @@ class OrderLookup extends Component {
         this.setState({ submitted: true});
     }//end handleSubmit
     
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render takes care of rendering all component elements to the screen. Here we define the table's
+    * columns. Then the return includes all JSX/HTML components and their formatting. In this portion we define 
+    * the table, and form that will be used in the page. 
+    *---------------------------------------------------------------------------------------------------------------------*/ 
     render() {
         /* table columns */
         const columns = [

@@ -1,3 +1,13 @@
+/*---------------------------------------------------------------------------------------------------------------------\
+ * Date Created: November 19, 2019
+ * Description: The DeliveryInfo class comonent allows admins to create orders for customers who pay in cash
+ * This page includes a form where the admin can enter the customer's name, phone number, address, and how 
+ * much a user paid. The admin is also given a list of all the products they are ordering for the user.
+ * The main handlers/functions in this component are:
+ *      - handleInputChange
+ *      - handleSubmit
+ *      - handleIsFormInvalid
+ *---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './DeliveryInfo.css';
@@ -49,6 +59,19 @@ class DeliveryInfo extends React.Component {
         });//end setState
     }//end handleInputChange
    
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: componentDidMount is executed as soon as the component is mounted; when the application or the page itself
+     * is accessed. This function takes care of retrieving all the products that were chosen by the admin. It calls localStorage
+     * to get the list of products ordered as well as the quantities ordered. Then for each product chosen it calls the API
+     * function getProduct to get the name of the product it takes all of this information and stores it to be displyed in the
+     * table.
+     * Parameters: None
+     * Preconditions:
+     *      - A list of products needs to be stored in local Storage with a key of cart.
+     * Postconditions: 
+     *      - All the information about the products that will be ordered will be stored in the products state
+     *      - The total cost of the order will be stored in the totalCost state
+     *---------------------------------------------------------------------------------------------------------------------*/  
     async componentDidMount() {
         let cart = JSON.parse(localStorage.getItem('cart'));
         if (localStorage.getItem('cart') !== null) { 
@@ -195,6 +218,14 @@ class DeliveryInfo extends React.Component {
         
     }//end handleSubmit
 
+    /*---------------------------------------------------------------------------------------------------------------------
+     * Function: isFormInvalid checks whether or not the inputted values are valid or not
+     * Parameters: None
+     * Preconditions:
+     *      - None
+     * Postconditions: 
+     *      - Returns true or false based on the validity of the input 
+     *---------------------------------------------------------------------------------------------------------------------*/  
     isFormInvalid() {
         return !(this.state.name.validateStatus === 'success' &&
             this.state.address.validateStatus === 'success' &&
@@ -205,8 +236,13 @@ class DeliveryInfo extends React.Component {
     }//end isFormInvalid
    
 
-  render() {
-      const columns = [
+    /*---------------------------------------------------------------------------------------------------------------------
+    * Function: render takes care of rendering all component elements to the screen. Here we define the main table's
+    * columns. Then the return includes all JSX/HTML components and their formatting. In this portion we define the 
+    * table and form that will be used in the page. 
+    *---------------------------------------------------------------------------------------------------------------------*/ 
+   render() {
+        const columns = [
         {
             title: 'Product',
             dataIndex: 'product',
@@ -340,8 +376,11 @@ class DeliveryInfo extends React.Component {
         );//end return
     }//end render
 
-//VALIDATION FUCNTIONS
-
+/***********************************************************************************
+   * VALIDATION FUCNTIONS: These functions check whether or not an inputted value is 
+   * valid or not. They also print a message to inform the user what part if any
+   * of the inputted values is incorrect 
+**************************************************************************************/
     validateName = (name) => {
         if(name.length < NAME_MIN_LENGTH){
             return{
